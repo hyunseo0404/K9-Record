@@ -1,8 +1,12 @@
 package com.gtpd.k9.k9record;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +17,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        NewTrainingFragment.OnFragmentInteractionListener {
+
+    public static final String TAG = "GTPD_MAIN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,10 +101,32 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.nav_new_training) {
+            Log.i(TAG, "new training selected");
+
+            // TODO: Talk to Hyun's to get the explosives in use
+            ArrayList<String> explosivesList = new ArrayList<String>();
+
+            explosivesList.add("C4");
+            explosivesList.add("Nitro");
+            explosivesList.add("Gunpowder");
+            // Using factory constructor
+            Fragment fragment = NewTrainingFragment.newInstance(explosivesList);
+
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_main, fragment)
+                    .commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

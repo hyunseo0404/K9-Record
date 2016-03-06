@@ -18,6 +18,10 @@
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="Tools" />
+        <item
+            android:id="@+id/nav_new_training"
+            android:icon="@mipmap/ic_new_training"
+            android:title="New Training Session"/>
     </group>
 
     <item android:title="Communicate">

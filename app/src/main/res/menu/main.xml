@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--android:icon="@drawable/ic_"-->
+
+    <item
+        android:id="@+id/action_finish_session"
+        android:title="Finish Session"
+        android:icon="@drawable/ic_action_done"
+        app:showAsAction="ifRoom"
+        android:enabled="false"
+        android:visible="false"/>
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
