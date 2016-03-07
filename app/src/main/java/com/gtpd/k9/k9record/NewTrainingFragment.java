@@ -1,13 +1,18 @@
 package com.gtpd.k9.k9record;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,12 +35,10 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class NewTrainingFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_EXPL_LIST = "explosives list";
 
-    // TODO: Rename and change types of parameters
     private List<String> explosivesList;
+    private Menu mMenu;
 
     Button butnstart, butnreset;
     TextView time;
@@ -78,6 +81,7 @@ public class NewTrainingFragment extends Fragment {
         if (getArguments() != null) {
             explosivesList = getArguments().getStringArrayList(ARG_EXPL_LIST);
         }
+        setHasOptionsMenu(true);
     }
 
     public Runnable updateTimer = new Runnable() {
@@ -117,13 +121,16 @@ public class NewTrainingFragment extends Fragment {
                     starttime = SystemClock.uptimeMillis();
                     handler.postDelayed(updateTimer, 0);
                     t = 0;
+                    MenuItem finishSession = mMenu.findItem(R.id.action_finish_session);
+                    finishSession.setEnabled(true);
                 } else {
                     butnstart.setText("Start");
                     time.setTextColor(Color.BLUE);
                     timeSwapBuff += timeInMilliseconds;
                     handler.removeCallbacks(updateTimer);
                     t = 1;
-                }}
+                }
+            }
         });
 
         butnreset.setOnClickListener(new View.OnClickListener() {
@@ -151,13 +158,60 @@ public class NewTrainingFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(NewTrainingFragment.this.getActivity(), "" + position,
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(NewTrainingFragment.this.getActivity(), "" + position,
+//                        Toast.LENGTH_SHORT).show();
+
                 String clocked_time = time.getText().toString();
-                ((TextView)v).setText(clocked_time);
+
+                AlertDialog.Builder builder = setupDialog(clocked_time, ((TextView)v));
+
+                // Get the AlertDialog from create()
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
         return view;
+    }
+
+
+    /**
+     *
+     * @param clocked_time
+     * @param view: TextView to modify if they OK it
+     * @return
+     */
+    public AlertDialog.Builder setupDialog(final String clocked_time, final TextView view){
+        // 1. Instantiate an AlertDialog.Builder with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        // 2. Chain together various setter methods to set the dialog characteristics
+        String message = getText(R.string.dialog_message).toString();
+        message += "\nClocked time: "+ clocked_time;
+        builder.setMessage(message)
+                .setTitle(R.string.dialog_title);
+
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+                String message = view.getText() + " found in: " + clocked_time;
+                view.setText(message);
+            }
+        });
+
+        builder.setNeutralButton(R.string.add_notes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+
+        return builder;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -184,6 +238,12 @@ public class NewTrainingFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onCreateOptionsMenu(
+            Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_training_actions, menu);
+        mMenu = menu;
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

@@ -32,7 +32,8 @@
         android:id="@+id/timerTitleLabel"
         android:layout_gravity="left|top"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:paddingEnd="16dp" />
 
     <Button
         android:layout_width="wrap_content"
