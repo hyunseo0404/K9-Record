@@ -111,6 +111,9 @@ public class MainActivity extends AppCompatActivity
             explosivesList.add("C4");
             explosivesList.add("Nitro");
             explosivesList.add("Gunpowder");
+            explosivesList.add("TEST1");
+            explosivesList.add("TEST2");
+            explosivesList.add("TEST3");
             // Using factory constructor
             Fragment fragment = NewTrainingFragment.newInstance(explosivesList);
 
