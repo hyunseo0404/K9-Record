@@ -19,10 +19,6 @@ public class ExplosiveSelectionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            // TODO
-        }
     }
 
     @Override
@@ -34,7 +30,7 @@ public class ExplosiveSelectionFragment extends Fragment {
                 "C4", "Nitro", "Gunpowder"  // FIXME: test values
         ));
 
-        ExplosiveAdapter explosiveAdapter = new ExplosiveAdapter(explosives);
+        final ExplosiveAdapter explosiveAdapter = new ExplosiveAdapter(explosives);
         RecyclerView explosiveList = (RecyclerView) view.findViewById(R.id.explosiveList);
         explosiveList.setAdapter(explosiveAdapter);
         explosiveList.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -43,7 +39,7 @@ public class ExplosiveSelectionFragment extends Fragment {
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewTrainingFragment trainingFragment = NewTrainingFragment.newInstance(new ArrayList<String>());    // FIXME: add selected explosives to the list
+                NewTrainingFragment trainingFragment = NewTrainingFragment.newInstance(explosiveAdapter.selected);
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content_main, trainingFragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

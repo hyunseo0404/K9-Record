@@ -17,4 +17,6 @@
     <string name="dog_img_description">Dog Image</string>
     <string name="explosive_img_description">Explosive Image</string>
     <string name="continue_label">Continue</string>
+    <string name="dog_selected">Dog Selected</string>
+    <string name="explosive_selected">Explosive Selected</string>
 </resources>

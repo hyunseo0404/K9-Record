@@ -19,10 +19,6 @@ public class DogSelectionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            // TODO
-        }
     }
 
     @Override
@@ -31,7 +27,7 @@ public class DogSelectionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dog_selection, container, false);
 
         ArrayList<Dog> dogs = new ArrayList<>(Arrays.asList(
-                new Dog("Cory", "Black Labrador"), new Dog("Max", "German Shepherd"), new Dog("Molly", "Golden Retriever"), new Dog("Cory", "Black Labrador"), new Dog("Max", "German Shepherd"), new Dog("Molly", "Golden Retriever"), new Dog("Cory", "Black Labrador"), new Dog("Max", "German Shepherd"), new Dog("Molly", "Golden Retriever")  // FIXME: test values
+                new Dog("Cory", "Black Labrador"), new Dog("Max", "German Shepherd"), new Dog("Molly", "Golden Retriever")  // FIXME: test values
         ));
 
         DogAdapter dogAdapter = new DogAdapter(dogs);
@@ -41,12 +37,12 @@ public class DogSelectionFragment extends Fragment {
 
         Button continueButton = (Button) view.findViewById(R.id.dogContinueButton);
         continueButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getFragmentManager().beginTransaction()
-                            .replace(R.id.content_main, new ExplosiveSelectionFragment())
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .commit();
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_main, new ExplosiveSelectionFragment())
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .commit();
             }
         });
 

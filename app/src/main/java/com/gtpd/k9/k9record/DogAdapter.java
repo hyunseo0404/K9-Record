@@ -12,6 +12,8 @@ import java.util.List;
 
 public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogHolder> {
 
+    public DogHolder selectedDogHolder;
+
     private List<Dog> dogs;
 
     public DogAdapter(List<Dog> dogs) {
@@ -26,7 +28,7 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogHolder> {
 
     @Override
     public void onBindViewHolder(DogHolder holder, int position) {
-        holder.bindDog(dogs.get(position));
+        holder.bindDog(dogs.get(position), this);
     }
 
     @Override
@@ -38,7 +40,9 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogHolder> {
         private final ImageView dogImageView;
         private final TextView dogNameTextView;
         private final TextView dogDescriptionTextView;
+        private final ImageView dogSelectedImageView;
         private Dog dog;
+        private DogAdapter adapter;
 
         public DogHolder(View itemView) {
             super(itemView);
@@ -46,11 +50,13 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogHolder> {
             dogImageView = (ImageView) itemView.findViewById(R.id.dogImage);
             dogNameTextView = (TextView) itemView.findViewById(R.id.dogName);
             dogDescriptionTextView = (TextView) itemView.findViewById(R.id.dogDescription);
+            dogSelectedImageView = (ImageView) itemView.findViewById(R.id.dogSelectedImage);
             itemView.setOnClickListener(this);
         }
 
-        public void bindDog(Dog dog) {
+        public void bindDog(Dog dog, DogAdapter adapter) {
             this.dog = dog;
+            this.adapter = adapter;
             dogImageView.setImageResource(R.mipmap.ic_launcher);    // FIXME: test image
             dogNameTextView.setText(dog.name);
             dogDescriptionTextView.setText(dog.description);
@@ -59,7 +65,12 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogHolder> {
         @Override
         public void onClick(View v) {
             if (dog != null) {
-                // TODO
+                if (adapter.selectedDogHolder != null) {
+                    adapter.selectedDogHolder.dogSelectedImageView.setVisibility(View.INVISIBLE);
+                }
+
+                dogSelectedImageView.setVisibility(View.VISIBLE);
+                adapter.selectedDogHolder = this;
             }
         }
     }

@@ -7,26 +7,30 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.ExplosiveHolder> {
 
+    public ArrayList<String> selected;
+
     private List<String> explosives;
 
     public ExplosiveAdapter(List<String> explosives) {
         this.explosives = explosives;
+        this.selected = new ArrayList<>();
     }
 
     @Override
     public ExplosiveHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dog_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.explosive_list_item, parent, false);
         return new ExplosiveHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ExplosiveHolder holder, int position) {
-        holder.bindExplosive(explosives.get(position));
+        holder.bindExplosive(explosives.get(position), this);
     }
 
     @Override
@@ -35,28 +39,40 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
     }
 
     public static class ExplosiveHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final ImageView ExplosiveImageView;
-        private final TextView ExplosiveNameTextView;
+        private final ImageView explosiveImageView;
+        private final TextView explosiveNameTextView;
+        private final ImageView explosiveSelectedImageView;
+        private boolean selected = false;
         private String explosive;
+        private ExplosiveAdapter adapter;
 
         public ExplosiveHolder(View itemView) {
             super(itemView);
 
-            ExplosiveImageView = (ImageView) itemView.findViewById(R.id.dogImage);
-            ExplosiveNameTextView = (TextView) itemView.findViewById(R.id.dogName);
+            explosiveImageView = (ImageView) itemView.findViewById(R.id.explosiveImage);
+            explosiveNameTextView = (TextView) itemView.findViewById(R.id.explosiveName);
+            explosiveSelectedImageView = (ImageView) itemView.findViewById(R.id.explosiveSelectedImage);
             itemView.setOnClickListener(this);
         }
 
-        public void bindExplosive(String explosive) {
+        public void bindExplosive(String explosive, ExplosiveAdapter adapter) {
             this.explosive = explosive;
-            ExplosiveImageView.setImageResource(R.mipmap.ic_launcher);  // FIXME: test image
-            ExplosiveNameTextView.setText(explosive);
+            this.adapter = adapter;
+            explosiveImageView.setImageResource(R.mipmap.ic_launcher);  // FIXME: test image
+            explosiveNameTextView.setText(explosive);
         }
 
         @Override
         public void onClick(View v) {
             if (explosive != null) {
-                // TODO
+                if (selected) {
+                    explosiveSelectedImageView.setVisibility(View.INVISIBLE);
+                    adapter.selected.remove(explosive);
+                } else {
+                    explosiveSelectedImageView.setVisibility(View.VISIBLE);
+                    adapter.selected.add(explosive);
+                }
+                selected = !selected;
             }
         }
     }
