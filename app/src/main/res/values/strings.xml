@@ -13,5 +13,8 @@
     <string name="cancel">Cancel</string>
 
     <string name="select_dog">Select a dog</string>
+    <string name="select_explosives">Select explosives</string>
     <string name="dog_img_description">Dog Image</string>
+    <string name="explosive_img_description">Explosive Image</string>
+    <string name="continue_label">Continue</string>
 </resources>

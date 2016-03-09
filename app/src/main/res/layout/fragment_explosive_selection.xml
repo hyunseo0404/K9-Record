@@ -12,25 +12,25 @@
         tools:context="com.gtpd.k9.k9record.DogSelectionFragment">
 
         <TextView
-            android:id="@+id/selectDogLabel"
+            android:id="@+id/selectExplosiveLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold"
-            android:text="@string/select_dog" />
+            android:text="@string/select_explosives" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/dogList"
+            android:id="@+id/explosiveList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/selectDogLabel"
+            android:layout_below="@id/selectExplosiveLabel"
             android:layout_marginTop="16dp" />
 
         <Button
-            android:id="@+id/dogContinueButton"
+            android:id="@+id/explosiveContinueButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dogList"
+            android:layout_below="@id/explosiveList"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_alignParentEnd="true"
