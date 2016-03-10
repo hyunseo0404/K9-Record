@@ -19,4 +19,5 @@
     <string name="continue_label">Continue</string>
     <string name="dog_selected">Dog Selected</string>
     <string name="explosive_selected">Explosive Selected</string>
+    <string name="title_activity_new_session">NewSessionActivity</string>
 </resources>

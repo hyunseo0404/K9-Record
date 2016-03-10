@@ -3,12 +3,15 @@ package com.gtpd.k9.k9record;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +28,7 @@ public class DogSelectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dog_selection, container, false);
+        //this.getActivity().setTitle("Select Dog");
 
         ArrayList<Dog> dogs = new ArrayList<>(Arrays.asList(
                 new Dog("Cory", "Black Labrador"), new Dog("Max", "German Shepherd"), new Dog("Molly", "Golden Retriever")  // FIXME: test values
@@ -34,17 +38,50 @@ public class DogSelectionFragment extends Fragment {
         RecyclerView dogList = (RecyclerView) view.findViewById(R.id.dogList);
         dogList.setAdapter(dogAdapter);
         dogList.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        Button continueButton = (Button) view.findViewById(R.id.dogContinueButton);
-        continueButton.setOnClickListener(new View.OnClickListener() {
+        //Grab the action button for the item touch listener
+        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.next_page_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.content_main, new ExplosiveSelectionFragment())
+                        .replace(R.id.new_session_fragment, new ExplosiveSelectionFragment())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .commit();
             }
         });
+        //Listen for any touch in the dog selection
+        dogList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                fab.setVisibility(View.VISIBLE);
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
+        /*Button continueButton = (Button) view.findViewById(R.id.dogContinueButton);
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.new_session_fragment, new ExplosiveSelectionFragment())
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .commit();
+            }
+        });*/
+
+
+
 
         return view;
     }

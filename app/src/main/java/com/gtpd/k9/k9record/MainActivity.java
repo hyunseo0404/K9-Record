@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+        getFragmentManager().beginTransaction().replace(R.id.content_main, new Homescreen()).commit();
     }
 
     @Override
@@ -89,20 +93,17 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // FIXME: temporary item to view selection fragments
-            getFragmentManager().beginTransaction().replace(R.id.content_main, new DogSelectionFragment()).commit();
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_home) {
+            getFragmentManager().beginTransaction().replace(R.id.content_main, new Homescreen()).commit();
+        } else if (id == R.id.nav_user_profile) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_dog_profiles) {
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
-        } else if (id == R.id.nav_new_training) {
+        } else {
             Log.i(TAG, "new training selected");
 
             // TODO: Talk to Hyun's to get the explosives in use
