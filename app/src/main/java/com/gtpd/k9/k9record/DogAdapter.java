@@ -57,7 +57,7 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogHolder> {
         public void bindDog(Dog dog, DogAdapter adapter) {
             this.dog = dog;
             this.adapter = adapter;
-            dogImageView.setImageResource(R.mipmap.ic_launcher);    // FIXME: test image
+            dogImageView.setImageResource(dog.imageResource);    // FIXME: test image
             dogNameTextView.setText(dog.name);
             dogDescriptionTextView.setText(dog.description);
         }

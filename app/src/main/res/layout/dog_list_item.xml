@@ -6,7 +6,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="110dp"
         card_view:contentPadding="8dp"
         card_view:cardUseCompatPadding="true">
 
@@ -17,10 +17,10 @@
 
             <ImageView
                 android:id="@+id/dogImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:contentDescription="@string/dog_img_description" />
 
             <TextView
@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/dogImage"
                 android:layout_alignTop="@id/dogImage"
+                android:layout_marginLeft="10dp"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 

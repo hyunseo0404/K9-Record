@@ -31,7 +31,7 @@ public class DogSelectionFragment extends Fragment {
         //this.getActivity().setTitle("Select Dog");
 
         ArrayList<Dog> dogs = new ArrayList<>(Arrays.asList(
-                new Dog("Cory", "Black Labrador"), new Dog("Max", "German Shepherd"), new Dog("Molly", "Golden Retriever")  // FIXME: test values
+                new Dog("Cory", "Black Labrador", R.drawable.black_lab), new Dog("Max", "German Shepherd", R.mipmap.ic_launcher), new Dog("Molly", "Golden Retriever", R.mipmap.ic_launcher)  // FIXME: test values
         ));
 
         DogAdapter dogAdapter = new DogAdapter(dogs);
