@@ -94,27 +94,6 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        } else {
-            Log.i(TAG, "new training selected");
-
-            // TODO: Talk to Hyun's to get the explosives in use
-            ArrayList<String> explosivesList = new ArrayList<String>();
-
-            explosivesList.add("C4");
-            explosivesList.add("Nitro");
-            explosivesList.add("Gunpowder");
-            explosivesList.add("TEST1");
-            explosivesList.add("TEST2");
-            explosivesList.add("TEST3");
-            // Using factory constructor
-            Fragment fragment = NewTrainingFragment.newInstance(explosivesList);
-
-            // Insert the fragment by replacing any existing fragment
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_main, fragment)
-                    .commit();
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -1,5 +1,6 @@
 package com.gtpd.k9.k9record;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class NewSessionActivity extends AppCompatActivity {
+public class NewSessionActivity extends AppCompatActivity implements NewTrainingFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,4 +31,8 @@ public class NewSessionActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction().replace(R.id.new_session_fragment, new DogSelectionFragment()).commit();
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        // TODO
+    }
 }

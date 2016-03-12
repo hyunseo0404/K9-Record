@@ -19,13 +19,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.List;
 
 
@@ -40,7 +42,7 @@ import java.util.List;
 public class NewTrainingFragment extends Fragment {
     private static final String ARG_EXPL_LIST = "explosives list";
 
-    private List<String> mExplosivesList;
+    private List<Explosive> mExplosivesList;
     private Menu mMenu;
 
     Button butnstart, butnreset;
@@ -71,10 +73,10 @@ public class NewTrainingFragment extends Fragment {
      * @return A new instance of fragment NewTrainingFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NewTrainingFragment newInstance(ArrayList<String> expList) {
+    public static NewTrainingFragment newInstance(List<Explosive> expList) {
         NewTrainingFragment fragment = new NewTrainingFragment();
         Bundle args = new Bundle();
-        args.putStringArrayList(ARG_EXPL_LIST, expList);
+        args.putString(ARG_EXPL_LIST, new Gson().toJson(expList));
         fragment.setArguments(args);
         return fragment;
     }
@@ -83,7 +85,8 @@ public class NewTrainingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mExplosivesList = getArguments().getStringArrayList(ARG_EXPL_LIST);
+            Type listType = new TypeToken<List<Explosive>>(){}.getType();
+            mExplosivesList = new Gson().fromJson(getArguments().getString(ARG_EXPL_LIST), listType);
         }
         setHasOptionsMenu(true);
     }
@@ -156,8 +159,8 @@ public class NewTrainingFragment extends Fragment {
             }
         });
 
-        ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, this.mExplosivesList);
+//        ArrayAdapter<String> itemsAdapter =
+//                new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, this.mExplosivesList);
 //        mGridView.setAdapter(itemsAdapter);
 //        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            public void onItemClick(AdapterView<?> parent, View v,
@@ -183,7 +186,7 @@ public class NewTrainingFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         mRecView.setLayoutManager(llm);
 
-        String [] expArr = new String[mExplosivesList.size()];
+        Explosive [] expArr = new Explosive[mExplosivesList.size()];
         mExplosivesList.toArray(expArr);
         TrainingCardAdapter mAdapter = new TrainingCardAdapter(expArr, getActivity());
         mRecView.setAdapter(mAdapter);
@@ -238,7 +241,7 @@ public class NewTrainingFragment extends Fragment {
 
 
 class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewHolder> {
-    private String[] mDataset;
+    private Explosive[] mDataset;
     private Activity mParent;
     private int mExplosiveFoundCount;
 
@@ -261,7 +264,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public TrainingCardAdapter(String[] myDataset, Activity parent) {
+    public TrainingCardAdapter(Explosive[] myDataset, Activity parent) {
         mDataset = myDataset;
         mParent = parent;
         mExplosiveFoundCount = mDataset.length;
@@ -285,7 +288,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
     public void onBindViewHolder(final ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mExplosiveName.setText(mDataset[position]);
+        holder.mExplosiveName.setText(mDataset[position].name);
         holder.mDuration.setVisibility(View.GONE);
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override

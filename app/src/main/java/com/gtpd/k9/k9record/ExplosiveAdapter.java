@@ -13,11 +13,11 @@ import java.util.List;
 
 public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.ExplosiveHolder> {
 
-    public ArrayList<String> selected;
+    public ArrayList<Explosive> selected;
 
-    private List<String> explosives;
+    public List<Explosive> explosives;
 
-    public ExplosiveAdapter(List<String> explosives) {
+    public ExplosiveAdapter(List<Explosive> explosives) {
         this.explosives = explosives;
         this.selected = new ArrayList<>();
     }
@@ -43,7 +43,7 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
         private final TextView explosiveNameTextView;
         private final ImageView explosiveSelectedImageView;
         private boolean selected = false;
-        private String explosive;
+        private Explosive explosive;
         private ExplosiveAdapter adapter;
 
         public ExplosiveHolder(View itemView) {
@@ -55,25 +55,25 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
             itemView.setOnClickListener(this);
         }
 
-        public void bindExplosive(String explosive, ExplosiveAdapter adapter) {
+        public void bindExplosive(Explosive explosive, ExplosiveAdapter adapter) {
             this.explosive = explosive;
             this.adapter = adapter;
-            explosiveImageView.setImageResource(R.mipmap.ic_launcher);  // FIXME: test image
-            explosiveNameTextView.setText(explosive);
+            explosiveImageView.setImageResource(explosive.imageResource);
+            explosiveNameTextView.setText(explosive.name);
         }
 
         @Override
         public void onClick(View v) {
-            if (explosive != null) {
-                if (selected) {
-                    explosiveSelectedImageView.setVisibility(View.INVISIBLE);
-                    adapter.selected.remove(explosive);
-                } else {
-                    explosiveSelectedImageView.setVisibility(View.VISIBLE);
-                    adapter.selected.add(explosive);
-                }
-                selected = !selected;
-            }
+//            if (explosive != null) {
+//                if (selected) {
+//                    explosiveSelectedImageView.setVisibility(View.INVISIBLE);
+//                    adapter.selected.remove(explosive);
+//                } else {
+//                    explosiveSelectedImageView.setVisibility(View.VISIBLE);
+//                    adapter.selected.add(explosive);
+//                }
+//                selected = !selected;
+//            }
         }
     }
 }

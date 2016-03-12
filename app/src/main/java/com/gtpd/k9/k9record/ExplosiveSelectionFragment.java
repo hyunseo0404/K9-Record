@@ -28,8 +28,10 @@ public class ExplosiveSelectionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explosive_selection, container, false);
 
-        ArrayList<String> explosives = new ArrayList<>(Arrays.asList(
-                "C4", "Nitro", "Gunpowder"  // FIXME: test values
+        ArrayList<Explosive> explosives = new ArrayList<>(Arrays.asList(
+                new Explosive("C4", 1.5, Explosive.Unit.KG, "Somewhere", R.mipmap.ic_launcher),
+                new Explosive("Nitro", 2.0, Explosive.Unit.LB, "Somewhere", R.mipmap.ic_launcher),
+                new Explosive("Gunpowder", 300, Explosive.Unit.G, "Somewhere", R.mipmap.ic_launcher)  // FIXME: test values
         ));
 
         final ExplosiveAdapter explosiveAdapter = new ExplosiveAdapter(explosives);
@@ -42,7 +44,7 @@ public class ExplosiveSelectionFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewTrainingFragment trainingFragment = NewTrainingFragment.newInstance(explosiveAdapter.selected);
+                NewTrainingFragment trainingFragment = NewTrainingFragment.newInstance(explosiveAdapter.explosives);
 
                 getFragmentManager().beginTransaction()
                         .replace(R.id.new_session_fragment, trainingFragment)
@@ -50,6 +52,9 @@ public class ExplosiveSelectionFragment extends Fragment {
                         .commit();
             }
         });
+
+        fab.setVisibility(View.VISIBLE);    // FIXME: test
+
         //Listen for any touch in the dog selection
         explosiveList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
@@ -68,18 +73,6 @@ public class ExplosiveSelectionFragment extends Fragment {
 
             }
         });
-
-        /*Button continueButton = (Button) view.findViewById(R.id.explosiveContinueButton);
-        continueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NewTrainingFragment trainingFragment = NewTrainingFragment.newInstance(explosiveAdapter.selected);
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.content_main, trainingFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit();
-            }
-        });*/
 
         return view;
     }
