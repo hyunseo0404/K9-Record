@@ -2,6 +2,8 @@ package com.gtpd.k9.k9record;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -240,7 +242,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         public TextView mDuration;
         public ImageButton mAddCommentButton;
         public ImageButton mViewCommentsButton;
-
+        public String mNotesContent;
 
         public ViewHolder(View v) {
             super(v);
@@ -250,6 +252,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
             mDuration = (TextView)v.findViewById(R.id.duration);
             mAddCommentButton = (ImageButton) v.findViewById(R.id.addCommentsButton);
             mViewCommentsButton = (ImageButton) v.findViewById(R.id.viewCommentsButton);
+            mNotesContent = "";
         }
     }
 
@@ -298,8 +301,10 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         holder.mAddCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((NewSessionActivity)mParent).showNotesDialog(holder.mNotesContent, holder.mExplosiveName.getText().toString());
                 // Need to make the view comments button visible
                 holder.mViewCommentsButton.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -382,4 +387,19 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
 
         builder.show();
     }
+
+//    public void launchNotesDialog(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(mParent);
+//
+//        String title = "Notes";
+//        String message = "Notes about the dog searching for this particular explosive";
+//        builder.setMessage(message)
+//                .setTitle(title)
+//                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                });
+//    }
 }

@@ -1,5 +1,8 @@
 package com.gtpd.k9.k9record;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -34,5 +37,18 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
     @Override
     public void onFragmentInteraction(Uri uri) {
         // TODO
+    }
+
+    public void showNotesDialog(String content, String explosiveName){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("notesDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        DialogFragment addNotesFragment = NotesDialogFragment.newInstance(content, explosiveName);
+        addNotesFragment.show(ft, "notesDialog");
+
     }
 }
