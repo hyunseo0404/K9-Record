@@ -17,42 +17,50 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/person_photo"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentTop="true"-->
-                <!--android:layout_marginRight="16dp"-->
-                <!--/>-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/explosiveName" />
+                android:text="@string/explosive_name_label"
+                android:id="@+id/explosiveName"
+                android:layout_alignParentTop="true"
+                android:paddingBottom="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/weight_label"
+                android:id="@+id/explosiveAmount"
+                android:layout_alignStart="@id/explosiveName"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="16dp"
+                android:paddingTop="8dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/duration"/>
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/person_name"-->
-                <!--android:layout_toRightOf="@+id/person_photo"-->
-                <!--android:layout_alignParentTop="true"-->
-                <!--android:textSize="30sp"-->
-                <!--/>-->
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/person_age"-->
-                <!--android:layout_toRightOf="@+id/person_photo"-->
-                <!--android:layout_below="@+id/person_name"-->
-                <!--/>-->
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/addCommentsButton"
+                android:src="@drawable/ic_action_add_comment"
+                android:background="#ffffff"
+                android:layout_toStartOf="@+id/viewCommentsButton"
+                android:layout_alignWithParentIfMissing="true"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/viewCommentsButton"
+                android:background="#ffffff"
+                android:src="@drawable/ic_action_insert_comment"
+                android:layout_alignParentEnd="true"
+                android:clickable="false"
+                android:visibility="gone" />
 
         </RelativeLayout>
 

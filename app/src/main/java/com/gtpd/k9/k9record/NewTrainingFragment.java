@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +48,7 @@ public class NewTrainingFragment extends Fragment {
     private List<Explosive> mExplosivesList;
     private Menu mMenu;
 
+    // Timer related variables
     Button butnstart, butnreset;
     static TextView time;
     long starttime = 0L;
@@ -57,7 +61,6 @@ public class NewTrainingFragment extends Fragment {
     int milliseconds = 0;
     Handler handler = new Handler();
 
-    private GridView mGridView;
     private RecyclerView mRecView;
     private OnFragmentInteractionListener mListener;
 
@@ -117,8 +120,6 @@ public class NewTrainingFragment extends Fragment {
         butnreset = (Button) view.findViewById(R.id.reset);
         time = (TextView) view.findViewById(R.id.timerText);
 
-//        gridView = (GridView) view.findViewById(R.id.gridView);
-
         butnstart.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -159,26 +160,6 @@ public class NewTrainingFragment extends Fragment {
             }
         });
 
-//        ArrayAdapter<String> itemsAdapter =
-//                new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, this.mExplosivesList);
-//        mGridView.setAdapter(itemsAdapter);
-//        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View v,
-//                                    int position, long id) {
-////                Toast.makeText(NewTrainingFragment.this.getActivity(), "" + position,
-////                        Toast.LENGTH_SHORT).show();
-//
-//                String clocked_time = time.getText().toString();
-//
-//                AlertDialog.Builder builder = setupDialog(clocked_time, ((TextView)v));
-//
-//                // Get the AlertDialog from create()
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-//            }
-//        });
-
-
         mRecView = (RecyclerView) view.findViewById(R.id.training_recycler_view);
         mRecView.setHasFixedSize(true);
 
@@ -190,6 +171,9 @@ public class NewTrainingFragment extends Fragment {
         mExplosivesList.toArray(expArr);
         TrainingCardAdapter mAdapter = new TrainingCardAdapter(expArr, getActivity());
         mRecView.setAdapter(mAdapter);
+
+        // Reset the time
+        time.setText("00:00:00");
         return view;
     }
 
@@ -250,16 +234,22 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView mExplosiveName;
         CardView mCardView;
+        public TextView mExplosiveName;
+        public TextView mExplosiveAmount;
         public TextView mDuration;
+        public ImageButton mAddCommentButton;
+        public ImageButton mViewCommentsButton;
+
 
         public ViewHolder(View v) {
             super(v);
             mCardView = (CardView)v.findViewById(R.id.cv);
             mExplosiveName = (TextView)v.findViewById(R.id.explosiveName);
+            mExplosiveAmount = (TextView)v.findViewById(R.id.explosiveAmount);
             mDuration = (TextView)v.findViewById(R.id.duration);
-
+            mAddCommentButton = (ImageButton) v.findViewById(R.id.addCommentsButton);
+            mViewCommentsButton = (ImageButton) v.findViewById(R.id.viewCommentsButton);
         }
     }
 
@@ -277,7 +267,6 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_view_training, parent, false);
-        // set the view's size, margins, paddings and layout parameters
 
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -290,6 +279,8 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         // - replace the contents of the view with that element
         holder.mExplosiveName.setText(mDataset[position].name);
         holder.mDuration.setVisibility(View.GONE);
+
+        holder.mExplosiveAmount.setText("" + mDataset[position].quantity + " " + (mDataset[position].unit).toString().toLowerCase());
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -297,10 +288,25 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
                 String clocked_time = NewTrainingFragment.time.getText().toString();
 
                 AlertDialog.Builder builder = setupDialog(clocked_time,
-                                                          holder.mDuration,
-                                                          holder.mExplosiveName,
-                                                          holder.mCardView);
+                        holder.mDuration,
+                        holder.mExplosiveName,
+                        holder.mCardView);
                 builder.show();
+            }
+        });
+
+        holder.mAddCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Need to make the view comments button visible
+                holder.mViewCommentsButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        holder.mViewCommentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
