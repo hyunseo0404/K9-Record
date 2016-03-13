@@ -1,6 +1,7 @@
 package com.gtpd.k9.k9record;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,8 +21,11 @@ public class NewExplosiveAdapter extends RecyclerView.Adapter<NewExplosiveAdapte
 
     public List<Explosive> explosives;
 
-    public NewExplosiveAdapter(List<Explosive> explosives) {
+    private Context context;
+
+    public NewExplosiveAdapter(List<Explosive> explosives, Context context) {
         this.explosives = explosives;
+        this.context = context;
     }
 
     @Override
@@ -62,9 +66,14 @@ public class NewExplosiveAdapter extends RecyclerView.Adapter<NewExplosiveAdapte
         @Override
         public void onClick(final View v) {
             if (explosive != null) {
+                FragmentManager fragmentManager = ((FragmentActivity) context).getFragmentManager();
+                ((ExplosiveSelectionFragment) fragmentManager.findFragmentByTag("explosive")).closeExplosiveDialog();
+
                 final Dialog dialog = new Dialog(v.getContext());
                 dialog.setContentView(R.layout.explosive_dialog);
-                dialog.setTitle("Customize Explosive");
+
+                TextView selectedExplosiveName = (TextView) dialog.findViewById(R.id.selectedExplosiveName);
+                selectedExplosiveName.setText(explosive.name);
 
                 final EditText quantityEditText = (EditText) dialog.findViewById(R.id.quantityEditText);
                 final Spinner unitSpinner = (Spinner) dialog.findViewById(R.id.unitSpinner);
@@ -75,13 +84,13 @@ public class NewExplosiveAdapter extends RecyclerView.Adapter<NewExplosiveAdapte
 
                 addButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View vi) {
+                    public void onClick(View v) {
                         double quantity = Double.parseDouble(quantityEditText.getText().toString());
                         Explosive.Unit unit = Explosive.Unit.valueOf(unitSpinner.getSelectedItem().toString());
                         String location = locationEditText.getText().toString();
 
                         Explosive newExplosive = new Explosive(explosive.name, quantity, unit, location, explosive.imageResource);
-                        FragmentManager fragmentManager = ((FragmentActivity) v.getContext()).getFragmentManager();
+                        FragmentManager fragmentManager = ((FragmentActivity) context).getFragmentManager();
                         ((ExplosiveSelectionFragment) fragmentManager.findFragmentByTag("explosive")).addExplosive(newExplosive);
 
                         dialog.dismiss();

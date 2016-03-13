@@ -43,11 +43,10 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
         notifyItemInserted(explosives.size() - 1);
     }
 
-    public class ExplosiveHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ExplosiveHolder extends RecyclerView.ViewHolder {
         private final ImageView explosiveImageView;
         private final TextView explosiveNameTextView;
-        private final ImageView explosiveSelectedImageView;
-        private boolean selected = false;
+        private final TextView explosiveQuantityTextView;
         private Explosive explosive;
 
         public ExplosiveHolder(View itemView) {
@@ -55,28 +54,14 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
 
             explosiveImageView = (ImageView) itemView.findViewById(R.id.explosiveImage);
             explosiveNameTextView = (TextView) itemView.findViewById(R.id.explosiveName);
-            explosiveSelectedImageView = (ImageView) itemView.findViewById(R.id.explosiveSelectedImage);
-            itemView.setOnClickListener(this);
+            explosiveQuantityTextView = (TextView) itemView.findViewById(R.id.explosiveQuantity);
         }
 
         public void bindExplosive(Explosive explosive) {
             this.explosive = explosive;
             explosiveImageView.setImageResource(explosive.imageResource);
             explosiveNameTextView.setText(explosive.name);
-        }
-
-        @Override
-        public void onClick(View v) {
-//            if (explosive != null) {
-//                if (selected) {
-//                    explosiveSelectedImageView.setVisibility(View.INVISIBLE);
-//                    adapter.selected.remove(explosive);
-//                } else {
-//                    explosiveSelectedImageView.setVisibility(View.VISIBLE);
-//                    adapter.selected.add(explosive);
-//                }
-//                selected = !selected;
-//            }
+            explosiveQuantityTextView.setText(itemView.getContext().getString(R.string.explosive_quantity, Double.toString(explosive.quantity), explosive.unit.name().toLowerCase()));
         }
     }
 }

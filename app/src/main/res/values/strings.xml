@@ -29,4 +29,6 @@
         <item>LB</item>
         <item>OZ</item>
     </string-array>
+
+    <string name="explosive_quantity">%1$s %2$s</string>
 </resources>

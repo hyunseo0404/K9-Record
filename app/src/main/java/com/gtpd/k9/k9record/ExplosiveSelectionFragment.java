@@ -1,10 +1,13 @@
 package com.gtpd.k9.k9record;
 
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class ExplosiveSelectionFragment extends Fragment {
@@ -21,6 +25,7 @@ public class ExplosiveSelectionFragment extends Fragment {
     private ExplosiveAdapter explosiveAdapter;
     private TextView emptyTextView;
     private Button startButton;
+    private Dialog explosiveDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,11 +50,27 @@ public class ExplosiveSelectionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (getFragmentManager().findFragmentByTag("newExplosive") == null) {
-                    getFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.animator.slide_up, R.animator.slide_down, R.animator.slide_up, R.animator.slide_down)
-                            .add(R.id.new_session_fragment, new NewExplosiveFragment(), "newExplosive")
-                            .addToBackStack(null)
-                            .commit();
+                    explosiveDialog = new Dialog(getActivity());
+                    explosiveDialog.setContentView(R.layout.explosive_selection_dialog);
+                    RecyclerView recyclerView = (RecyclerView) explosiveDialog.findViewById(R.id.newNewExplosiveList);
+                    recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+
+                    ArrayList<Explosive> explosives = new ArrayList<>(Arrays.asList(
+                            new Explosive("C4", 1.5, Explosive.Unit.KG, "Somewhere", R.mipmap.ic_launcher),
+                            new Explosive("Nitro", 2.0, Explosive.Unit.LB, "Somewhere", R.mipmap.ic_launcher),
+                            new Explosive("Gunpowder", 300, Explosive.Unit.G, "Somewhere", R.mipmap.ic_launcher),
+                            new Explosive("C4", 1.5, Explosive.Unit.KG, "Somewhere", R.mipmap.ic_launcher),
+                            new Explosive("Nitro", 2.0, Explosive.Unit.LB, "Somewhere", R.mipmap.ic_launcher),
+                            new Explosive("Gunpowder", 300, Explosive.Unit.G, "Somewhere", R.mipmap.ic_launcher),
+                            new Explosive("C4", 1.5, Explosive.Unit.KG, "Somewhere", R.mipmap.ic_launcher),
+                            new Explosive("Nitro", 2.0, Explosive.Unit.LB, "Somewhere", R.mipmap.ic_launcher),
+                            new Explosive("Gunpowder", 300, Explosive.Unit.G, "Somewhere", R.mipmap.ic_launcher)  // FIXME: test values
+                    ));
+
+                    recyclerView.setAdapter(new NewExplosiveAdapter(explosives, getActivity()));
+                    recyclerView.addItemDecoration(new GridItemDecoration());
+
+                    explosiveDialog.show();
                 }
             }
         });
@@ -93,8 +114,29 @@ public class ExplosiveSelectionFragment extends Fragment {
 
     public void addExplosive(Explosive explosive) {
         explosiveAdapter.addExplosive(explosive);
-        getFragmentManager().popBackStackImmediate();
+//        getFragmentManager().popBackStackImmediate();
         emptyTextView.setVisibility(View.GONE);
         startButton.setVisibility(View.VISIBLE);
+    }
+
+    public void closeExplosiveDialog() {
+        if (explosiveDialog != null) {
+            explosiveDialog.dismiss();
+        }
+    }
+
+    public class GridItemDecoration extends RecyclerView.ItemDecoration {
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view);
+
+            if (position != 0 || position != parent.getAdapter().getItemCount() - 1) {
+                outRect.top = 15;
+                outRect.bottom = 15;
+                outRect.left = 20;
+                outRect.right = 20;
+            }
+        }
     }
 }

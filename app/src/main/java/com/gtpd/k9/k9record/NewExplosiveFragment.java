@@ -37,7 +37,7 @@ public class NewExplosiveFragment extends Fragment {
 
         RecyclerView newExplosiveList = (RecyclerView) view.findViewById(R.id.newExplosiveList);
         newExplosiveList.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false));
-        newExplosiveList.setAdapter(new NewExplosiveAdapter(explosives));
+        newExplosiveList.setAdapter(new NewExplosiveAdapter(explosives, getActivity()));
         newExplosiveList.setHasFixedSize(true);
         newExplosiveList.addItemDecoration(new GridItemDecoration(2, 120, true));
 
