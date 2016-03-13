@@ -355,13 +355,6 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
             }
         });
 
-        builder.setNeutralButton(R.string.add_notes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User cancelled the dialog
@@ -373,10 +366,8 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
 
 
     public void launchCompleteSessionDialog(){
-        // 1. Instantiate an AlertDialog.Builder with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(mParent);
 
-        // 2. Chain together various setter methods to set the dialog characteristics
         String title = "Complete training session";
         String message = "All explosives found, session complete?";
         builder.setMessage(message)
