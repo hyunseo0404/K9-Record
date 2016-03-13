@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -117,6 +118,8 @@ public class NewTrainingFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_training, container, false);
+
+        getActivity().setTitle("New Session");
 
         butnstart = (Button) view.findViewById(R.id.startTraining);
         butnreset = (Button) view.findViewById(R.id.reset);
@@ -371,6 +374,9 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
 
 
     public void launchCompleteSessionDialog(){
+
+        /*// 1. Instantiate an AlertDialog.Builder with its constructor
+>>>>>>> bc5d5a2d2b48724a41370c1a282ed67303e21a78
         AlertDialog.Builder builder = new AlertDialog.Builder(mParent);
 
         String title = "Complete training session";
@@ -385,21 +391,11 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
             }
         });
 
-        builder.show();
-    }
+        builder.show();*/
 
-//    public void launchNotesDialog(){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(mParent);
-//
-//        String title = "Notes";
-//        String message = "Notes about the dog searching for this particular explosive";
-//        builder.setMessage(message)
-//                .setTitle(title)
-//                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                    }
-//                });
-//    }
+        mParent.getFragmentManager().beginTransaction()
+                .replace(R.id.new_session_fragment, new FinishedSessionFragment())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit();
+    }
 }

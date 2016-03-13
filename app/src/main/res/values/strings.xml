@@ -22,4 +22,13 @@
     <string name="title_activity_new_session">NewSessionActivity</string>
     <string name="weight_label">Amount/Weight</string>
     <string name="explosive_name_label">Explosive Name</string>
+    <string name="unit_prompt">Choose a unit</string>
+    <string name="start_text">Start</string>
+    <string-array name="unit_array">
+        <item>KG</item>
+        <item>G</item>
+        <item>LB</item>
+        <item>OZ</item>
+    </string-array>
+    <string name="explosive_quantity">%1$s %2$s</string>
 </resources>

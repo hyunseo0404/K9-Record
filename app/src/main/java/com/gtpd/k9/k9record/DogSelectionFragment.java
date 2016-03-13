@@ -28,10 +28,11 @@ public class DogSelectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dog_selection, container, false);
-        //this.getActivity().setTitle("Select Dog");
+
+        getActivity().setTitle("Select Dog");
 
         ArrayList<Dog> dogs = new ArrayList<>(Arrays.asList(
-                new Dog("Cory", "Black Labrador", R.drawable.black_lab), new Dog("Max", "German Shepherd", R.mipmap.ic_launcher), new Dog("Molly", "Golden Retriever", R.mipmap.ic_launcher)  // FIXME: test values
+                new Dog("Cory", "Black Labrador", R.drawable.black_lab), new Dog("Max", "German Shepherd", R.mipmap.ic_launcher), new Dog("Molly", "Golden Retriever", R.mipmap.ic_launcher),new Dog("Cory", "Black Labrador", R.drawable.black_lab), new Dog("Max", "German Shepherd", R.mipmap.ic_launcher), new Dog("Molly", "Golden Retriever", R.mipmap.ic_launcher),new Dog("Cory", "Black Labrador", R.drawable.black_lab), new Dog("Max", "German Shepherd", R.mipmap.ic_launcher), new Dog("Molly", "Golden Retriever", R.mipmap.ic_launcher)  // FIXME: test values
         ));
 
         DogAdapter dogAdapter = new DogAdapter(dogs);
@@ -44,8 +45,9 @@ public class DogSelectionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.new_session_fragment, new ExplosiveSelectionFragment())
+                        .replace(R.id.new_session_fragment, new ExplosiveSelectionFragment(), "explosive")
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
                         .commit();
             }
         });

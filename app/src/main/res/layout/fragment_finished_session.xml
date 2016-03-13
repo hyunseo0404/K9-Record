@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/view2">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:id="@+id/textView4"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/cardTitle">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="General"
+                        android:id="@+id/general_session_title"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+
+                    <ImageButton
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/imageButton"
+                        android:src="@android:drawable/ic_menu_edit"
+                        android:layout_alignTop="@+id/general_session_title"
+                        android:layout_alignParentEnd="true" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Officer"
+                    android:id="@+id/textView2"
+                    android:layout_marginTop="50dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="5dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/cardTitle"
+                    android:layout_marginTop="70dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/view" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Name:"
+                    android:id="@+id/textView3"
+                    android:layout_marginTop="75dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Id:"
+                    android:id="@+id/textView5"
+                    android:layout_below="@+id/view"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="John Doe"
+                    android:id="@+id/textView6"
+                    android:layout_below="@+id/textView3"
+                    android:layout_alignStart="@+id/view"
+                    android:layout_marginTop="4dp"
+                    android:layout_toStartOf="@+id/textView5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="558702589"
+                    android:id="@+id/textView7"
+                    android:layout_below="@+id/textView5"
+                    android:layout_alignStart="@+id/textView5"
+                    android:layout_alignEnd="@+id/view" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/cardTitle"
+                    android:layout_marginTop="70dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/view1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Name:"
+                    android:id="@+id/textView131"
+                    android:layout_marginTop="75dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Id:"
+                    android:id="@+id/textView15"
+                    android:layout_below="@+id/view"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true" />
+
+                <!-- dog info -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="K9"
+                    android:id="@+id/textView8"
+                    android:layout_below="@+id/textView7"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="25dp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/cardTitle"
+                    android:layout_below="@+id/textView8"
+                    android:layout_alignStart="@+id/textView8"
+                    android:id="@+id/textView10" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Name:"
+                    android:id="@+id/textView9"
+                    android:layout_below="@+id/textView10"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Id:"
+                    android:id="@+id/textView11"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/textView10"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Cory"
+                    android:id="@+id/textView12"
+                    android:layout_below="@+id/textView9"
+                    android:layout_alignStart="@+id/textView10" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="8759352"
+                    android:id="@+id/textView13"
+                    android:layout_below="@+id/textView11"
+                    android:layout_alignStart="@+id/textView11" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Chemicals Attempted:"
+                    android:id="@+id/textView26"
+                    android:layout_marginTop="23dp"
+                    android:layout_below="@+id/textView12"
+                    android:layout_alignStart="@+id/textView9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Chemicals Found:"
+                    android:id="@+id/textView27"
+                    android:layout_alignTop="@+id/textView26"
+                    android:layout_alignStart="@+id/textView13" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Total Session Time:"
+                    android:id="@+id/textView28"
+                    android:layout_below="@+id/textView26"
+                    android:layout_alignStart="@+id/textView26"
+                    android:layout_marginTop="43dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/textView29"
+                    android:layout_below="@+id/textView26"
+                    android:layout_alignStart="@+id/textView26"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="9dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/textView30"
+                    android:layout_below="@+id/textView27"
+                    android:layout_alignStart="@+id/textView27"
+                    android:layout_marginTop="3dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/textView31"
+                    android:layout_below="@+id/textView28"
+                    android:layout_alignStart="@+id/textView28"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="9dp"/>
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view2"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="15dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:id="@+id/textView42">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/cardTitle"
+                    android:id="@+id/relativeLayout">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Environment"
+                        android:id="@+id/environment_session_title"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+
+                    <ImageButton
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/imageButton2"
+                        android:src="@android:drawable/ic_menu_edit"
+                        android:layout_alignTop="@+id/environment_session_title"
+                        android:layout_alignParentEnd="true" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Temperature:"
+                    android:id="@+id/textView14"
+                    android:layout_below="@+id/relativeLayout"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginLeft="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Cloud Coverage:"
+                    android:id="@+id/textView16"
+                    android:layout_below="@+id/textView14"
+                    android:layout_alignStart="@+id/textView14"
+                    android:layout_marginTop="42dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Location:"
+                    android:id="@+id/textView20"
+                    android:layout_below="@+id/textView16"
+                    android:layout_alignStart="@+id/textView16"
+                    android:layout_marginTop="34dp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:id="@+id/textView17"
+                    android:layout_below="@+id/relativeLayout"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Wind:"
+                    android:id="@+id/textView18"
+                    android:layout_alignTop="@+id/textView14"
+                    android:layout_toEndOf="@+id/textView17" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Noise:"
+                    android:id="@+id/textView19"
+                    android:layout_alignBottom="@+id/textView20"
+                    android:layout_toEndOf="@+id/textView17" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/textView21"
+                    android:layout_below="@+id/textView14"
+                    android:layout_alignStart="@+id/textView14"
+                    android:layout_toStartOf="@+id/textView17"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="9dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/textView22"
+                    android:layout_below="@+id/textView18"
+                    android:layout_alignStart="@+id/textView18"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="3dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/textView23"
+                    android:layout_below="@+id/textView16"
+                    android:layout_alignStart="@+id/textView16"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="9dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/textView24"
+                    android:layout_below="@+id/textView20"
+                    android:layout_alignStart="@+id/textView20"
+                    android:layout_alignEnd="@+id/textView21"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="9dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/textView25"
+                    android:layout_below="@+id/textView19"
+                    android:layout_alignStart="@+id/textView19"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="3dp" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+</ScrollView>
