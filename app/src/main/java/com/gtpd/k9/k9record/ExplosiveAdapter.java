@@ -30,7 +30,7 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
 
     @Override
     public void onBindViewHolder(ExplosiveHolder holder, int position) {
-        holder.bindExplosive(explosives.get(position), this);
+        holder.bindExplosive(explosives.get(position));
     }
 
     @Override
@@ -38,13 +38,17 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
         return explosives.size();
     }
 
-    public static class ExplosiveHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public void addExplosive(Explosive explosive) {
+        explosives.add(explosive);
+        notifyItemInserted(explosives.size() - 1);
+    }
+
+    public class ExplosiveHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ImageView explosiveImageView;
         private final TextView explosiveNameTextView;
         private final ImageView explosiveSelectedImageView;
         private boolean selected = false;
         private Explosive explosive;
-        private ExplosiveAdapter adapter;
 
         public ExplosiveHolder(View itemView) {
             super(itemView);
@@ -55,9 +59,8 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
             itemView.setOnClickListener(this);
         }
 
-        public void bindExplosive(Explosive explosive, ExplosiveAdapter adapter) {
+        public void bindExplosive(Explosive explosive) {
             this.explosive = explosive;
-            this.adapter = adapter;
             explosiveImageView.setImageResource(explosive.imageResource);
             explosiveNameTextView.setText(explosive.name);
         }
