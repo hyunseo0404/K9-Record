@@ -1,6 +1,7 @@
 package com.gtpd.k9.k9record;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -28,6 +29,8 @@ public class ExplosiveSelectionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explosive_selection, container, false);
 
+        getActivity().setTitle("Select Explosives");
+
         ArrayList<Explosive> explosives = new ArrayList<>(Arrays.asList(
                 new Explosive("C4", 1.5, Explosive.Unit.KG, "Somewhere", R.mipmap.ic_launcher),
                 new Explosive("Nitro", 2.0, Explosive.Unit.LB, "Somewhere", R.mipmap.ic_launcher),
@@ -44,8 +47,8 @@ public class ExplosiveSelectionFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 NewTrainingFragment trainingFragment = NewTrainingFragment.newInstance(explosiveAdapter.explosives);
-
                 getFragmentManager().beginTransaction()
                         .replace(R.id.new_session_fragment, trainingFragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

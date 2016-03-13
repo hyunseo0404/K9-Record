@@ -2,48 +2,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.gtpd.k9.k9record.DogSelectionFragment">
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/dogList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.gtpd.k9.k9record.DogSelectionFragment">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
-
-            <TextView
-                android:id="@+id/selectDogLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                android:text="@string/select_dog" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/dogList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/selectDogLabel"
-                android:layout_marginTop="16dp" />
-
-            <!--<Button
-                android:id="@+id/dogContinueButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/dogList"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_alignParentEnd="true"
-                android:textAlignment="center"
-                android:text="@string/continue_label" />-->
-
-        </RelativeLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+        android:layout_height="wrap_content" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/next_page_fab"
@@ -53,8 +18,7 @@
         android:visibility="invisible"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginBottom="8dp"
         android:clickable="true"/>
 
 </RelativeLayout>

@@ -113,6 +113,8 @@ public class NewTrainingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_training, container, false);
 
+        getActivity().setTitle("New Session");
+
         butnstart = (Button) view.findViewById(R.id.startTraining);
         butnreset = (Button) view.findViewById(R.id.reset);
         time = (TextView) view.findViewById(R.id.timerText);
