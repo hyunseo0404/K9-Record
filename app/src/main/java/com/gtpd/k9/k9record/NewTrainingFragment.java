@@ -3,6 +3,7 @@ package com.gtpd.k9.k9record;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -367,7 +368,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
 
 
     public void launchCompleteSessionDialog(){
-        // 1. Instantiate an AlertDialog.Builder with its constructor
+        /*// 1. Instantiate an AlertDialog.Builder with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(mParent);
 
         // 2. Chain together various setter methods to set the dialog characteristics
@@ -383,6 +384,11 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
             }
         });
 
-        builder.show();
+        builder.show();*/
+
+        mParent.getFragmentManager().beginTransaction()
+                .replace(R.id.new_session_fragment, new FinishedSessionFragment())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit();
     }
 }
