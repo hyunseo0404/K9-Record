@@ -68,6 +68,7 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
         private final ImageView explosiveImageView;
         private final TextView explosiveNameTextView;
         private final TextView explosiveQuantityTextView;
+        private final TextView explosiveLocationTextView;
         private Explosive explosive;
 
         public ExplosiveHolder(View itemView) {
@@ -76,6 +77,7 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
             explosiveImageView = (ImageView) itemView.findViewById(R.id.explosiveImage);
             explosiveNameTextView = (TextView) itemView.findViewById(R.id.explosiveName);
             explosiveQuantityTextView = (TextView) itemView.findViewById(R.id.explosiveQuantity);
+            explosiveLocationTextView = (TextView) itemView.findViewById(R.id.explosiveLocation);
             itemView.setOnClickListener(this);
         }
 
@@ -84,6 +86,12 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
             explosiveImageView.setImageResource(explosive.imageResource);
             explosiveNameTextView.setText(explosive.name);
             explosiveQuantityTextView.setText(itemView.getContext().getString(R.string.explosive_quantity, Double.toString(explosive.quantity), explosive.unit.name().toLowerCase()));
+
+            if (explosive.location.isEmpty()) {
+                explosiveLocationTextView.setText("Location Unknown");
+            } else {
+                explosiveLocationTextView.setText(explosive.location);
+            }
         }
 
         @Override
