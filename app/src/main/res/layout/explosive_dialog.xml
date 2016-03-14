@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:id="@+id/explosiveDialog"
     android:paddingTop="16dp"
-    android:paddingStart="16dp"
+    android:paddingStart="20dp"
     android:paddingEnd="16dp"
     android:paddingBottom="8dp"
     android:orientation="vertical">
@@ -25,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:labelFor="@+id/quantityEditText"
-            android:text="Quantity:"
+            android:text="@string/quantity_text"
             android:textSize="18sp" />
 
         <EditText
@@ -55,12 +56,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:labelFor="@+id/locationEditText"
-            android:text="Location:"
+            android:text="@string/location_text"
             android:textSize="18sp" />
 
         <EditText
             android:id="@+id/locationEditText"
-            android:layout_width="150dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:inputType="textMultiLine"
@@ -68,25 +69,61 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="5dp"
+        android:visibility="gone"
+        android:text="@string/quantity_error_text"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#B0171F" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        style="?android:buttonBarStyle">
 
         <Button
+            style="?android:buttonBarButtonStyle"
+            android:id="@+id/removeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            android:text="@string/remove_text"
+            android:textColor="@android:color/holo_red_dark" />
+
+        <Button
+            style="?android:buttonBarButtonStyle"
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Cancel" />
+            android:text="@string/cancel_text" />
 
         <Button
+            style="?android:buttonBarButtonStyle"
             android:id="@+id/addButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add" />
+            android:text="@string/add_text"
+            android:textStyle="bold" />
+
+        <Button
+            style="?android:buttonBarButtonStyle"
+            android:id="@+id/updateButton"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/update_text"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

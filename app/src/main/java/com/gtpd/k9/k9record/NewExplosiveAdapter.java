@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -85,7 +87,19 @@ public class NewExplosiveAdapter extends RecyclerView.Adapter<NewExplosiveAdapte
                 addButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        double quantity = Double.parseDouble(quantityEditText.getText().toString());
+                        String quantityString = quantityEditText.getText().toString();
+
+                        if (quantityString.isEmpty() || quantityString.equals(".")) {
+                            dialog.findViewById(R.id.errorTextView).setVisibility(View.VISIBLE);
+                            Animation shakeAnimation = AnimationUtils.loadAnimation(context, R.anim.dialog_shake);
+                            shakeAnimation.setRepeatCount(2);
+                            shakeAnimation.setDuration(100);
+                            quantityEditText.startAnimation(shakeAnimation);
+                            quantityEditText.requestFocus();
+                            return;
+                        }
+
+                        double quantity = Double.parseDouble(quantityString);
                         Explosive.Unit unit = Explosive.Unit.valueOf(unitSpinner.getSelectedItem().toString());
                         String location = locationEditText.getText().toString();
 

@@ -39,9 +39,9 @@ public class DogSelectionFragment extends Fragment {
         RecyclerView dogList = (RecyclerView) view.findViewById(R.id.dogList);
         dogList.setAdapter(dogAdapter);
         dogList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //Grab the action button for the item touch listener
-        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.next_page_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        final Button continueButton = (Button) view.findViewById(R.id.continueButton);
+        continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction()
@@ -51,12 +51,12 @@ public class DogSelectionFragment extends Fragment {
                         .commit();
             }
         });
+
         //Listen for any touch in the dog selection
         dogList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                fab.setVisibility(View.VISIBLE);
-
+                continueButton.setVisibility(View.VISIBLE);
                 return false;
             }
 
@@ -69,21 +69,6 @@ public class DogSelectionFragment extends Fragment {
 
             }
         });
-
-        /*Button continueButton = (Button) view.findViewById(R.id.dogContinueButton);
-        continueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.new_session_fragment, new ExplosiveSelectionFragment())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit();
-            }
-        });*/
-
-
-
 
         return view;
     }

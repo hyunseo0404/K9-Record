@@ -31,4 +31,13 @@
         <item>OZ</item>
     </string-array>
     <string name="explosive_quantity">%1$s %2$s</string>
+    <string name="no_explosive_text">No explosive added</string>
+    <string name="to_add_explosive_text">Click the + button below to add explosives</string>
+    <string name="location_text">Location:</string>
+    <string name="quantity_error_text">Quantity value is required!</string>
+    <string name="remove_text">Remove</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="add_text">Add</string>
+    <string name="update_text">Update</string>
+    <string name="quantity_text">Quantity:</string>
 </resources>

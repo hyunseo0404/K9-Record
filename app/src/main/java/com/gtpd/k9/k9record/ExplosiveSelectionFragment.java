@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ import java.util.Arrays;
 public class ExplosiveSelectionFragment extends Fragment {
 
     private ExplosiveAdapter explosiveAdapter;
-    private TextView emptyTextView;
+    private LinearLayout emptyListLayout;
     private Button startButton;
     private Dialog explosiveDialog;
 
@@ -39,7 +39,7 @@ public class ExplosiveSelectionFragment extends Fragment {
 
         getActivity().setTitle("Select Explosives");
 
-        explosiveAdapter = new ExplosiveAdapter(new ArrayList<Explosive>());
+        explosiveAdapter = new ExplosiveAdapter(new ArrayList<Explosive>(), getActivity());
         RecyclerView explosiveList = (RecyclerView) view.findViewById(R.id.explosiveList);
         explosiveList.setAdapter(explosiveAdapter);
         explosiveList.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -75,7 +75,7 @@ public class ExplosiveSelectionFragment extends Fragment {
             }
         });
 
-        emptyTextView = (TextView) view.findViewById(R.id.emptyTextView);
+        emptyListLayout = (LinearLayout) view.findViewById(R.id.emptyListLayout);
 
         startButton = (Button) view.findViewById(R.id.startButton);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -90,33 +90,26 @@ public class ExplosiveSelectionFragment extends Fragment {
             }
         });
 
-        //Listen for any touch in the dog selection
-//        explosiveList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-//            @Override
-//            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-//                fab.setVisibility(View.VISIBLE);
-//
-//                return false;
-//            }
-//
-//            @Override
-//            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-//            }
-//
-//            @Override
-//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-//
-//            }
-//        });
-
         return view;
     }
 
     public void addExplosive(Explosive explosive) {
         explosiveAdapter.addExplosive(explosive);
-//        getFragmentManager().popBackStackImmediate();
-        emptyTextView.setVisibility(View.GONE);
+        emptyListLayout.setVisibility(View.GONE);
         startButton.setVisibility(View.VISIBLE);
+    }
+
+    public void updateExplosive(int explosivePosition) {
+        explosiveAdapter.updateExplosive(explosivePosition);
+    }
+
+    public void removeExplosive(int explosivePosition) {
+        explosiveAdapter.removeExplosive(explosivePosition);
+
+        if (explosiveAdapter.getItemCount() == 0) {
+            emptyListLayout.setVisibility(View.VISIBLE);
+            startButton.setVisibility(View.GONE);
+        }
     }
 
     public void closeExplosiveDialog() {
