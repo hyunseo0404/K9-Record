@@ -5,14 +5,30 @@
     android:layout_height="match_parent"
     tools:context="com.gtpd.k9.k9record.ExplosiveSelectionFragment">
 
-    <TextView
-        android:id="@+id/emptyTextView"
+    <LinearLayout
+        android:id="@+id/emptyListLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="No explosive added"
-        android:textColor="#B3B1B9"
-        android:textSize="24sp" />
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_explosive_text"
+            android:textColor="#B3B1B9"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/to_add_explosive_text"
+            android:textColor="#B3B1B9"
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
