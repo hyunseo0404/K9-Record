@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,58 +13,76 @@
         android:elevation="2dp"
         card_view:cardUseCompatPadding="true">
 
-        <RelativeLayout
+        <ViewFlipper
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/cardFlipper">
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/explosive_name_label"
-                android:id="@+id/explosiveName"
-                android:layout_alignParentTop="true"
-                android:paddingBottom="16dp" />
+                android:padding="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/weight_label"
-                android:id="@+id/explosiveAmount"
-                android:layout_alignStart="@id/explosiveName"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="16dp"
-                android:paddingTop="8dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/explosive_name_label"
+                    android:id="@+id/explosiveName"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="16dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/duration"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/weight_label"
+                    android:id="@+id/explosiveAmount"
+                    android:layout_alignStart="@id/explosiveName"
+                    android:layout_below="@+id/explosiveName"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="16dp" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/addCommentsButton"
-                android:src="@drawable/ic_action_add_comment"
-                android:background="#ffffff"
-                android:layout_toStartOf="@+id/viewCommentsButton"
-                android:layout_alignWithParentIfMissing="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Hiding Place"
+                    android:id="@+id/hidingPlace"
+                    android:layout_alignStart="@id/explosiveAmount"
+                    android:layout_below="@+id/explosiveAmount"
+                    android:layout_alignParentBottom="true"/>
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/viewCommentsButton"
-                android:background="#ffffff"
-                android:src="@drawable/ic_action_insert_comment"
-                android:layout_alignParentEnd="true"
-                android:clickable="false"
-                android:visibility="gone" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/duration"/>
 
-        </RelativeLayout>
+                <!--<ImageButton-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/addCommentsButton"-->
+                    <!--android:src="@drawable/ic_action_add_comment"-->
+                    <!--android:background="#ffffff"-->
+                    <!--android:layout_toStartOf="@+id/viewCommentsButton"-->
+                    <!--android:layout_alignWithParentIfMissing="true"/>-->
 
+                <!--<ImageButton-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/viewCommentsButton"-->
+                    <!--android:background="#ffffff"-->
+                    <!--android:src="@drawable/ic_action_insert_comment"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:clickable="false"-->
+                    <!--android:visibility="gone" />-->
+
+            </RelativeLayout>
+
+            <!--back side-->
+            <include layout="@layout/card_view_back"/>
+
+        </ViewFlipper>
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

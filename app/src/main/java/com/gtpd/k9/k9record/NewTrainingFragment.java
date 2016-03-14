@@ -1,5 +1,7 @@
 package com.gtpd.k9.k9record;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -23,18 +25,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.animators.FlipInLeftYAnimator;
 
 
 /**
@@ -167,6 +174,7 @@ public class NewTrainingFragment extends Fragment {
 
         mRecView = (RecyclerView) view.findViewById(R.id.training_recycler_view);
         mRecView.setHasFixedSize(true);
+        mRecView.setItemAnimator(new FlipInLeftYAnimator());
 
         // Set the layout manager
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -233,7 +241,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
     private Explosive[] mDataset;
     private Activity mParent;
     private int mExplosiveFoundCount;
-
+    private AnimatorSet card_flip_left_in, card_flip_left_out, card_flip_right_in, card_flip_right_out;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -242,20 +250,34 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         CardView mCardView;
         public TextView mExplosiveName;
         public TextView mExplosiveAmount;
+        public TextView mHidingPlace;
         public TextView mDuration;
-        public ImageButton mAddCommentButton;
-        public ImageButton mViewCommentsButton;
+//        public ImageButton mAddCommentButton;
+//        public ImageButton mViewCommentsButton;
         public String mNotesContent;
+        public ViewFlipper mViewFlipper;
 
+        // For other card layout
+        public ImageButton mFlipButton;
+        public ImageButton mFoundButton;
+        public ImageButton mAddNotesButton;
+
+        public boolean mCardBackShowing;
         public ViewHolder(View v) {
             super(v);
             mCardView = (CardView)v.findViewById(R.id.cv);
+
+
             mExplosiveName = (TextView)v.findViewById(R.id.explosiveName);
             mExplosiveAmount = (TextView)v.findViewById(R.id.explosiveAmount);
+            mHidingPlace = (TextView)v.findViewById(R.id.hidingPlace);
             mDuration = (TextView)v.findViewById(R.id.duration);
-            mAddCommentButton = (ImageButton) v.findViewById(R.id.addCommentsButton);
-            mViewCommentsButton = (ImageButton) v.findViewById(R.id.viewCommentsButton);
+//            mAddCommentButton = (ImageButton) v.findViewById(R.id.addCommentsButton);
+//            mViewCommentsButton = (ImageButton) v.findViewById(R.id.viewCommentsButton);
             mNotesContent = "";
+            mViewFlipper = (ViewFlipper) v.findViewById(R.id.cardFlipper);
+
+            mCardBackShowing = false;
         }
     }
 
@@ -264,6 +286,12 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         mDataset = myDataset;
         mParent = parent;
         mExplosiveFoundCount = mDataset.length;
+
+        card_flip_left_in = (AnimatorSet) AnimatorInflater.loadAnimator(mParent, R.animator.card_flip_left_in);
+        card_flip_left_out = (AnimatorSet) AnimatorInflater.loadAnimator(mParent, R.animator.card_flip_left_out);
+        card_flip_right_in = (AnimatorSet) AnimatorInflater.loadAnimator(mParent, R.animator.card_flip_right_in);
+        card_flip_right_out = (AnimatorSet) AnimatorInflater.loadAnimator(mParent, R.animator.card_flip_right_out);
+
     }
 
     // Create new views (invoked by the layout manager)
@@ -275,6 +303,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
                 .inflate(R.layout.card_view_training, parent, false);
 
         ViewHolder vh = new ViewHolder(v);
+
         return vh;
     }
 
@@ -285,38 +314,45 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         // - replace the contents of the view with that element
         holder.mExplosiveName.setText(mDataset[position].name);
         holder.mDuration.setVisibility(View.GONE);
-
         holder.mExplosiveAmount.setText("" + mDataset[position].quantity + " " + (mDataset[position].unit).toString().toLowerCase());
+        holder.mHidingPlace.setText(""+mDataset[position].location);
+
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // item clicked
-                String clocked_time = NewTrainingFragment.time.getText().toString();
 
-                AlertDialog.Builder builder = setupDialog(clocked_time,
-                        holder.mDuration,
-                        holder.mExplosiveName,
-                        holder.mCardView);
-                builder.show();
+//                AlertDialog.Builder builder = setupDialog(clocked_time,
+//                        holder.mDuration,
+//                        holder.mExplosiveName,
+//                        holder.mCardView);
+//                builder.show();
+                // TODO: Need to disable this if we're in the other side....could set a member var
+                if(!holder.mCardBackShowing){
+                    String clocked_time = NewTrainingFragment.time.getText().toString();
+//                    holder.mViewFlipper.setInAnimation(card_flip_left_in.);
+//                    holder.mViewFlipper.setOutAnimation(card_flip_left_out);
+                    holder.mViewFlipper.showNext();
+                    holder.mCardBackShowing = true;
+                }
             }
         });
 
-        holder.mAddCommentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((NewSessionActivity)mParent).showNotesDialog(holder.mNotesContent, holder.mExplosiveName.getText().toString());
-                // Need to make the view comments button visible
-                holder.mViewCommentsButton.setVisibility(View.VISIBLE);
-
-            }
-        });
-
-        holder.mViewCommentsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        holder.mAddCommentButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ((NewSessionActivity)mParent).showNotesDialog(holder.mNotesContent, holder.mExplosiveName.getText().toString());
+//                // Need to make the view comments button visible
+//                holder.mViewCommentsButton.setVisibility(View.VISIBLE);
+//
+//            }
+//        });
+//
+//        holder.mViewCommentsButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -376,7 +412,6 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
     public void launchCompleteSessionDialog(){
 
         /*// 1. Instantiate an AlertDialog.Builder with its constructor
->>>>>>> bc5d5a2d2b48724a41370c1a282ed67303e21a78
         AlertDialog.Builder builder = new AlertDialog.Builder(mParent);
 
         String title = "Complete training session";

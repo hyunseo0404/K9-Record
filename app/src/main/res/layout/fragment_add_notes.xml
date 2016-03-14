@@ -8,9 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Notes:"
+        android:text="Add Note"
         android:id="@+id/notesTitleLabel"
-        android:layout_weight="0.05" />
+        android:layout_weight="0.1" />
 
     <EditText
         android:layout_width="match_parent"
@@ -19,6 +19,29 @@
         android:ems="10"
         android:id="@+id/notesEditText"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.50"
+        android:layout_weight="0.80"
         android:hint="Insert notes about the dog&apos;s performance finding " />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".1">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:id="@+id/cancelAddNotesButton"
+            android:layout_weight="0.5" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:id="@+id/saveNotesButton"
+            android:layout_gravity="right"
+            android:layout_weight=".5" />
+    </LinearLayout>
+
 </LinearLayout>
