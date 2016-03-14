@@ -37,9 +37,9 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:id="@+id/imageButton"
-                    android:src="@android:drawable/ic_menu_edit"
-                    android:layout_alignTop="@+id/general_session_title"
-                    android:layout_alignParentEnd="true" />
+                    android:src="@drawable/ic_action_add_comment"
+                    android:layout_centerVertical="true"
+                    android:layout_alignEnd="@+id/general_session_title" />
 
             </RelativeLayout>
 
