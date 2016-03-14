@@ -5,8 +5,8 @@
         android:id="@+id/action_save_session"
         android:title="Save"
         app:showAsAction="ifRoom"
-        android:enabled="false"
+        android:enabled="true"
         android:visible="true"
         android:orderInCategory="1"
-        android:icon="@android:drawable/ic_menu_save"/>
+        android:icon="@android:drawable/ic_menu_save" />
 </menu>

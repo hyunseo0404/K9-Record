@@ -31,7 +31,7 @@ public class FinishedSessionFragment extends Fragment {
         setHasOptionsMenu(true);
 
         this.getActivity().setTitle("Review");
- 
+
         //Add the individual explosives to the view
         LinearLayout parent = (LinearLayout)view.findViewById(R.id.finished_session_root);
         View template = inflater.inflate(R.layout.single_explosive_card_template, null);
