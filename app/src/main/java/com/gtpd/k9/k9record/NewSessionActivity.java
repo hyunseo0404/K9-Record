@@ -65,6 +65,7 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
         ft.addToBackStack(null);
 
         addNotesFragment = NotesDialogFragment.newInstance(selectedPos, explosiveName);
+//        addNotesFragment
         addNotesFragment.show(ft, "notesDialog");
     }
 

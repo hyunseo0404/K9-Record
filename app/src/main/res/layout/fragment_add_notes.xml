@@ -5,12 +5,12 @@
     android:weightSum="1"
     android:minHeight="120dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Add Note"
-        android:id="@+id/notesTitleLabel" />
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+        <!--android:text="Add Note"-->
+        <!--android:id="@+id/notesTitleLabel" />-->
 
     <EditText
         android:layout_width="match_parent"
@@ -25,8 +25,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:paddingTop="8dp"
+        android:paddingTop="32dp"
         android:paddingBottom="8dp">
 
         <Button

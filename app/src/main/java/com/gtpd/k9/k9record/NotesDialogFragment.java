@@ -63,9 +63,12 @@ public class NotesDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
+        getDialog().setTitle("Add Note");
         View v = inflater.inflate(R.layout.fragment_add_notes, container, false);
         final View et = v.findViewById(R.id.notesEditText);
-        ((EditText)et).setHint(((EditText) et).getHint() + mExplosiveName);
+        ((EditText) et).setHint(((EditText) et).getHint() + mExplosiveName);
 
 
         Button save = (Button) v.findViewById(R.id.saveNotesButton);
@@ -83,6 +86,8 @@ public class NotesDialogFragment extends DialogFragment {
                 mListener.dismiss();
             }
         });
+
+
         return v;
     }
 }
