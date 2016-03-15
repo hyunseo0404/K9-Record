@@ -14,6 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by Clayton on 3/13/2016.
  */
@@ -34,18 +36,8 @@ public class FinishedSessionFragment extends Fragment {
 
         this.getActivity().setTitle("Review");
 
-        //Add the individual explosives to the view
-        LinearLayout parent = (LinearLayout)view.findViewById(R.id.finished_session_root);
-        View template = inflater.inflate(R.layout.single_explosive_card_template, null);
-        RelativeLayout templateRoot = (RelativeLayout) template.getRootView();
-        parent.addView(templateRoot);
-
-        template = inflater.inflate(R.layout.single_explosive_card_template, null);
-        templateRoot = (RelativeLayout) template.getRootView();
-        parent.addView(templateRoot);
-
         //Fill all the text views
-        populateItems();
+        populateItems(inflater);
 
         return view;
     }
@@ -76,7 +68,7 @@ public class FinishedSessionFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void populateItems(){
+    private void populateItems(LayoutInflater inflater){
         TrainingSession session = NewSessionActivity.session;
         Dog dog = session.getDog();
 
@@ -85,5 +77,26 @@ public class FinishedSessionFragment extends Fragment {
 
         //Set all the views from session variables
         dogNameView.setText(dog.name);
+
+        //add all of the explosive cards
+        //Add the individual explosives to the view
+        LinearLayout parent = (LinearLayout)view.findViewById(R.id.finished_session_root);
+        View template;
+        RelativeLayout templateRoot;
+        for(Explosive explosive : session.explosives){
+            template = inflater.inflate(R.layout.single_explosive_card_template, null);
+            templateRoot = (RelativeLayout) template.getRootView();
+
+            //Set all of the textviews
+            TextView explosiveTitle = (TextView) templateRoot.findViewById(R.id.explosive_card_title);
+            TextView explosiveQuantity = (TextView) templateRoot.findViewById(R.id.explosive_quantity_value);
+            TextView explosiveLocation = (TextView) templateRoot.findViewById(R.id.explosive_location_value);
+
+            explosiveTitle.setText(explosive.name);
+            explosiveQuantity.setText(explosive.getQuantityAsString());
+            explosiveLocation.setText(explosive.location);
+
+            parent.addView(templateRoot);
+        }
     }
 }
