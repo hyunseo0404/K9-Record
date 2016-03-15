@@ -49,7 +49,7 @@ public class NewTrainingFragment extends Fragment {
     int secs = 0;
     int mins = 0;
     int milliseconds = 0;
-    Handler handler = new Handler();
+    Handler handler;
 
     private RecyclerView mRecView;
     private OnFragmentInteractionListener mListener;
@@ -73,6 +73,7 @@ public class NewTrainingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        handler = new Handler();
     }
 
     public Runnable updateTimer = new Runnable() {
@@ -322,6 +323,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
 
                 mExplosivesLeftToFind--;
                 if(mExplosivesLeftToFind == 0){
+
                     switchToReviewSessionScreen();
                 }
             }
@@ -331,6 +333,10 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
             @Override
             public void onClick(View v) {
                 ((NewSessionActivity) mParent).showNotesDialog(position, holder.mExplosiveName.getText().toString());
+
+                // Flip the card when you make a note
+                holder.mViewFlipper.showNext();
+                holder.mCardBackShowing = false;
             }
         });
 

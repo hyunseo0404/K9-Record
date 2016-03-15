@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:minHeight="120dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Add Note"
-        android:id="@+id/notesTitleLabel"
-        android:layout_weight="0.1" />
+        android:id="@+id/notesTitleLabel" />
 
     <EditText
         android:layout_width="match_parent"
@@ -19,14 +19,15 @@
         android:ems="10"
         android:id="@+id/notesEditText"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.80"
         android:hint="Insert notes about the dog&apos;s performance finding " />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".1">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
         <Button
             android:layout_width="wrap_content"
