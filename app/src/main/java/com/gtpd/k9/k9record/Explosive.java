@@ -8,6 +8,11 @@ public class Explosive {
     public String location;
     public int imageResource;
 
+    public Explosive(String name, int imageResource) {
+        this.name = name;
+        this.imageResource = imageResource;
+    }
+
     public Explosive(String name, double quantity, Unit unit, String location, int imageResource) {
         this.name = name;
         this.quantity = quantity;

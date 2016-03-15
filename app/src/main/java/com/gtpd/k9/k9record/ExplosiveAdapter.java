@@ -167,6 +167,9 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
                 });
 
                 dialog.show();
+
+                quantityEditText.setFocusableInTouchMode(true);
+                quantityEditText.requestFocus();
             }
         }
     }
