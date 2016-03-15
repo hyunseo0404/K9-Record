@@ -43,4 +43,7 @@ public class TrainingSession {
 //        this.individualDrugsTimeToFind = drugTimes;
 //        this.notes = individualNotes;
 //    }
+    public Dog getDog(){
+        return this.dog;
+    }
 }

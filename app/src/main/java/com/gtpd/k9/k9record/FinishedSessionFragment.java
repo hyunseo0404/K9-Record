@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -19,6 +20,7 @@ import android.widget.Toast;
 public class FinishedSessionFragment extends Fragment {
 
     private Menu actionBarMenu;
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,7 @@ public class FinishedSessionFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_finished_session, container, false);
+        view = inflater.inflate(R.layout.fragment_finished_session, container, false);
         setHasOptionsMenu(true);
 
         this.getActivity().setTitle("Review");
@@ -41,6 +43,9 @@ public class FinishedSessionFragment extends Fragment {
         template = inflater.inflate(R.layout.single_explosive_card_template, null);
         templateRoot = (RelativeLayout) template.getRootView();
         parent.addView(templateRoot);
+
+        //Fill all the text views
+        populateItems();
 
         return view;
     }
@@ -69,5 +74,16 @@ public class FinishedSessionFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void populateItems(){
+        TrainingSession session = NewSessionActivity.session;
+        Dog dog = session.getDog();
+
+        //Grab all the views that need to be set
+        TextView dogNameView = (TextView) view.findViewById(R.id.dog_name_value);
+
+        //Set all the views from session variables
+        dogNameView.setText(dog.name);
     }
 }
