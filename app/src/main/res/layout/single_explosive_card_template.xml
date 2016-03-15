@@ -29,7 +29,7 @@
                     android:layout_marginLeft="5dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Explosive"
-                    android:id="@+id/general_session_title"
+                    android:id="@+id/explosive_card_title"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true" />
 
@@ -39,7 +39,7 @@
                     android:id="@+id/imageButton"
                     android:src="@drawable/ic_action_add_comment"
                     android:layout_centerVertical="true"
-                    android:layout_alignEnd="@+id/general_session_title" />
+                    android:layout_alignEnd="@+id/explosive_card_title" />
 
             </RelativeLayout>
 
@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
-                android:id="@+id/textView39"
+                android:id="@+id/explosive_quantity_value"
                 android:layout_below="@+id/textView32"
                 android:layout_alignStart="@+id/textView32"
                 android:layout_marginTop="3dp"
@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
-                android:id="@+id/textView41"
+                android:id="@+id/explosive_location_value"
                 android:layout_below="@+id/textView33"
                 android:layout_alignStart="@+id/textView33"
                 android:layout_marginTop="3dp"
@@ -153,7 +153,7 @@
                 android:layout_alignStart="@+id/textView34"
                 android:layout_marginTop="3dp"
                 android:layout_marginLeft="9dp"
-                android:layout_alignEnd="@+id/textView39" />
+                android:layout_alignEnd="@+id/explosive_quantity_value" />
 
             <TextView
                 android:layout_width="wrap_content"

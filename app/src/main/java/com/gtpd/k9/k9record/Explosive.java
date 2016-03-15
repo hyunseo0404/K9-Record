@@ -16,6 +16,10 @@ public class Explosive {
         this.imageResource = imageResource;
     }
 
+    public String getQuantityAsString(){
+        return String.format("%.0f", quantity);
+    }
+
     public enum Unit {
         KG, G, LB, OZ
     }
