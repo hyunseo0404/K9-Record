@@ -81,8 +81,10 @@ public class ExplosiveSelectionFragment extends Fragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                NewSessionActivity.session.explosives = explosiveAdapter.explosives;
+
                 getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                NewTrainingFragment trainingFragment = NewTrainingFragment.newInstance(explosiveAdapter.explosives);
+                NewTrainingFragment trainingFragment = NewTrainingFragment.newInstance();
                 getFragmentManager().beginTransaction()
                         .replace(R.id.new_session_fragment, trainingFragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

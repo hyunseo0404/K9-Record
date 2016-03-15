@@ -28,7 +28,7 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogHolder> {
 
     @Override
     public void onBindViewHolder(DogHolder holder, int position) {
-        holder.bindDog(dogs.get(position), this);
+        holder.bindDog(dogs.get(position));
     }
 
     @Override
@@ -36,13 +36,12 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogHolder> {
         return dogs.size();
     }
 
-    public static class DogHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class DogHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ImageView dogImageView;
         private final TextView dogNameTextView;
         private final TextView dogDescriptionTextView;
         private final ImageView dogSelectedImageView;
         private Dog dog;
-        private DogAdapter adapter;
 
         public DogHolder(View itemView) {
             super(itemView);
@@ -54,9 +53,8 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogHolder> {
             itemView.setOnClickListener(this);
         }
 
-        public void bindDog(Dog dog, DogAdapter adapter) {
+        public void bindDog(Dog dog) {
             this.dog = dog;
-            this.adapter = adapter;
             dogImageView.setImageResource(dog.imageResource);    // FIXME: test image
             dogNameTextView.setText(dog.name);
             dogDescriptionTextView.setText(dog.description);
@@ -65,13 +63,17 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogHolder> {
         @Override
         public void onClick(View v) {
             if (dog != null) {
-                if (adapter.selectedDogHolder != null) {
-                    adapter.selectedDogHolder.dogSelectedImageView.setVisibility(View.INVISIBLE);
+                if (selectedDogHolder != null) {
+                    selectedDogHolder.dogSelectedImageView.setVisibility(View.INVISIBLE);
                 }
 
                 dogSelectedImageView.setVisibility(View.VISIBLE);
-                adapter.selectedDogHolder = this;
+                selectedDogHolder = this;
             }
+        }
+
+        public Dog getDog() {
+            return dog;
         }
     }
 }

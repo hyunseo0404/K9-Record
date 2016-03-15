@@ -44,9 +44,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class NewTrainingFragment extends Fragment {
-    private static final String ARG_EXPL_LIST = "explosives list";
 
-    private List<Explosive> mExplosivesList;
     private Menu mMenu;
 
     // Timer related variables
@@ -73,25 +71,16 @@ public class NewTrainingFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param expList Parameter 1.
      * @return A new instance of fragment NewTrainingFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NewTrainingFragment newInstance(List<Explosive> expList) {
-        NewTrainingFragment fragment = new NewTrainingFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_EXPL_LIST, new Gson().toJson(expList));
-        fragment.setArguments(args);
-        return fragment;
+    public static NewTrainingFragment newInstance() {
+        return new NewTrainingFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            Type listType = new TypeToken<List<Explosive>>(){}.getType();
-            mExplosivesList = new Gson().fromJson(getArguments().getString(ARG_EXPL_LIST), listType);
-        }
         setHasOptionsMenu(true);
     }
 
@@ -170,8 +159,8 @@ public class NewTrainingFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         mRecView.setLayoutManager(llm);
 
-        Explosive [] expArr = new Explosive[mExplosivesList.size()];
-        mExplosivesList.toArray(expArr);
+        Explosive [] expArr = new Explosive[NewSessionActivity.session.explosives.size()];
+        NewSessionActivity.session.explosives.toArray(expArr);
         TrainingCardAdapter mAdapter = new TrainingCardAdapter(expArr, getActivity());
         mRecView.setAdapter(mAdapter);
 
