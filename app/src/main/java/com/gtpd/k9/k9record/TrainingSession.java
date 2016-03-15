@@ -8,12 +8,6 @@ public class TrainingSession {
     public Dog dog;
     public List<Explosive> explosives;
 
-    private Date trainingStartDate;
-    private int trainingRunTime;
-    private int temperature;
-    private Tuple<String, Integer> individualDrugsTimeToFind;
-    private Tuple<String, String> notes;
-
     public TrainingSession(Dog dog) {
         this.dog = dog;
     }
@@ -25,4 +19,7 @@ public class TrainingSession {
 //        this.individualDrugsTimeToFind = drugTimes;
 //        this.notes = individualNotes;
 //    }
+    public Dog getDog(){
+        return this.dog;
+    }
 }
