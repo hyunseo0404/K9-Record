@@ -8,8 +8,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/flipBackButton"
-            android:src="@drawable/ic_action_flip"
-            android:layout_weight=".25" />
+            android:src="@drawable/ic_action_clear"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_weight=".25"
+            android:layout_gravity="center_vertical" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -17,7 +19,9 @@
             android:id="@+id/confirmFoundButton"
             android:src="@drawable/ic_action_done"
             android:clickable="true"
-            android:layout_weight=".25" />
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_weight=".25"
+            android:layout_gravity="center_vertical" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -25,8 +29,9 @@
             android:id="@+id/blankButton"
             android:visibility="invisible"
             android:clickable="false"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_weight=".25"
-            />
+            android:layout_gravity="center_vertical" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -35,6 +40,8 @@
             android:src="@drawable/ic_add_note"
             android:visibility="invisible"
             android:layout_weight=".25"
-            android:clickable="false"/>
+            style="?android:attr/borderlessButtonStyle"
+            android:clickable="false"
+            android:layout_gravity="center_vertical" />
 
 </LinearLayout>
