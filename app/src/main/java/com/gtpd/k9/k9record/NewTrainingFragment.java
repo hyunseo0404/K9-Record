@@ -1,6 +1,5 @@
 package com.gtpd.k9.k9record;
 
-import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -8,7 +7,6 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,13 +24,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
-
-import com.flip.com.tekle.oss.android.animation.AnimationFactory;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.List;
 
 
 /**
@@ -219,7 +210,7 @@ public class NewTrainingFragment extends Fragment {
 class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewHolder> {
     private Explosive[] mDataset;
     private Activity mParent;
-    private int mExplosiveFoundCount;
+    private int mExplosivesLeftToFind;
     private String clockedTime;
 
     // Provide a reference to the views for each data item
@@ -232,9 +223,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         public TextView mExplosiveAmount;
         public TextView mHidingPlace;
         public TextView mDuration;
-//        public ImageButton mAddCommentButton;
-//        public ImageButton mViewCommentsButton;
-        public String mNotesContent;
+//        public String mNotesContent;
         public ViewFlipper mViewFlipper;
 
         // For other card layout
@@ -247,14 +236,11 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
             super(v);
             mCardView = (CardView)v.findViewById(R.id.cv);
 
-
             mExplosiveName = (TextView)v.findViewById(R.id.explosiveName);
             mExplosiveAmount = (TextView)v.findViewById(R.id.explosiveAmount);
             mHidingPlace = (TextView)v.findViewById(R.id.hidingPlace);
             mDuration = (TextView)v.findViewById(R.id.duration);
-//            mAddCommentButton = (ImageButton) v.findViewById(R.id.addCommentsButton);
-//            mViewCommentsButton = (ImageButton) v.findViewById(R.id.viewCommentsButton);
-            mNotesContent = "";
+//            mNotesContent = "";
 
             mFlipButton = (ImageButton) v.findViewById(R.id.flipBackButton);
             mFoundButton = (ImageButton) v.findViewById(R.id.confirmFoundButton);
@@ -269,7 +255,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
     public TrainingCardAdapter(Explosive[] myDataset, Activity parent) {
         mDataset = myDataset;
         mParent = parent;
-        mExplosiveFoundCount = mDataset.length;
+        mExplosivesLeftToFind = mDataset.length;
     }
 
     // Create new views (invoked by the layout manager)
@@ -287,54 +273,62 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.mExplosiveName.setText(mDataset[position].name);
         holder.mDuration.setVisibility(View.GONE);
         holder.mExplosiveAmount.setText("" + mDataset[position].quantity + " " + (mDataset[position].unit).toString().toLowerCase());
-        holder.mHidingPlace.setText(""+mDataset[position].location);
+        holder.mHidingPlace.setText("" + mDataset[position].location);
 
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-//                AlertDialog.Builder builder = setupDialog(clocked_time,
-//                        holder.mDuration,
-//                        holder.mExplosiveName,
-//                        holder.mCardView);
-//                builder.show();
                 // TODO: Need to disable this if we're in the other side....could set a member var
-                if(!holder.mCardBackShowing){
+                if (!holder.mCardBackShowing) {
                     clockedTime = NewTrainingFragment.time.getText().toString();
-//                    AnimationFactory.flipTransition(holder.mViewFlipper, AnimationFactory.FlipDirection.LEFT_RIGHT);
                     holder.mViewFlipper.showNext();
                     holder.mCardBackShowing = true;
                 }
             }
         });
 
-//        holder.mAddCommentButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ((NewSessionActivity)mParent).showNotesDialog(holder.mNotesContent, holder.mExplosiveName.getText().toString());
-//                // Need to make the view comments button visible
-//                holder.mViewCommentsButton.setVisibility(View.VISIBLE);
-//
-//            }
-//        });
+        holder.mFoundButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // flip back the card
+                holder.mViewFlipper.showNext();
+                holder.mCardBackShowing = false;
+
+                // Log to the session
+                Tuple<Explosive, String> loggedTime = new Tuple<>(mDataset[position], clockedTime);
+                ((NewSessionActivity) mParent).session.logTime(loggedTime);
+
+                // Update the textview with the logged time
+                holder.mDuration.setVisibility(View.VISIBLE);
+                holder.mDuration.setText(" found in " + clockedTime);
+
+                // make the add notes button enabled
+                holder.mAddNotesButton.setVisibility(View.VISIBLE);
+                holder.mAddNotesButton.setClickable(true);
+
+                // Make the found button go away but still occupy space
+                holder.mFoundButton.setVisibility(View.INVISIBLE);
+                holder.mFoundButton.setClickable(false);
+
+                mExplosivesLeftToFind--;
+                if(mExplosivesLeftToFind == 0){
+                    switchToReviewSessionScreen();
+                }
+            }
+        });
 
         holder.mAddNotesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((NewSessionActivity)mParent).showNotesDialog(holder.mNotesContent, holder.mExplosiveName.getText().toString());
-            }
-        });
-
-        holder.mFoundButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                ((NewSessionActivity)mParent).
+                ((NewSessionActivity)mParent).showNotesDialog(position, holder.mExplosiveName.getText().toString());
             }
         });
 
@@ -344,7 +338,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
                 holder.mViewFlipper.showNext();
                 holder.mCardBackShowing = false;
 
-                // TODO: INSERT COOL ANIMATION
+                // TODO: INSERT COOL ANIMATION back to front
             }
         });
     }
@@ -386,9 +380,9 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
 
                 // Disable the cardview from being clicked again after being found
                 cv.setEnabled(false);
-                mExplosiveFoundCount--;
-                if(mExplosiveFoundCount == 0){
-                    launchCompleteSessionDialog();
+                mExplosivesLeftToFind--;
+                if(mExplosivesLeftToFind == 0){
+//                    launchCompleteSessionDialog();
                 }
             }
         });
@@ -403,24 +397,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
     }
 
 
-    public void launchCompleteSessionDialog(){
-
-        /*// 1. Instantiate an AlertDialog.Builder with its constructor
-        AlertDialog.Builder builder = new AlertDialog.Builder(mParent);
-
-        String title = "Complete training session";
-        String message = "All explosives found, session complete?";
-        builder.setMessage(message)
-                .setTitle(title)
-        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(mParent, "TODO: Session completed", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        builder.show();*/
+    public void switchToReviewSessionScreen(){
 
         mParent.getFragmentManager().beginTransaction()
                 .replace(R.id.new_session_fragment, new FinishedSessionFragment())

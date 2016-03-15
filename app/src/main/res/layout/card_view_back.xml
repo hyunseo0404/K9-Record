@@ -25,13 +25,16 @@
             android:id="@+id/blankButton"
             android:visibility="invisible"
             android:clickable="false"
-            android:layout_weight=".25" />
+            android:layout_weight=".25"
+            />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/addNotesButton"
             android:src="@drawable/ic_add_note"
-            android:layout_weight=".25" />
+            android:visibility="invisible"
+            android:layout_weight=".25"
+            android:clickable="false"/>
 
 </LinearLayout>

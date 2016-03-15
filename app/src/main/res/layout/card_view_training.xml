@@ -21,8 +21,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                >
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -31,7 +30,15 @@
                     android:text="@string/explosive_name_label"
                     android:id="@+id/explosiveName"
                     android:layout_alignParentTop="true"
-                    android:paddingBottom="16dp" />
+                    android:paddingBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/duration"
+                    android:visibility="invisible"
+                    android:layout_toEndOf="@+id/explosiveName"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -41,8 +48,7 @@
                     android:id="@+id/explosiveAmount"
                     android:layout_alignStart="@id/explosiveName"
                     android:layout_below="@+id/explosiveName"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="16dp" />
+                    android:paddingBottom="8dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -54,11 +60,6 @@
                     android:layout_below="@+id/explosiveAmount"
                     android:layout_alignParentBottom="true"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/duration"/>
 
                 <!--<ImageButton-->
                     <!--android:layout_width="wrap_content"-->

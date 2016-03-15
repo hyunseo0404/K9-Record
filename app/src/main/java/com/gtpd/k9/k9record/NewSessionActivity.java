@@ -11,9 +11,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-public class NewSessionActivity extends AppCompatActivity implements NewTrainingFragment.OnFragmentInteractionListener {
+public class NewSessionActivity extends AppCompatActivity implements NewTrainingFragment.OnFragmentInteractionListener,
+        NotesDialogFragment.OnCompleteListener {
 
     public static TrainingSession session;
+
+    private DialogFragment addNotesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
         // TODO
     }
 
-    public void showNotesDialog(String content, String explosiveName){
+    public void showNotesDialog(int selectedPos, String explosiveName){
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("notesDialog");
         if (prev != null) {
@@ -61,7 +64,19 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
         }
         ft.addToBackStack(null);
 
-        DialogFragment addNotesFragment = NotesDialogFragment.newInstance(content, explosiveName);
+        addNotesFragment = NotesDialogFragment.newInstance(selectedPos, explosiveName);
         addNotesFragment.show(ft, "notesDialog");
+    }
+
+    @Override
+    public void onComplete(int selectedPos, String noteContent) {
+        Tuple<Explosive, String> note = new Tuple<>(session.explosives.get(selectedPos), noteContent);
+        session.addNotes(note);
+        addNotesFragment.dismiss();
+    }
+
+    @Override
+    public void dismiss(){
+        addNotesFragment.dismiss();
     }
 }
