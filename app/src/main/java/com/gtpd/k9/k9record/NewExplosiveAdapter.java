@@ -119,6 +119,9 @@ public class NewExplosiveAdapter extends RecyclerView.Adapter<NewExplosiveAdapte
                 });
 
                 dialog.show();
+
+                quantityEditText.setFocusableInTouchMode(true);
+                quantityEditText.requestFocus();
             }
         }
     }

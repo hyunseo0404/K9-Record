@@ -97,6 +97,8 @@ public class NewTrainingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_training, container, false);
 
+        ((NewSessionActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_white_24dp);
+
         getActivity().setTitle("New Session");
 
         butnstart = (Button) view.findViewById(R.id.startTraining);
@@ -328,7 +330,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         holder.mAddNotesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((NewSessionActivity)mParent).showNotesDialog(position, holder.mExplosiveName.getText().toString());
+                ((NewSessionActivity) mParent).showNotesDialog(position, holder.mExplosiveName.getText().toString());
             }
         });
 

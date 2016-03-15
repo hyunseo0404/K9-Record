@@ -34,6 +34,8 @@ public class FinishedSessionFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_finished_session, container, false);
         setHasOptionsMenu(true);
 
+        ((NewSessionActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_white_24dp);
+
         this.getActivity().setTitle("Review");
 
         //Fill all the text views

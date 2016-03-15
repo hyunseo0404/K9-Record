@@ -56,15 +56,15 @@ public class ExplosiveSelectionFragment extends Fragment {
                     recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
                     ArrayList<Explosive> explosives = new ArrayList<>(Arrays.asList(
-                            new Explosive("C4", 1.5, Explosive.Unit.KG, "Somewhere", R.mipmap.ic_launcher),
-                            new Explosive("Nitro", 2.0, Explosive.Unit.LB, "Somewhere", R.mipmap.ic_launcher),
-                            new Explosive("Gunpowder", 300, Explosive.Unit.G, "Somewhere", R.mipmap.ic_launcher),
-                            new Explosive("C4", 1.5, Explosive.Unit.KG, "Somewhere", R.mipmap.ic_launcher),
-                            new Explosive("Nitro", 2.0, Explosive.Unit.LB, "Somewhere", R.mipmap.ic_launcher),
-                            new Explosive("Gunpowder", 300, Explosive.Unit.G, "Somewhere", R.mipmap.ic_launcher),
-                            new Explosive("C4", 1.5, Explosive.Unit.KG, "Somewhere", R.mipmap.ic_launcher),
-                            new Explosive("Nitro", 2.0, Explosive.Unit.LB, "Somewhere", R.mipmap.ic_launcher),
-                            new Explosive("Gunpowder", 300, Explosive.Unit.G, "Somewhere", R.mipmap.ic_launcher)  // FIXME: test values
+                            new Explosive("C4", R.mipmap.ic_launcher),
+                            new Explosive("Nitro", R.mipmap.ic_launcher),
+                            new Explosive("Gunpowder", R.mipmap.ic_launcher),
+                            new Explosive("C4", R.mipmap.ic_launcher),
+                            new Explosive("Nitro", R.mipmap.ic_launcher),
+                            new Explosive("Gunpowder", R.mipmap.ic_launcher),
+                            new Explosive("C4", R.mipmap.ic_launcher),
+                            new Explosive("Nitro", R.mipmap.ic_launcher),
+                            new Explosive("Gunpowder", R.mipmap.ic_launcher)
                     ));
 
                     recyclerView.setAdapter(new NewExplosiveAdapter(explosives, getActivity()));
