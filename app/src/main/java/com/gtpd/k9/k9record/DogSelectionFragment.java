@@ -33,7 +33,7 @@ public class DogSelectionFragment extends Fragment {
                 new Dog("Cory", "Black Labrador", R.drawable.black_lab), new Dog("Max", "German Shepherd", R.mipmap.ic_launcher), new Dog("Molly", "Golden Retriever", R.mipmap.ic_launcher)  // FIXME: test values
         ));
 
-        DogAdapter dogAdapter = new DogAdapter(dogs);
+        final DogAdapter dogAdapter = new DogAdapter(dogs);
         RecyclerView dogList = (RecyclerView) view.findViewById(R.id.dogList);
         dogList.setAdapter(dogAdapter);
         dogList.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -42,6 +42,8 @@ public class DogSelectionFragment extends Fragment {
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                NewSessionActivity.session = new TrainingSession(dogAdapter.selectedDogHolder.getDog());
+
                 getFragmentManager().beginTransaction()
                         .replace(R.id.new_session_fragment, new ExplosiveSelectionFragment(), "explosive")
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
