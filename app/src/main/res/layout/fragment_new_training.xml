@@ -5,43 +5,22 @@
     tools:context="com.gtpd.k9.k9record.NewTrainingFragment">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/timerText"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Start Training"-->
+        <!--android:id="@+id/startTraining"-->
+        <!--android:layout_gravity="top|center_horizontal"-->
+        <!--android:layout_alignTop="@+id/reset"-->
+        <!--android:layout_alignParentStart="true" />-->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Training"
-        android:id="@+id/startTraining"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_alignTop="@+id/reset"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Session Time:"
-        android:id="@+id/timerTitleLabel"
-        android:layout_gravity="left|top"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:paddingEnd="16dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reset"
-        android:id="@+id/reset"
-        android:layout_below="@+id/timerText"
-        android:layout_toEndOf="@+id/startTraining" />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Reset"-->
+        <!--android:id="@+id/reset"-->
+        <!--android:layout_below="@+id/timerText"-->
+        <!--android:layout_toEndOf="@+id/startTraining" />-->
 
     <!--<GridView-->
         <!--android:layout_width="wrap_content"-->
@@ -53,7 +32,6 @@
         android:id="@+id/training_recycler_view"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/startTraining" />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
