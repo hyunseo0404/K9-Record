@@ -31,7 +31,7 @@
 
         <EditText
             android:id="@+id/quantityEditText"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:inputType="numberDecimal" />
@@ -41,7 +41,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:entries="@array/unit_array"
             android:prompt="@string/unit_prompt" />
 
     </LinearLayout>
@@ -68,19 +67,6 @@
             android:maxLines="5" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/errorTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="5dp"
-        android:visibility="gone"
-        android:text="@string/quantity_error_text"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#B0171F" />
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -5,7 +5,7 @@
     android:id="@+id/newExplosiveGridView"
     android:background="@android:color/white"
     android:fitsSystemWindows="true"
-    tools:context="com.gtpd.k9.k9record.NewExplosiveFragment">
+    tools:context="com.gtpd.k9.k9record.ExplosiveSelectionFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/newExplosiveList"

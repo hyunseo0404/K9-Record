@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -84,18 +85,23 @@ public class NewExplosiveAdapter extends RecyclerView.Adapter<NewExplosiveAdapte
                 Button addButton = (Button) dialog.findViewById(R.id.addButton);
                 Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
 
+                String[] unitArray = context.getResources().getStringArray(explosive.unitResource);
+                ArrayAdapter<String> unitArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, unitArray);
+                unitArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                unitSpinner.setAdapter(unitArrayAdapter);
+
                 addButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String quantityString = quantityEditText.getText().toString();
 
                         if (quantityString.isEmpty() || quantityString.equals(".")) {
-                            dialog.findViewById(R.id.errorTextView).setVisibility(View.VISIBLE);
                             Animation shakeAnimation = AnimationUtils.loadAnimation(context, R.anim.dialog_shake);
                             shakeAnimation.setRepeatCount(2);
                             shakeAnimation.setDuration(100);
                             quantityEditText.startAnimation(shakeAnimation);
                             quantityEditText.requestFocus();
+                            quantityEditText.setError("Quantity value is required!");
                             return;
                         }
 
@@ -103,7 +109,7 @@ public class NewExplosiveAdapter extends RecyclerView.Adapter<NewExplosiveAdapte
                         Explosive.Unit unit = Explosive.Unit.valueOf(unitSpinner.getSelectedItem().toString());
                         String location = locationEditText.getText().toString();
 
-                        Explosive newExplosive = new Explosive(explosive.name, quantity, unit, location, explosive.imageResource);
+                        Explosive newExplosive = new Explosive(explosive.name, quantity, unit, location, explosive.imageResource, explosive.unitResource);
                         FragmentManager fragmentManager = ((FragmentActivity) context).getFragmentManager();
                         ((ExplosiveSelectionFragment) fragmentManager.findFragmentByTag("explosive")).addExplosive(newExplosive);
 

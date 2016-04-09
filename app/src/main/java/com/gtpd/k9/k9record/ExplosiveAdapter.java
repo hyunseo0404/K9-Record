@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -85,7 +86,7 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
             this.explosive = explosive;
             explosiveImageView.setImageResource(explosive.imageResource);
             explosiveNameTextView.setText(explosive.name);
-            explosiveQuantityTextView.setText(itemView.getContext().getString(R.string.explosive_quantity, Double.toString(explosive.quantity), explosive.unit.name().toLowerCase()));
+            explosiveQuantityTextView.setText(explosive.getQuantityAsString());
 
             if (explosive.location.isEmpty()) {
                 explosiveLocationTextView.setText("Location Unknown");
@@ -119,6 +120,11 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
                 Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
                 Button removeButton = (Button) dialog.findViewById(R.id.removeButton);
 
+                String[] unitArray = context.getResources().getStringArray(explosive.unitResource);
+                ArrayAdapter<String> unitArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, unitArray);
+                unitArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                unitSpinner.setAdapter(unitArrayAdapter);
+
                 addButton.setVisibility(View.GONE);
                 updateButton.setVisibility(View.VISIBLE);
                 removeButton.setVisibility(View.VISIBLE);
@@ -129,12 +135,12 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
                         String quantityString = quantityEditText.getText().toString();
 
                         if (quantityString.isEmpty() || quantityString.equals(".")) {
-                            dialog.findViewById(R.id.errorTextView).setVisibility(View.VISIBLE);
                             Animation shakeAnimation = AnimationUtils.loadAnimation(context, R.anim.dialog_shake);
                             shakeAnimation.setRepeatCount(2);
                             shakeAnimation.setDuration(100);
                             quantityEditText.startAnimation(shakeAnimation);
                             quantityEditText.requestFocus();
+                            quantityEditText.setError("Quantity value is required!");
                             return;
                         }
 
