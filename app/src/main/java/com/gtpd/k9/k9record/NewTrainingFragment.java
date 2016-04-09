@@ -23,7 +23,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -37,19 +41,6 @@ import android.widget.ViewFlipper;
 public class NewTrainingFragment extends Fragment {
 
     private Menu mMenu;
-
-    // Timer related variables
-    Button butnstart, butnreset;
-    static TextView time;
-    long starttime = 0L;
-    long timeInMilliseconds = 0L;
-    long timeSwapBuff = 0L;
-    long updatedtime = 0L;
-    int t = 1;
-    int secs = 0;
-    int mins = 0;
-    int milliseconds = 0;
-    Handler handler;
 
     private RecyclerView mRecView;
     private OnFragmentInteractionListener mListener;
@@ -73,23 +64,7 @@ public class NewTrainingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        handler = new Handler();
     }
-
-    public Runnable updateTimer = new Runnable() {
-        public void run() {
-            timeInMilliseconds = SystemClock.uptimeMillis() - starttime;
-            updatedtime = timeSwapBuff + timeInMilliseconds;
-            secs = (int) (updatedtime / 1000);
-            mins = secs / 60;
-            secs = secs % 60;
-            milliseconds = (int) (updatedtime % 1000);
-            time.setText("" + mins + ":" + String.format("%02d", secs) + ":"
-                    + String.format("%03d", milliseconds));
-            time.setTextColor(Color.RED);
-            handler.postDelayed(this, 0);
-        }
-    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,50 +76,6 @@ public class NewTrainingFragment extends Fragment {
         ((NewSessionActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_white_24dp);
 
         getActivity().setTitle("New Session");
-
-        butnstart = (Button) view.findViewById(R.id.startTraining);
-        butnreset = (Button) view.findViewById(R.id.reset);
-        time = (TextView) view.findViewById(R.id.timerText);
-
-        butnstart.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (t == 1) {
-                    butnstart.setText("Pause");
-                    starttime = SystemClock.uptimeMillis();
-                    handler.postDelayed(updateTimer, 0);
-                    t = 0;
-                    MenuItem finishSession = mMenu.findItem(R.id.action_finish_session);
-                    finishSession.setEnabled(true);
-                } else {
-                    butnstart.setText("Start");
-                    time.setTextColor(Color.BLUE);
-                    timeSwapBuff += timeInMilliseconds;
-                    handler.removeCallbacks(updateTimer);
-                    t = 1;
-                }
-            }
-        });
-
-        butnreset.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                starttime = 0L;
-                timeInMilliseconds = 0L;
-                timeSwapBuff = 0L;
-                updatedtime = 0L;
-                t = 1;
-                secs = 0;
-                mins = 0;
-                milliseconds = 0;
-                butnstart.setText("Start");
-                handler.removeCallbacks(updateTimer);
-                time.setText("00:00:00");
-            }
-        });
 
         mRecView = (RecyclerView) view.findViewById(R.id.training_recycler_view);
         mRecView.setHasFixedSize(true);
@@ -158,8 +89,6 @@ public class NewTrainingFragment extends Fragment {
         TrainingCardAdapter mAdapter = new TrainingCardAdapter(expArr, getActivity());
         mRecView.setAdapter(mAdapter);
 
-        // Reset the time
-        time.setText("00:00:00");
         return view;
     }
 
@@ -214,7 +143,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
     private Explosive[] mDataset;
     private Activity mParent;
     private int mExplosivesLeftToFind;
-    private String clockedTime;
+//    private String clockedTime;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -226,8 +155,10 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         public TextView mExplosiveAmount;
         public TextView mHidingPlace;
         public TextView mDuration;
-//        public String mNotesContent;
         public ViewFlipper mViewFlipper;
+        public Button mStartButton;
+        public Button mResetButton;
+        public TextView mEllapsedTime;
 
         // For other card layout
         public ImageButton mFlipButton;
@@ -239,11 +170,14 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
             super(v);
             mCardView = (CardView)v.findViewById(R.id.cv);
 
+            mStartButton = (Button) v.findViewById(R.id.startIndividualButton);
+            mResetButton = (Button) v.findViewById(R.id.resetIndividualButton);
+            mEllapsedTime = (TextView) v.findViewById(R.id.ellapsedTime);
+
             mExplosiveName = (TextView)v.findViewById(R.id.explosiveName);
             mExplosiveAmount = (TextView)v.findViewById(R.id.explosiveAmount);
             mHidingPlace = (TextView)v.findViewById(R.id.hidingPlace);
             mDuration = (TextView)v.findViewById(R.id.duration);
-//            mNotesContent = "";
 
             mFlipButton = (ImageButton) v.findViewById(R.id.flipBackButton);
             mFoundButton = (ImageButton) v.findViewById(R.id.confirmFoundButton);
@@ -284,15 +218,30 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         holder.mExplosiveAmount.setText("" + mDataset[position].quantity + " " + (mDataset[position].unit).toString().toLowerCase());
         holder.mHidingPlace.setText("" + mDataset[position].location);
 
+        holder.mStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(((NewSessionActivity) mParent).session.activeExplosiveIndex == -1){
+                    holder.mStartButton.setVisibility(View.GONE);
+                    holder.mEllapsedTime.setText("ACTIVE");
+                    ((NewSessionActivity) mParent).session.activeExplosiveIndex = position;
+                    mDataset[position].setStartTime(new Timestamp((new Date()).getTime()));
+                } else {
+                    Toast.makeText(mParent, "ANOTHER AID IS CURRENTLY ACTIVE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // TODO: Need to disable this if we're in the other side....could set a member var
-                if (!holder.mCardBackShowing) {
-                    clockedTime = NewTrainingFragment.time.getText().toString();
-                    holder.mViewFlipper.showNext();
-                    holder.mCardBackShowing = true;
+                if(((NewSessionActivity) mParent).session.activeExplosiveIndex == position) {
+                    // TODO: Need to disable this if we're in the other side....could set a member var
+                    if (!holder.mCardBackShowing) {
+                        //clockedTime = NewTrainingFragment.time.getText().toString();
+                        holder.mViewFlipper.showNext();
+                        holder.mCardBackShowing = true;
+                    }
                 }
             }
         });
@@ -305,9 +254,15 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
                 holder.mViewFlipper.showNext();
                 holder.mCardBackShowing = false;
 
+                java.util.Date date= new java.util.Date();
+                Timestamp time = new Timestamp(date.getTime());
+                mDataset[position].setEndTime(time);
+                String clockedTime = mDataset[position].getEllapsedTime();
+
                 // Log to the session
                 Tuple<Explosive, String> loggedTime = new Tuple<>(mDataset[position], clockedTime);
                 ((NewSessionActivity) mParent).session.logTime(loggedTime);
+                ((NewSessionActivity) mParent).session.activeExplosiveIndex = -1;
 
                 // Update the textview with the logged time
                 holder.mDuration.setVisibility(View.VISIBLE);
@@ -322,10 +277,13 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
                 holder.mFoundButton.setClickable(false);
 
                 mExplosivesLeftToFind--;
+
+
                 if(mExplosivesLeftToFind == 0){
 
                     switchToReviewSessionScreen();
                 }
+
             }
         });
 

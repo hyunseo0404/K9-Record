@@ -9,6 +9,8 @@ public class TrainingSession {
     public Dog dog;
     public List<Explosive> explosives;
 
+    public int activeExplosiveIndex = -1;
+
     private Date trainingStartDate;
     private int trainingRunTime;
     private int temperature;
