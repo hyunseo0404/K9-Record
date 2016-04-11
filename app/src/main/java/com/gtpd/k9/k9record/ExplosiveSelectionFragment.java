@@ -22,9 +22,12 @@ import java.util.Arrays;
 public class ExplosiveSelectionFragment extends Fragment {
 
     private ExplosiveAdapter explosiveAdapter;
+    private FloatingActionButton fab;
     private LinearLayout emptyListLayout;
     private Button startButton;
+    private View startView;
     private Dialog explosiveDialog;
+    private boolean startViewShown = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,13 +41,12 @@ public class ExplosiveSelectionFragment extends Fragment {
 
         getActivity().setTitle("Select Explosives");
 
-        explosiveAdapter = new ExplosiveAdapter(new ArrayList<Explosive>(), getActivity());
+        explosiveAdapter = new ExplosiveAdapter(new ArrayList<Explosive>(), getActivity(), this);
         RecyclerView explosiveList = (RecyclerView) view.findViewById(R.id.explosiveList);
         explosiveList.setAdapter(explosiveAdapter);
         explosiveList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        //Grab the action button for the item touch listener
-        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.add_fab);
+        fab = (FloatingActionButton) view.findViewById(R.id.addFab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +105,8 @@ public class ExplosiveSelectionFragment extends Fragment {
             }
         });
 
+        startView = view.findViewById(R.id.startView);
+
         return view;
     }
 
@@ -128,6 +132,18 @@ public class ExplosiveSelectionFragment extends Fragment {
     public void closeExplosiveDialog() {
         if (explosiveDialog != null) {
             explosiveDialog.dismiss();
+        }
+    }
+
+    public void animateContinueButton(final boolean show) {
+        if (show && !startViewShown) {
+            startView.animate().translationYBy(-startView.getHeight());
+            fab.animate().translationYBy(-startView.getHeight());
+            startViewShown = true;
+        } else if (!show && startViewShown) {
+            startView.animate().translationYBy(startView.getHeight());
+            fab.animate().translationYBy(startView.getHeight());
+            startViewShown = false;
         }
     }
 }

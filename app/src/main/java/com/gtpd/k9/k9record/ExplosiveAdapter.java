@@ -28,11 +28,13 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
     public List<Explosive> explosives;
 
     private Context context;
+    private ExplosiveSelectionFragment fragment;
 
-    public ExplosiveAdapter(List<Explosive> explosives, Context context) {
+    public ExplosiveAdapter(List<Explosive> explosives, Context context, ExplosiveSelectionFragment fragment) {
         this.explosives = explosives;
         this.selected = new ArrayList<>();
         this.context = context;
+        this.fragment = fragment;
     }
 
     @Override
@@ -54,6 +56,7 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
     public void addExplosive(Explosive explosive) {
         explosives.add(explosive);
         notifyItemInserted(explosives.size() - 1);
+        fragment.animateContinueButton(true);
     }
 
     public void updateExplosive(int explosivePosition) {
@@ -63,6 +66,10 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
     public void removeExplosive(int removePosition) {
         explosives.remove(removePosition);
         notifyItemRemoved(removePosition);
+
+        if (explosives.isEmpty()) {
+            fragment.animateContinueButton(false);
+        }
     }
 
     public class ExplosiveHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,6 +17,9 @@ import java.util.Comparator;
 
 
 public class DogSelectionFragment extends Fragment {
+
+    private View continueView;
+    private boolean continueViewShown = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,12 +49,12 @@ public class DogSelectionFragment extends Fragment {
             }
         });
 
-        final DogAdapter dogAdapter = new DogAdapter(myDogs, dogs);
+        final DogAdapter dogAdapter = new DogAdapter(myDogs, dogs, this);
         RecyclerView dogList = (RecyclerView) view.findViewById(R.id.dogList);
         dogList.setAdapter(dogAdapter);
         dogList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        final Button continueButton = (Button) view.findViewById(R.id.continueButton);
+        Button continueButton = (Button) view.findViewById(R.id.continueButton);
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,15 +68,18 @@ public class DogSelectionFragment extends Fragment {
             }
         });
 
-        // Listen for any touch in the dog selection
-        dogList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                continueButton.setVisibility(View.VISIBLE);
-                return false;
-            }
-        });
+        continueView = view.findViewById(R.id.continueView);
 
         return view;
+    }
+
+    public void animateContinueButton(final boolean show) {
+        if (show && !continueViewShown) {
+            continueView.animate().translationYBy(-continueView.getHeight());
+            continueViewShown = true;
+        } else if (!show && continueViewShown) {
+            continueView.animate().translationYBy(continueView.getHeight());
+            continueViewShown = false;
+        }
     }
 }

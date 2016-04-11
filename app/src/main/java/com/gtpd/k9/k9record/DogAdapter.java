@@ -18,10 +18,12 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Dog> myDogs;
     private List<Dog> dogs;
+    private DogSelectionFragment fragment;
 
-    public DogAdapter(List<Dog> myDogs, List<Dog> dogs) {
+    public DogAdapter(List<Dog> myDogs, List<Dog> dogs, DogSelectionFragment fragment) {
         this.myDogs = myDogs;
         this.dogs = dogs;
+        this.fragment = fragment;
     }
 
     @Override
@@ -89,6 +91,7 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 dogSelectedImageView.setVisibility(View.VISIBLE);
                 selectedDogHolder = this;
+                fragment.animateContinueButton(true);
             }
         }
 
