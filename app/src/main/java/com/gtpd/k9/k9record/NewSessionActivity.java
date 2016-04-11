@@ -8,7 +8,6 @@ import android.app.FragmentTransaction;
 import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -28,7 +27,7 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getFragmentManager().beginTransaction().replace(R.id.new_session_fragment, new DogSelectionFragment()).commit();
+        getFragmentManager().beginTransaction().add(R.id.newSessionContent, new DogSelectionFragment()).commit();
     }
 
     @Override

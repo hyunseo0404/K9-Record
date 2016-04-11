@@ -59,7 +59,7 @@ public class DogSelectionFragment extends Fragment {
                 NewSessionActivity.session = new TrainingSession(dogAdapter.selectedDogHolder.getDog());
 
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.new_session_fragment, new ExplosiveSelectionFragment(), "explosive")
+                        .replace(R.id.newSessionContent, new ExplosiveSelectionFragment(), "explosive")
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .addToBackStack(null)
                         .commit();

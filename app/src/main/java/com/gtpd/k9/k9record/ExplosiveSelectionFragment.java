@@ -97,7 +97,7 @@ public class ExplosiveSelectionFragment extends Fragment {
                 getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 NewTrainingFragment trainingFragment = NewTrainingFragment.newInstance();
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.new_session_fragment, trainingFragment)
+                        .replace(R.id.newSessionContent, trainingFragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .commit();
             }
