@@ -75,7 +75,8 @@ public class NotesDialogFragment extends DialogFragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onComplete(mSelectedPos, ((EditText)et).getText().toString());
+                ((NewSessionActivity)getActivity()).promptSpeechInput();
+//                mListener.onComplete(mSelectedPos, ((EditText)et).getText().toString());
             }
         });
 
@@ -86,7 +87,6 @@ public class NotesDialogFragment extends DialogFragment {
                 mListener.dismiss();
             }
         });
-
 
         return v;
     }
