@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,9 +22,12 @@ import java.util.Arrays;
 public class ExplosiveSelectionFragment extends Fragment {
 
     private ExplosiveAdapter explosiveAdapter;
+    private FloatingActionButton fab;
     private LinearLayout emptyListLayout;
     private Button startButton;
+    private View startView;
     private Dialog explosiveDialog;
+    private boolean startViewShown = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,13 +41,12 @@ public class ExplosiveSelectionFragment extends Fragment {
 
         getActivity().setTitle("Select Explosives");
 
-        explosiveAdapter = new ExplosiveAdapter(new ArrayList<Explosive>(), getActivity());
+        explosiveAdapter = new ExplosiveAdapter(new ArrayList<Explosive>(), getActivity(), this);
         RecyclerView explosiveList = (RecyclerView) view.findViewById(R.id.explosiveList);
         explosiveList.setAdapter(explosiveAdapter);
         explosiveList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        //Grab the action button for the item touch listener
-        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.add_fab);
+        fab = (FloatingActionButton) view.findViewById(R.id.addFab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,19 +57,31 @@ public class ExplosiveSelectionFragment extends Fragment {
                     recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
                     ArrayList<Explosive> explosives = new ArrayList<>(Arrays.asList(
-                            new Explosive("C4", R.mipmap.ic_launcher),
-                            new Explosive("Nitro", R.mipmap.ic_launcher),
-                            new Explosive("Gunpowder", R.mipmap.ic_launcher),
-                            new Explosive("C4", R.mipmap.ic_launcher),
-                            new Explosive("Nitro", R.mipmap.ic_launcher),
-                            new Explosive("Gunpowder", R.mipmap.ic_launcher),
-                            new Explosive("C4", R.mipmap.ic_launcher),
-                            new Explosive("Nitro", R.mipmap.ic_launcher),
-                            new Explosive("Gunpowder", R.mipmap.ic_launcher)
+                            new Explosive("C4 Military", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("C4 Civilian", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("TNT", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("Semtex", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("Black Powder", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("Single Base Smokeless Powder", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("Double Base Smokeless Powder", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("Deta Sheet", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("Cast Booster", R.mipmap.ic_launcher, R.array.unit_array_stick),
+                            new Explosive("Safety Fuse", R.mipmap.ic_launcher, R.array.unit_array_length),
+                            new Explosive("Det Cord", R.mipmap.ic_launcher, R.array.unit_array_length),
+                            new Explosive("Water Gel", R.mipmap.ic_launcher, R.array.unit_array_stick),
+                            new Explosive("Dynamite", R.mipmap.ic_launcher, R.array.unit_array_stick),
+                            new Explosive("Dyno AP", R.mipmap.ic_launcher, R.array.unit_array_stick),
+                            new Explosive("Ammonium Nitrate", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("Potassium Perchlorate", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("Ammonium Perchlorate", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("Comp B", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("HMX", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("TATP", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("HMTD", R.mipmap.ic_launcher, R.array.unit_array_weight),
+                            new Explosive("Urea Nitrate", R.mipmap.ic_launcher, R.array.unit_array_weight)
                     ));
 
                     recyclerView.setAdapter(new NewExplosiveAdapter(explosives, getActivity()));
-                    recyclerView.addItemDecoration(new GridItemDecoration());
 
                     explosiveDialog.show();
                 }
@@ -86,11 +99,13 @@ public class ExplosiveSelectionFragment extends Fragment {
                 getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 NewTrainingFragment trainingFragment = NewTrainingFragment.newInstance();
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.new_session_fragment, trainingFragment)
+                        .replace(R.id.newSessionContent, trainingFragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .commit();
             }
         });
+
+        startView = view.findViewById(R.id.startView);
 
         return view;
     }
@@ -120,18 +135,15 @@ public class ExplosiveSelectionFragment extends Fragment {
         }
     }
 
-    public class GridItemDecoration extends RecyclerView.ItemDecoration {
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view);
-
-            if (position != 0 || position != parent.getAdapter().getItemCount() - 1) {
-                outRect.top = 15;
-                outRect.bottom = 15;
-                outRect.left = 20;
-                outRect.right = 20;
-            }
+    public void animateContinueButton(final boolean show) {
+        if (show && !startViewShown) {
+            startView.animate().translationYBy(-startView.getHeight());
+            fab.animate().translationYBy(-startView.getHeight());
+            startViewShown = true;
+        } else if (!show && startViewShown) {
+            startView.animate().translationYBy(startView.getHeight());
+            fab.animate().translationYBy(startView.getHeight());
+            startViewShown = false;
         }
     }
 }

@@ -37,7 +37,7 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getFragmentManager().beginTransaction().replace(R.id.new_session_fragment, new DogSelectionFragment()).commit();
+        getFragmentManager().beginTransaction().add(R.id.newSessionContent, new DogSelectionFragment()).commit();
     }
 
     @Override

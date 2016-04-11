@@ -6,18 +6,14 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -362,7 +358,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
     public void switchToReviewSessionScreen(){
 
         mParent.getFragmentManager().beginTransaction()
-                .replace(R.id.new_session_fragment, new FinishedSessionFragment())
+                .replace(R.id.newSessionContent, new FinishedSessionFragment())
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
     }
