@@ -13,6 +13,8 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class DogSelectionFragment extends Fragment {
@@ -29,11 +31,23 @@ public class DogSelectionFragment extends Fragment {
 
         getActivity().setTitle("Select Dog");
 
+        ArrayList<Dog> myDogs = new ArrayList<>(Arrays.asList(
+                new Dog("Koda", "Golden Retriever", R.mipmap.ic_launcher),
+                new Dog("Doggy", "Golden Retriever", R.mipmap.ic_launcher)   // FIXME: test values
+        ));
+
         ArrayList<Dog> dogs = new ArrayList<>(Arrays.asList(
                 new Dog("Cory", "Black Labrador", R.drawable.black_lab), new Dog("Max", "German Shepherd", R.mipmap.ic_launcher), new Dog("Molly", "Golden Retriever", R.mipmap.ic_launcher)  // FIXME: test values
         ));
 
-        final DogAdapter dogAdapter = new DogAdapter(dogs);
+        Collections.sort(dogs, new Comparator<Dog>() {
+            @Override
+            public int compare(Dog lhs, Dog rhs) {
+                return lhs.name.compareToIgnoreCase(rhs.name);
+            }
+        });
+
+        final DogAdapter dogAdapter = new DogAdapter(myDogs, dogs);
         RecyclerView dogList = (RecyclerView) view.findViewById(R.id.dogList);
         dogList.setAdapter(dogAdapter);
         dogList.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -52,21 +66,12 @@ public class DogSelectionFragment extends Fragment {
             }
         });
 
-        //Listen for any touch in the dog selection
-        dogList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+        // Listen for any touch in the dog selection
+        dogList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
                 continueButton.setVisibility(View.VISIBLE);
                 return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
             }
         });
 
