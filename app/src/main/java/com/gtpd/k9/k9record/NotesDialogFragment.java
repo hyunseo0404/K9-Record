@@ -15,11 +15,10 @@ import android.widget.TextView;
  */
 public class NotesDialogFragment extends DialogFragment {
 
-
-    private String mNotesContent;
     private int mSelectedPos;
     private String mExplosiveName;
     private OnCompleteListener mListener;
+    private EditText mNotesContentET;
 
     public static interface OnCompleteListener {
         public abstract void onComplete(int selectedPos, String noteContent);
@@ -67,16 +66,24 @@ public class NotesDialogFragment extends DialogFragment {
 
         getDialog().setTitle("Add Note");
         View v = inflater.inflate(R.layout.fragment_add_notes, container, false);
-        final View et = v.findViewById(R.id.notesEditText);
-        ((EditText) et).setHint(((EditText) et).getHint() + mExplosiveName);
+        mNotesContentET = (EditText) v.findViewById(R.id.notesEditText);
+        mNotesContentET.setHint(mNotesContentET.getHint() + mExplosiveName + "\nLong press to use speech to text");
+
+
+        mNotesContentET.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ((NewSessionActivity)getActivity()).promptSpeechInput();
+                return true;
+            }
+        });
 
 
         Button save = (Button) v.findViewById(R.id.saveNotesButton);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((NewSessionActivity)getActivity()).promptSpeechInput();
-//                mListener.onComplete(mSelectedPos, ((EditText)et).getText().toString());
+                mListener.onComplete(mSelectedPos, mNotesContentET.getText().toString());
             }
         });
 
@@ -89,5 +96,9 @@ public class NotesDialogFragment extends DialogFragment {
         });
 
         return v;
+    }
+
+    public void setNotesContent(String content) {
+        mNotesContentET.setText(mNotesContentET.getText() + " " + content);
     }
 }

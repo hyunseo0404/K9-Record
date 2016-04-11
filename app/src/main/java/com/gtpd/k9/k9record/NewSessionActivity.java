@@ -75,7 +75,6 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
         ft.addToBackStack(null);
 
         addNotesFragment = NotesDialogFragment.newInstance(selectedPos, explosiveName);
-//        addNotesFragment
         addNotesFragment.show(ft, "notesDialog");
     }
 
@@ -125,11 +124,10 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     Log.d("NEWSESSION", result.get(0));
-                    //txtSpeechInput.setText(result.get(0));
+                    ((NotesDialogFragment)addNotesFragment).setNotesContent(result.get(0));
                 }
                 break;
             }
-
         }
     }
 }
