@@ -231,14 +231,12 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
             @Override
             public void onClick(View v) {
 
-                if(((NewSessionActivity) mParent).session.activeExplosiveIndex == position) {
-                    // TODO: Need to disable this if we're in the other side....could set a member var
-                    if (!holder.mCardBackShowing) {
-                        //clockedTime = NewTrainingFragment.time.getText().toString();
-                        holder.mViewFlipper.showNext();
-                        holder.mCardBackShowing = true;
-                    }
+//                if(((NewSessionActivity) mParent).session.activeExplosiveIndex == position) {
+                if (!holder.mCardBackShowing) {
+                    holder.mViewFlipper.showNext();
+                    holder.mCardBackShowing = true;
                 }
+//                }
             }
         });
 
@@ -272,14 +270,12 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
                 holder.mFoundButton.setVisibility(View.INVISIBLE);
                 holder.mFoundButton.setClickable(false);
 
+                // If the explosive was found decrement the count
                 mExplosivesLeftToFind--;
 
-
                 if(mExplosivesLeftToFind == 0){
-
                     switchToReviewSessionScreen();
                 }
-
             }
         });
 

@@ -50,16 +50,8 @@ public class Explosive {
         startTime = start;
     }
 
-    public Timestamp getStartTime() {
-        return startTime;
-    }
-
     public void setEndTime(Timestamp end){
         endTime = end;
-    }
-
-    public Timestamp getEndTime() {
-        return endTime;
     }
 
     public String getEllapsedTime() {
@@ -67,7 +59,6 @@ public class Explosive {
         long seconds = diff / 1000;
         long minutes = seconds / 60;
         long hours = minutes / 60;
-//        long days = hours / 24;
         String hour_str = (hours < 10) ? "0" + hours: "" + hours;
         String minutes_str = (minutes < 10) ? "0" + minutes: "" + minutes;
         String seconds_str = (seconds < 10) ? "0" + seconds: "" + seconds;
