@@ -15,8 +15,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class ExplosiveSelectionFragment extends Fragment {
@@ -30,6 +34,18 @@ public class ExplosiveSelectionFragment extends Fragment {
     private boolean startViewShown = false;
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null && explosiveAdapter.getItemCount() > 0) {
+            int height = savedInstanceState.getInt("height");
+            startView.setTranslationY(-height);
+            fab.setTranslationY(-height);
+            startViewShown = true;
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -41,7 +57,20 @@ public class ExplosiveSelectionFragment extends Fragment {
 
         getActivity().setTitle("Select Explosives");
 
-        explosiveAdapter = new ExplosiveAdapter(new ArrayList<Explosive>(), getActivity(), this);
+        emptyListLayout = (LinearLayout) view.findViewById(R.id.emptyListLayout);
+
+        List<Explosive> explosives;
+
+        if (savedInstanceState != null) {
+            explosives = new Gson().fromJson(savedInstanceState.getString("explosives"), new TypeToken<List<Explosive>>(){}.getType());
+            if (!explosives.isEmpty()) {
+                emptyListLayout.setVisibility(View.GONE);
+            }
+        } else {
+            explosives = new ArrayList<>();
+        }
+
+        explosiveAdapter = new ExplosiveAdapter(explosives, getActivity(), this);
         RecyclerView explosiveList = (RecyclerView) view.findViewById(R.id.explosiveList);
         explosiveList.setAdapter(explosiveAdapter);
         explosiveList.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -56,7 +85,7 @@ public class ExplosiveSelectionFragment extends Fragment {
                     RecyclerView recyclerView = (RecyclerView) explosiveDialog.findViewById(R.id.newNewExplosiveList);
                     recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
-                    ArrayList<Explosive> explosives = new ArrayList<>(Arrays.asList(
+                    final ArrayList<Explosive> explosives = new ArrayList<>(Arrays.asList(
                             new Explosive("C4 Military", R.mipmap.ic_launcher, R.array.unit_array_weight),
                             new Explosive("C4 Civilian", R.mipmap.ic_launcher, R.array.unit_array_weight),
                             new Explosive("TNT", R.mipmap.ic_launcher, R.array.unit_array_weight),
@@ -88,13 +117,11 @@ public class ExplosiveSelectionFragment extends Fragment {
             }
         });
 
-        emptyListLayout = (LinearLayout) view.findViewById(R.id.emptyListLayout);
-
         startButton = (Button) view.findViewById(R.id.startButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewSessionActivity.session.explosives = explosiveAdapter.explosives;
+                NewSessionActivity.session.explosives = explosiveAdapter.getExplosives();
 
                 getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 NewTrainingFragment trainingFragment = NewTrainingFragment.newInstance();
@@ -135,7 +162,7 @@ public class ExplosiveSelectionFragment extends Fragment {
         }
     }
 
-    public void animateContinueButton(final boolean show) {
+    public void animateStartButton(final boolean show) {
         if (show && !startViewShown) {
             startView.animate().translationYBy(-startView.getHeight());
             fab.animate().translationYBy(-startView.getHeight());
@@ -144,6 +171,16 @@ public class ExplosiveSelectionFragment extends Fragment {
             startView.animate().translationYBy(startView.getHeight());
             fab.animate().translationYBy(startView.getHeight());
             startViewShown = false;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (explosiveAdapter != null) {
+            outState.putString("explosives", new Gson().toJson(explosiveAdapter.getExplosives()));
+            outState.putInt("height", startView.getHeight());
         }
     }
 }

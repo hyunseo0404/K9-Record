@@ -17,22 +17,17 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.ExplosiveHolder> {
 
-    public ArrayList<Explosive> selected;
-
-    public List<Explosive> explosives;
-
+    private List<Explosive> explosives;
     private Context context;
     private ExplosiveSelectionFragment fragment;
 
     public ExplosiveAdapter(List<Explosive> explosives, Context context, ExplosiveSelectionFragment fragment) {
         this.explosives = explosives;
-        this.selected = new ArrayList<>();
         this.context = context;
         this.fragment = fragment;
     }
@@ -56,7 +51,7 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
     public void addExplosive(Explosive explosive) {
         explosives.add(explosive);
         notifyItemInserted(explosives.size() - 1);
-        fragment.animateContinueButton(true);
+        fragment.animateStartButton(true);
     }
 
     public void updateExplosive(int explosivePosition) {
@@ -68,8 +63,12 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
         notifyItemRemoved(removePosition);
 
         if (explosives.isEmpty()) {
-            fragment.animateContinueButton(false);
+            fragment.animateStartButton(false);
         }
+    }
+
+    public List<Explosive> getExplosives() {
+        return explosives;
     }
 
     public class ExplosiveHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
