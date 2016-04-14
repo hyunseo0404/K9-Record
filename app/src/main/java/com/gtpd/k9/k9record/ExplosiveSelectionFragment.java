@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,10 +26,14 @@ import java.util.List;
 
 public class ExplosiveSelectionFragment extends Fragment {
 
+    public static final int NEW = 1;
+    public static final int UPDATE = 2;
+    public static final int REMOVE = 3;
+    public static final int CANCEL = 0;
+
     private ExplosiveAdapter explosiveAdapter;
     private FloatingActionButton fab;
     private LinearLayout emptyListLayout;
-    private Button startButton;
     private View startView;
     private Dialog explosiveDialog;
     private boolean startViewShown = false;
@@ -110,14 +115,14 @@ public class ExplosiveSelectionFragment extends Fragment {
                             new Explosive("Urea Nitrate", R.mipmap.ic_launcher, R.array.unit_array_weight)
                     ));
 
-                    recyclerView.setAdapter(new NewExplosiveAdapter(explosives, getActivity()));
+                    recyclerView.setAdapter(new NewExplosiveAdapter(explosives, getActivity(), ExplosiveSelectionFragment.this));
 
                     explosiveDialog.show();
                 }
             }
         });
 
-        startButton = (Button) view.findViewById(R.id.startButton);
+        Button startButton = (Button) view.findViewById(R.id.startButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,22 +142,26 @@ public class ExplosiveSelectionFragment extends Fragment {
         return view;
     }
 
-    public void addExplosive(Explosive explosive) {
-        explosiveAdapter.addExplosive(explosive);
-        emptyListLayout.setVisibility(View.GONE);
-        startButton.setVisibility(View.VISIBLE);
-    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    public void updateExplosive(int explosivePosition) {
-        explosiveAdapter.updateExplosive(explosivePosition);
-    }
+        if (resultCode == CANCEL) return;
 
-    public void removeExplosive(int explosivePosition) {
-        explosiveAdapter.removeExplosive(explosivePosition);
+        Explosive explosive = new Gson().fromJson(data.getStringExtra("explosive"), Explosive.class);
+        int explosivePosition = data.getIntExtra("explosivePosition", -1);
 
-        if (explosiveAdapter.getItemCount() == 0) {
-            emptyListLayout.setVisibility(View.VISIBLE);
-            startButton.setVisibility(View.GONE);
+        if (resultCode == NEW) {
+            explosiveAdapter.addExplosive(explosive);
+            emptyListLayout.setVisibility(View.GONE);
+        } else if (resultCode == UPDATE) {
+            explosiveAdapter.updateExplosive(explosive, explosivePosition);
+        } else if (resultCode == REMOVE) {
+            explosiveAdapter.removeExplosive(explosivePosition);
+
+            if (explosiveAdapter.getItemCount() == 0) {
+                emptyListLayout.setVisibility(View.VISIBLE);
+            }
         }
     }
 

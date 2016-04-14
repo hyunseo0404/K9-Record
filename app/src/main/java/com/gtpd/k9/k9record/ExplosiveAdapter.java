@@ -1,21 +1,17 @@
 package com.gtpd.k9.k9record;
 
-import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -54,7 +50,8 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
         fragment.animateStartButton(true);
     }
 
-    public void updateExplosive(int explosivePosition) {
+    public void updateExplosive(Explosive explosive, int explosivePosition) {
+        explosives.set(explosivePosition, explosive);
         notifyItemChanged(explosivePosition);
     }
 
@@ -107,81 +104,11 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
                 FragmentManager fragmentManager = ((FragmentActivity) context).getFragmentManager();
                 ((ExplosiveSelectionFragment) fragmentManager.findFragmentByTag("explosive")).closeExplosiveDialog();
 
-                final Dialog dialog = new Dialog(v.getContext());
-                dialog.setContentView(R.layout.explosive_dialog);
-
-                TextView selectedExplosiveName = (TextView) dialog.findViewById(R.id.selectedExplosiveName);
-                selectedExplosiveName.setText(explosive.name);
-
-                final EditText quantityEditText = (EditText) dialog.findViewById(R.id.quantityEditText);
-                final Spinner unitSpinner = (Spinner) dialog.findViewById(R.id.unitSpinner);
-                final EditText locationEditText = (EditText) dialog.findViewById(R.id.locationEditText);
-
-                quantityEditText.setText(Double.toString(explosive.quantity));
-                unitSpinner.setSelection(explosive.unit.ordinal());
-                locationEditText.setText(explosive.location);
-
-                Button addButton = (Button) dialog.findViewById(R.id.addButton);
-                Button updateButton = (Button) dialog.findViewById(R.id.updateButton);
-                Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
-                Button removeButton = (Button) dialog.findViewById(R.id.removeButton);
-
-                String[] unitArray = context.getResources().getStringArray(explosive.unitResource);
-                ArrayAdapter<String> unitArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, unitArray);
-                unitArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                unitSpinner.setAdapter(unitArrayAdapter);
-
-                addButton.setVisibility(View.GONE);
-                updateButton.setVisibility(View.VISIBLE);
-                removeButton.setVisibility(View.VISIBLE);
-
-                updateButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String quantityString = quantityEditText.getText().toString();
-
-                        if (quantityString.isEmpty() || quantityString.equals(".")) {
-                            Animation shakeAnimation = AnimationUtils.loadAnimation(context, R.anim.dialog_shake);
-                            shakeAnimation.setRepeatCount(2);
-                            shakeAnimation.setDuration(100);
-                            quantityEditText.startAnimation(shakeAnimation);
-                            quantityEditText.requestFocus();
-                            quantityEditText.setError("Quantity value is required!");
-                            return;
-                        }
-
-                        explosive.quantity = Double.parseDouble(quantityString);
-                        explosive.unit = Explosive.Unit.valueOf(unitSpinner.getSelectedItem().toString());
-                        explosive.location = locationEditText.getText().toString();
-
-                        FragmentManager fragmentManager = ((FragmentActivity) context).getFragmentManager();
-                        ((ExplosiveSelectionFragment) fragmentManager.findFragmentByTag("explosive")).updateExplosive(getLayoutPosition());
-
-                        dialog.dismiss();
-                    }
-                });
-
-                cancelButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                removeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        FragmentManager fragmentManager = ((FragmentActivity) context).getFragmentManager();
-                        ((ExplosiveSelectionFragment) fragmentManager.findFragmentByTag("explosive")).removeExplosive(getLayoutPosition());
-
-                        dialog.dismiss();
-                    }
-                });
-
-                dialog.show();
-
-                quantityEditText.setFocusableInTouchMode(true);
-                quantityEditText.requestFocus();
+                Intent intent = new Intent(context, ExplosiveActivity.class);
+                intent.putExtra("explosive", new Gson().toJson(explosive, Explosive.class));
+                intent.putExtra("explosivePosition", getLayoutPosition());
+                intent.putExtra("requestCode", ExplosiveSelectionFragment.UPDATE);
+                fragment.startActivityForResult(intent, ExplosiveSelectionFragment.UPDATE);
             }
         }
     }

@@ -54,8 +54,8 @@ public class DogSelectionFragment extends Fragment {
         getActivity().setTitle("Select Dog");
 
         ArrayList<Dog> myDogs = new ArrayList<>(Arrays.asList(
-                new Dog(1, "Koda", "Golden Retriever", R.mipmap.ic_launcher),
-                new Dog(2, "Doggy", "Golden Retriever", R.mipmap.ic_launcher)   // FIXME: test values
+                new Dog(1, "Koda", "Belgian Malinois", R.mipmap.ic_launcher),
+                new Dog(2, "Miley", "Golden Labrador", R.mipmap.ic_launcher)
         ));
 
         ArrayList<Dog> dogs = new ArrayList<>(Arrays.asList(

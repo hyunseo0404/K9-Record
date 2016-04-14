@@ -27,6 +27,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.gtpd.k9.k9record.MainActivity" />
         </activity>
+        <activity
+            android:name=".ExplosiveActivity"
+            android:label="@string/title_activity_explosive"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
