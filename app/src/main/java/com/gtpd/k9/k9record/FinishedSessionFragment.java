@@ -78,7 +78,7 @@ public class FinishedSessionFragment extends Fragment {
         TextView dogNameView = (TextView) view.findViewById(R.id.dog_name_value);
 
         //Set all the views from session variables
-        dogNameView.setText(dog.name);
+        dogNameView.setText(dog.getName());
 
         //add all of the explosive cards
         //Add the individual explosives to the view

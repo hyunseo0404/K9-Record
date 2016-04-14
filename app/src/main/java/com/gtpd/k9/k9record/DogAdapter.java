@@ -14,15 +14,18 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int SECTION_TYPE = 0;
 
-    public DogHolder selectedDogHolder;
-
     private List<Dog> myDogs;
     private List<Dog> dogs;
+    private DogHolder selectedDogHolder;
+    private Dog selectedDog;
     private DogSelectionFragment fragment;
+    private int selectedPosition;
 
-    public DogAdapter(List<Dog> myDogs, List<Dog> dogs, DogSelectionFragment fragment) {
+    public DogAdapter(List<Dog> myDogs, List<Dog> dogs, DogSelectionFragment fragment, Dog selectedDog, int selectedPosition) {
         this.myDogs = myDogs;
         this.dogs = dogs;
+        this.selectedDog = selectedDog;
+        this.selectedPosition = selectedPosition;
         this.fragment = fragment;
     }
 
@@ -58,6 +61,14 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return (position == 0 || position == myDogs.size() + 1) ? SECTION_TYPE : 1;
     }
 
+    public Dog getSelectedDog() {
+        return selectedDog;
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
     public class DogHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ImageView dogImageView;
         private final TextView dogNameTextView;
@@ -77,9 +88,18 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void bindDog(Dog dog) {
             this.dog = dog;
-            dogImageView.setImageResource(dog.imageResource);
-            dogNameTextView.setText(dog.name);
-            dogDescriptionTextView.setText(dog.description);
+            dogImageView.setImageResource(dog.getImageResource());
+            dogNameTextView.setText(dog.getName());
+            dogDescriptionTextView.setText(dog.getDescription());
+
+            if (dog.equals(selectedDog)) {
+                if (selectedDogHolder != null) {
+                    selectedDogHolder.dogSelectedImageView.setVisibility(View.INVISIBLE);
+                }
+
+                dogSelectedImageView.setVisibility(View.VISIBLE);
+                selectedDogHolder = this;
+            }
         }
 
         @Override
@@ -91,6 +111,8 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 dogSelectedImageView.setVisibility(View.VISIBLE);
                 selectedDogHolder = this;
+                selectedDog = dog;
+                selectedPosition = getLayoutPosition();
                 fragment.animateContinueButton(true);
             }
         }

@@ -11,8 +11,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,12 +22,15 @@
             android:name=".NewSessionActivity"
             android:label="@string/title_activity_new_session"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.gtpd.k9.k9record.MainActivity" />
         </activity>
+        <activity
+            android:name=".ExplosiveActivity"
+            android:label="@string/title_activity_explosive"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

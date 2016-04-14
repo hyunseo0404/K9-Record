@@ -29,7 +29,7 @@
         <item>G</item>
         <item>LB</item>
     </string-array>
-    
+
     <string-array name="unit_array_length">
         <item>IN</item>
         <item>FT</item>
@@ -56,4 +56,9 @@
     <string name="flip_card_text">Flip card</string>
     <string name="positive_find_label">Pos. find</string>
     <string name="false_positive_label">False pos.</string>
+    <string name="title_activity_explosive">Edit Explosive</string>
+    <string name="container_text">Container:</string>
+    <string name="odor_text">Odor:</string>
+    <string name="depth_text">Depth:</string>
+    <string name="height_text">Height:</string>
 </resources>
