@@ -251,7 +251,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
                 java.util.Date date= new java.util.Date();
                 Timestamp time = new Timestamp(date.getTime());
                 mDataset[position].setEndTime(time);
-                String clockedTime = mDataset[position].getEllapsedTime();
+                String clockedTime = mDataset[position].getElapsedTime();
 
                 // Log to the session
                 Tuple<Explosive, String> loggedTime = new Tuple<>(mDataset[position], clockedTime);

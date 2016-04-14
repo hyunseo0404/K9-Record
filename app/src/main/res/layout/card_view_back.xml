@@ -4,49 +4,130 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <ImageButton
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/flipBackButton"
-            android:src="@drawable/ic_action_clear"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_weight=".25"
-            android:layout_gravity="center_vertical" />
+            android:layout_weight=".20">
 
-        <ImageButton
+            <ImageButton
+                android:id="@+id/flipBackButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_clear"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:clickable="false"
+                android:text="@string/flip_card_text"/>
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/confirmFoundButton"
-            android:src="@drawable/ic_action_done"
-            android:clickable="true"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_weight=".25"
-            android:layout_gravity="center_vertical" />
+            android:layout_weight=".20">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/confirmFoundButton"
+                android:src="@drawable/ic_action_done"
+                android:clickable="true"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_gravity="center_vertical" />
 
-    <!--<Space-->
-        <!--android:layout_width="20px"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_weight=".25"/>-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:clickable="false"
+                android:text="@string/positive_find_label"/>
+        </FrameLayout>
 
-    <ImageButton
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/blankButton"
-            android:visibility="invisible"
-            android:clickable="false"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_weight=".25"
-            android:layout_gravity="center_vertical" />
+            android:layout_weight=".20">
 
-        <ImageButton
+            <ImageButton
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/falsePositiveButton"
+                android:src="@drawable/ic_action_done"
+                android:clickable="true"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:clickable="false"
+                android:text="@string/false_positive_label"/>
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/addNotesButton"
-            android:src="@drawable/ic_add_note"
-            android:visibility="invisible"
-            android:layout_weight=".25"
-            style="?android:attr/borderlessButtonStyle"
-            android:clickable="false"
-            android:layout_gravity="center_vertical" />
+            android:layout_weight=".20">
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/negativeButton"
+                    android:src="@drawable/ic_minus"
+                    android:clickable="false"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_gravity="center_vertical" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:clickable="false"
+                android:text="Neg."/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".20">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/falseNegativeButton"
+                android:src="@drawable/ic_minus"
+                style="?android:attr/borderlessButtonStyle"
+                android:clickable="false"
+                android:layout_gravity="center_vertical" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:clickable="false"
+                android:text="False Neg."/>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".20"
+            android:visibility="gone">
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addNotesButton"
+                    android:src="@drawable/ic_add_note"
+                    android:visibility="invisible"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:clickable="false"
+                    android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:clickable="false"
+                android:text="Add Note"/>
+        </FrameLayout>
 </LinearLayout>

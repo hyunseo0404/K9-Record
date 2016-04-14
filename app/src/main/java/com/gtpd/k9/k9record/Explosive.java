@@ -54,7 +54,7 @@ public class Explosive {
         endTime = end;
     }
 
-    public String getEllapsedTime() {
+    public String getElapsedTime() {
         long diff = endTime.getTime() - startTime.getTime();
         long seconds = diff / 1000;
         long minutes = seconds / 60;
