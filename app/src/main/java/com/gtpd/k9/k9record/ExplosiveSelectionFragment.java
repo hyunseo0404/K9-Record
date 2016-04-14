@@ -7,7 +7,6 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -88,7 +87,7 @@ public class ExplosiveSelectionFragment extends Fragment {
                     explosiveDialog = new Dialog(getActivity());
                     explosiveDialog.setContentView(R.layout.explosive_selection_dialog);
                     RecyclerView recyclerView = (RecyclerView) explosiveDialog.findViewById(R.id.newNewExplosiveList);
-                    recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
                     final ArrayList<Explosive> explosives = new ArrayList<>(Arrays.asList(
                             new Explosive("C4 Military", R.mipmap.ic_launcher, R.array.unit_array_weight),

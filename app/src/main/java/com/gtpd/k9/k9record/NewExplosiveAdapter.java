@@ -46,21 +46,18 @@ public class NewExplosiveAdapter extends RecyclerView.Adapter<NewExplosiveAdapte
     }
 
     public class ExplosiveHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final ImageView newExplosiveImageView;
         private final TextView newExplosiveTextView;
         private Explosive explosive;
 
         public ExplosiveHolder(View itemView) {
             super(itemView);
 
-            newExplosiveImageView = (ImageView) itemView.findViewById(R.id.newExplosiveImage);
             newExplosiveTextView = (TextView) itemView.findViewById(R.id.newExplosiveName);
             itemView.setOnClickListener(this);
         }
 
         public void bindExplosive(Explosive explosive) {
             this.explosive = explosive;
-            newExplosiveImageView.setImageResource(explosive.imageResource);
             newExplosiveTextView.setText(explosive.name);
         }
 
