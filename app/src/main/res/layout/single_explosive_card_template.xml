@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Start Time:"
-                android:id="@+id/textView34"
+                android:id="@+id/startTimeLabel"
                 android:layout_below="@+id/textView33"
                 android:layout_alignStart="@+id/textView33"
                 android:layout_marginTop="43dp" />
@@ -86,8 +86,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="End Time:"
-                android:id="@+id/textView36"
-                android:layout_alignTop="@+id/textView34"
+                android:id="@+id/endTimeLabel"
+                android:layout_alignTop="@+id/startTimeLabel"
                 android:layout_toEndOf="@+id/textView35" />
 
             <TextView
@@ -95,9 +95,9 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Time to Find:"
-                android:id="@+id/textView37"
-                android:layout_below="@+id/textView34"
-                android:layout_alignStart="@+id/textView34"
+                android:id="@+id/timeToFindLabel"
+                android:layout_below="@+id/startTimeLabel"
+                android:layout_alignStart="@+id/startTimeLabel"
                 android:layout_marginTop="30dp" />
 
             <TextView
@@ -148,9 +148,9 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
-                android:id="@+id/textView43"
-                android:layout_below="@+id/textView34"
-                android:layout_alignStart="@+id/textView34"
+                android:id="@+id/startTimeContent"
+                android:layout_below="@+id/startTimeLabel"
+                android:layout_alignStart="@+id/startTimeLabel"
                 android:layout_marginTop="3dp"
                 android:layout_marginLeft="9dp"
                 android:layout_alignEnd="@+id/explosive_quantity_value" />
@@ -160,20 +160,19 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
-                android:id="@+id/textView44"
-                android:layout_alignTop="@+id/textView43"
-                android:layout_alignStart="@+id/textView36"
-                android:layout_marginTop="3dp"
-                android:layout_alignEnd="@+id/textView40" />
+                android:id="@+id/endTimeContent"
+                android:layout_alignTop="@+id/startTimeContent"
+                android:layout_alignEnd="@+id/textView40"
+                android:layout_toEndOf="@+id/textView35" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
-                android:id="@+id/textView45"
-                android:layout_below="@+id/textView37"
-                android:layout_alignStart="@+id/textView37"
+                android:id="@+id/timeToFindContent"
+                android:layout_below="@+id/timeToFindLabel"
+                android:layout_alignStart="@+id/timeToFindLabel"
                 android:layout_marginTop="3dp"
                 android:layout_marginLeft="9dp" />
 

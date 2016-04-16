@@ -6,8 +6,10 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,13 +19,14 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import android.support.design.widget.Snackbar;
 
 
 /**
@@ -40,6 +43,7 @@ public class NewTrainingFragment extends Fragment {
 
     private RecyclerView mRecView;
     private OnFragmentInteractionListener mListener;
+    private TrainingCardAdapter mAdapter;
 
     public NewTrainingFragment() {
         // Required empty public constructor
@@ -70,7 +74,6 @@ public class NewTrainingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_training, container, false);
 
         ((NewSessionActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_white_24dp);
-
         getActivity().setTitle("New Session");
 
         mRecView = (RecyclerView) view.findViewById(R.id.training_recycler_view);
@@ -80,9 +83,10 @@ public class NewTrainingFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         mRecView.setLayoutManager(llm);
 
+
         Explosive [] expArr = new Explosive[NewSessionActivity.session.explosives.size()];
         NewSessionActivity.session.explosives.toArray(expArr);
-        TrainingCardAdapter mAdapter = new TrainingCardAdapter(expArr, getActivity());
+        mAdapter = new TrainingCardAdapter(expArr, getActivity(), mRecView);
         mRecView.setAdapter(mAdapter);
 
         return view;
@@ -132,6 +136,15 @@ public class NewTrainingFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//
+//        if (mAdapter != null) {
+//            outState.putString("explosives", new Gson().toJson(mAdapter.getExplosives()));
+//        }
+//    }
 }
 
 
@@ -139,14 +152,14 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
     private Explosive[] mDataset;
     private Activity mParent;
     private int mExplosivesLeftToFind;
-//    private String clockedTime;
+    private RecyclerView mContainer;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        CardView mCardView;
+        public CardView mCardView;
         public TextView mExplosiveName;
         public TextView mExplosiveAmount;
         public TextView mHidingPlace;
@@ -154,12 +167,22 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         public ViewFlipper mViewFlipper;
         public Button mStartButton;
         public Button mResetButton;
-        public TextView mEllapsedTime;
+        public TextView mAidStatus;
 
         // For other card layout
         public ImageButton mFlipButton;
-        public ImageButton mFoundButton;
+        public ImageButton mFindButton;
+        public ImageButton mFalsePosButton;
+        public ImageButton mHandlerErrorButton;
+        public ImageButton mMissButton;
         public ImageButton mAddNotesButton;
+
+        // Frame layouts for buttons that can be hidden
+        public FrameLayout mFoundButtonFrame;
+        public FrameLayout mMissButtonFrame;
+        public FrameLayout mFalsePosBtnFrame;
+        public FrameLayout mHandlerErrorBtnFrame;
+        public FrameLayout mAddNotesBtnFrame;
 
         public boolean mCardBackShowing;
         public ViewHolder(View v) {
@@ -168,16 +191,29 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
 
             mStartButton = (Button) v.findViewById(R.id.startIndividualButton);
             mResetButton = (Button) v.findViewById(R.id.resetIndividualButton);
-            mEllapsedTime = (TextView) v.findViewById(R.id.ellapsedTime);
+            mAidStatus = (TextView) v.findViewById(R.id.aidStatusLabel);
 
             mExplosiveName = (TextView)v.findViewById(R.id.explosiveName);
             mExplosiveAmount = (TextView)v.findViewById(R.id.explosiveAmount);
             mHidingPlace = (TextView)v.findViewById(R.id.hidingPlace);
             mDuration = (TextView)v.findViewById(R.id.duration);
 
+            // Buttons
             mFlipButton = (ImageButton) v.findViewById(R.id.flipBackButton);
-            mFoundButton = (ImageButton) v.findViewById(R.id.confirmFoundButton);
+            mFindButton = (ImageButton) v.findViewById(R.id.confirmFoundButton);
+            mMissButton = (ImageButton) v.findViewById(R.id.missButton);
+            mFalsePosButton = (ImageButton) v.findViewById(R.id.falsePositiveButton);
+            mHandlerErrorButton = (ImageButton) v.findViewById(R.id.handlerErrorButton);
+
             mAddNotesButton = (ImageButton) v.findViewById(R.id.addNotesButton);
+
+            // Frames
+            mFoundButtonFrame = (FrameLayout) v.findViewById(R.id.confirmFoundButtonFrame);
+            mMissButtonFrame = (FrameLayout) v.findViewById(R.id.missButtonFrame);
+            mFalsePosBtnFrame = (FrameLayout) v.findViewById(R.id.falsePositiveButtonFrame);
+            mHandlerErrorBtnFrame = (FrameLayout) v.findViewById(R.id.handlerErrorButtonFrame);
+            mAddNotesBtnFrame = (FrameLayout) v.findViewById(R.id.addNotesButtonFrame);
+
             mViewFlipper = (ViewFlipper) v.findViewById(R.id.cardFlipper);
 
             mCardBackShowing = false;
@@ -185,10 +221,11 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public TrainingCardAdapter(Explosive[] myDataset, Activity parent) {
+    public TrainingCardAdapter(Explosive[] myDataset, Activity parent, RecyclerView container) {
         mDataset = myDataset;
         mParent = parent;
         mExplosivesLeftToFind = mDataset.length;
+        mContainer = container;
     }
 
     // Create new views (invoked by the layout manager)
@@ -211,44 +248,50 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         // - replace the contents of the view with that element
         holder.mExplosiveName.setText(mDataset[position].name);
         holder.mDuration.setVisibility(View.GONE);
-        holder.mExplosiveAmount.setText("" + mDataset[position].quantity + " " + (mDataset[position].unit).toString().toLowerCase());
+        holder.mExplosiveAmount.setText("" + mDataset[position].quantity +
+                " " + (mDataset[position].unit).toString().toLowerCase());
         holder.mHidingPlace.setText("" + mDataset[position].location);
 
         holder.mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(((NewSessionActivity) mParent).session.activeExplosiveIndex == -1){
+                if (((NewSessionActivity) mParent).session.activeExplosiveIndex == -1) {
                     holder.mStartButton.setVisibility(View.GONE);
-                    holder.mEllapsedTime.setText("ACTIVE");
+                    holder.mAidStatus.setText("ACTIVE");
                     ((NewSessionActivity) mParent).session.activeExplosiveIndex = position;
                     mDataset[position].setStartTime(new Timestamp((new Date()).getTime()));
+//                holder.mCardView.setCardBackgroundColor(R.color.colorAccent);
+                    holder.mViewFlipper.setBackgroundColor(ContextCompat.getColor(mParent, R.color.colorAccent));
+
                 } else {
-                    Toast.makeText(mParent, "ANOTHER AID IS CURRENTLY ACTIVE", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(mContainer, "ANOTHER AID IS CURRENTLY ACTIVE", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
+
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                if(((NewSessionActivity) mParent).session.activeExplosiveIndex == position) {
-                if (!holder.mCardBackShowing) {
-                    holder.mViewFlipper.showNext();
-                    holder.mCardBackShowing = true;
-                }
-//                }
+            if (!holder.mCardBackShowing) {
+                holder.mViewFlipper.showNext();
+                holder.mCardBackShowing = true;
+            }
             }
         });
 
-        holder.mFoundButton.setOnClickListener(new View.OnClickListener() {
+        holder.mFindButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 // flip back the card
                 holder.mViewFlipper.showNext();
                 holder.mCardBackShowing = false;
+                holder.mAidStatus.setText("COMPLETED");
+                holder.mViewFlipper.setBackgroundColor(Color.WHITE);
+//                holder.mCardView.setCardBackgroundColor(Color.WHITE);
 
-                java.util.Date date= new java.util.Date();
+
+                java.util.Date date = new java.util.Date();
                 Timestamp time = new Timestamp(date.getTime());
                 mDataset[position].setEndTime(time);
                 String clockedTime = mDataset[position].getElapsedTime();
@@ -262,20 +305,90 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
                 holder.mDuration.setVisibility(View.VISIBLE);
                 holder.mDuration.setText(" found in " + clockedTime);
 
-                // make the add notes button enabled
-                holder.mAddNotesButton.setVisibility(View.VISIBLE);
-                holder.mAddNotesButton.setClickable(true);
-
                 // Make the found button go away but still occupy space
-                holder.mFoundButton.setVisibility(View.INVISIBLE);
-                holder.mFoundButton.setClickable(false);
+                holder.mFoundButtonFrame.setVisibility(View.INVISIBLE);
+                holder.mFindButton.setClickable(false);
+
+                holder.mFalsePosBtnFrame.setVisibility(View.INVISIBLE);
+                holder.mMissButtonFrame.setVisibility(View.INVISIBLE);
+                holder.mHandlerErrorBtnFrame.setVisibility(View.GONE);
+
+                // make the add notes button enabled
+                holder.mAddNotesBtnFrame.setVisibility(View.VISIBLE);
+                holder.mAddNotesButton.setClickable(true);
 
                 // If the explosive was found decrement the count
                 mExplosivesLeftToFind--;
 
-                if(mExplosivesLeftToFind == 0){
+                if (mExplosivesLeftToFind == 0) {
                     switchToReviewSessionScreen();
                 }
+            }
+        });
+
+        holder.mMissButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // flip back the card
+                holder.mViewFlipper.showNext();
+                holder.mCardBackShowing = false;
+                holder.mAidStatus.setText("COMPLETED");
+                holder.mViewFlipper.setBackgroundColor(Color.WHITE);
+
+                java.util.Date date = new java.util.Date();
+                Timestamp time = new Timestamp(date.getTime());
+                mDataset[position].setEndTime(time);
+                String clockedTime = mDataset[position].getElapsedTime();
+
+                // Log to the session
+                Tuple<Explosive, String> loggedTime = new Tuple<>(mDataset[position], clockedTime);
+                ((NewSessionActivity) mParent).session.logTime(loggedTime);
+                ((NewSessionActivity) mParent).session.activeExplosiveIndex = -1;
+
+                // Update the textview with the logged time
+                holder.mDuration.setVisibility(View.VISIBLE);
+                holder.mDuration.setText(" timer stopped at " + clockedTime);
+
+                // Make the found button go away but still occupy space
+                holder.mFoundButtonFrame.setVisibility(View.INVISIBLE);
+                holder.mFindButton.setClickable(false);
+
+                holder.mFalsePosBtnFrame.setVisibility(View.INVISIBLE);
+                holder.mMissButtonFrame.setVisibility(View.INVISIBLE);
+                holder.mHandlerErrorBtnFrame.setVisibility(View.GONE);
+
+                // make the add notes button enabled
+                holder.mAddNotesBtnFrame.setVisibility(View.VISIBLE);
+                holder.mAddNotesButton.setClickable(true);
+
+                // If the explosive was found decrement the count
+                mExplosivesLeftToFind--;
+
+                if (mExplosivesLeftToFind == 0) {
+                    switchToReviewSessionScreen();
+                }
+            }
+        });
+
+        holder.mFalsePosButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                java.util.Date date = new java.util.Date();
+                Timestamp time = new Timestamp(date.getTime());
+                mDataset[position].addFalsePositive(time);
+
+                Snackbar.make(mContainer, "False positive recorded", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        holder.mHandlerErrorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                java.util.Date date = new java.util.Date();
+                Timestamp time = new Timestamp(date.getTime());
+                mDataset[position].addFalseNegative(time);
+
+                Snackbar.make(mContainer, "False recorded", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -353,7 +466,6 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
 
         return builder;
     }
-
 
     public void switchToReviewSessionScreen(){
 

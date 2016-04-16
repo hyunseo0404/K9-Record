@@ -14,8 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by Clayton on 3/13/2016.
  */
@@ -94,10 +92,16 @@ public class FinishedSessionFragment extends Fragment {
             TextView explosiveQuantity = (TextView) templateRoot.findViewById(R.id.explosive_quantity_value);
             TextView explosiveLocation = (TextView) templateRoot.findViewById(R.id.explosive_location_value);
 
+            TextView explosiveStartTime = (TextView) templateRoot.findViewById(R.id.startTimeContent);
+            TextView explosiveEndTime = (TextView) templateRoot.findViewById(R.id.endTimeContent);
+            TextView explosiveTimeToFind = (TextView) templateRoot.findViewById(R.id.timeToFindContent);
+
             explosiveTitle.setText(explosive.name);
             explosiveQuantity.setText(explosive.getQuantityAsString());
             explosiveLocation.setText(explosive.location);
-
+            explosiveStartTime.setText(explosive.getStartTime().toString());
+            explosiveEndTime.setText(explosive.getEndTime().toString());
+            explosiveTimeToFind.setText(explosive.getElapsedTime());
             parent.addView(templateRoot);
         }
     }

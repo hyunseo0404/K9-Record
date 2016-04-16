@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:divider="#000000"
+    android:paddingTop="16dp"
+    android:showDividers="middle|beginning|end">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -28,12 +31,13 @@
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".20">
+            android:layout_weight=".20"
+            android:id="@+id/confirmFoundButtonFrame">
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/confirmFoundButton"
-                android:src="@drawable/ic_action_done"
+                android:src="@drawable/ic_plus"
                 android:clickable="true"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_gravity="center_vertical" />
@@ -43,82 +47,93 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
                 android:clickable="false"
-                android:text="@string/positive_find_label"/>
+                android:text="@string/find_label"/>
         </FrameLayout>
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".20">
-
-            <ImageButton
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/falsePositiveButton"
-                android:src="@drawable/ic_action_done"
-                android:clickable="true"
-                android:layout_gravity="center_vertical" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:clickable="false"
-                android:text="@string/false_positive_label"/>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".20">
-            <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/negativeButton"
-                    android:src="@drawable/ic_minus"
-                    android:clickable="false"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_gravity="center_vertical" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:clickable="false"
-                android:text="Neg."/>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".20">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/falseNegativeButton"
-                android:src="@drawable/ic_minus"
-                style="?android:attr/borderlessButtonStyle"
-                android:clickable="false"
-                android:layout_gravity="center_vertical" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:clickable="false"
-                android:text="False Neg."/>
-        </FrameLayout>
-        <FrameLayout
+    <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".20"
-            android:visibility="gone">
+            android:id="@+id/missButtonFrame">
+
+            <ImageButton
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/missButton"
+                android:src="@drawable/ic_minus"
+                android:clickable="true"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:clickable="false"
+                android:text="@string/miss_label"/>
+        </FrameLayout>
+
+    <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".20"
+            android:id="@+id/falsePositiveButtonFrame">
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/falsePositiveButton"
+                android:src="@drawable/ic_false_positive"
+                style="?android:attr/borderlessButtonStyle"
+                android:clickable="false"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="6dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:clickable="false"
+                android:text="@string/false_positive_label"
+                android:textAlignment="center" />
+        </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight=".20"
+        android:id="@+id/handlerErrorButtonFrame">
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/handlerErrorButton"
+                android:src="@drawable/ic_handler_error"
+                android:clickable="false"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_gravity="center_vertical"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="6dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:clickable="false"
+            android:text="@string/handler_error_label"
+            android:textAlignment="center" />
+    </FrameLayout>
+
+    <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".20"
+            android:visibility="gone"
+            android:id="@+id/addNotesButtonFrame">
             <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/addNotesButton"
                     android:src="@drawable/ic_add_note"
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     style="?android:attr/borderlessButtonStyle"
                     android:clickable="false"
                     android:layout_gravity="center_vertical" />
@@ -128,6 +143,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
                 android:clickable="false"
-                android:text="Add Note"/>
+                android:text="@string/add_note_label"/>
         </FrameLayout>
 </LinearLayout>

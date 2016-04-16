@@ -55,10 +55,15 @@
 
     <string name="flip_card_text">Flip card</string>
     <string name="positive_find_label">Pos. find</string>
-    <string name="false_positive_label">False pos.</string>
+    <string name="false_positive_label">False positive</string>
     <string name="title_activity_explosive">Edit Explosive</string>
     <string name="container_text">Container:</string>
     <string name="odor_text">Odor:</string>
     <string name="depth_text">Depth:</string>
     <string name="height_text">Height:</string>
+    <string name="default_aid_status_label">NOT STARTED</string>
+    <string name="handler_error_label">Handler Error</string>
+    <string name="add_note_label">Add Note</string>
+    <string name="miss_label">Miss</string>
+    <string name="find_label">Find</string>
 </resources>

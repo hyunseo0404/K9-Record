@@ -1,5 +1,6 @@
 package com.gtpd.k9.k9record;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import java.sql.Time;
@@ -20,6 +21,8 @@ public class Explosive {
     public int unitResource;
     public Timestamp startTime;
     public Timestamp endTime;
+    ArrayList<Timestamp> falsePositives;
+    ArrayList<Timestamp> falseNegatives;
 
     public Explosive(String name, double quantity, Unit unit, String location, int imageResource, int unitResource) {
         this.name = name;
@@ -28,6 +31,8 @@ public class Explosive {
         this.location = location;
         this.imageResource = imageResource;
         this.unitResource = unitResource;
+        this.falseNegatives = new ArrayList<>();
+        this.falsePositives = new ArrayList<>();
     }
 
     public Explosive(String name, int imageResource, int unitResource) {
@@ -54,6 +59,14 @@ public class Explosive {
         endTime = end;
     }
 
+    public Timestamp getStartTime() {
+        return this.startTime;
+    }
+
+    public Timestamp getEndTime() {
+        return this.endTime;
+    }
+
     public String getElapsedTime() {
         long diff = endTime.getTime() - startTime.getTime();
         long seconds = diff / 1000;
@@ -63,5 +76,13 @@ public class Explosive {
         String minutes_str = (minutes < 10) ? "0" + minutes: "" + minutes;
         String seconds_str = (seconds < 10) ? "0" + seconds: "" + seconds;
         return "" + hour_str + ":" + minutes_str + ":" + seconds_str;
+    }
+
+    public void addFalsePositive(Timestamp time) {
+        this.falsePositives.add(time);
+    }
+
+    public void addFalseNegative(Timestamp time) {
+        this.falseNegatives.add(time);
     }
 }
