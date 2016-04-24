@@ -15,7 +15,6 @@ public class Explosive {
     public double height;
     public double depth;
     public Date placementTime;
-    public String odor;
     public String container;
     public int imageResource;
     public int unitResource;
