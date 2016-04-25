@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_id": "k9-record",
+    "project_number": "564645035550",
+    "name": "K9 Record"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564645035550:android:f37913fcca425e55",
+        "client_id": "android:com.gtpd.k9.k9record",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.gtpd.k9.k9record",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564645035550-f0igqq27ao89c0tlpicolrsb7i6ovvi0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gtpd.k9.k9record",
+            "certificate_hash": "CFF302BFCC0EB36D49860BBCAA80507E93A6CBE9"
+          }
+        },
+        {
+          "client_id": "564645035550-q3vkaser3clb4ae7jts8adu6g5m3n652.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

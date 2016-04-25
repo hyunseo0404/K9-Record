@@ -1,24 +1,27 @@
 package com.gtpd.k9.k9record;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -26,10 +29,13 @@ public class MainActivity extends AppCompatActivity
 
     public static final String TAG = "GTPD_MAIN";
 
+    private GoogleSignInAccount account;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -44,6 +50,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
 
         getFragmentManager().beginTransaction().replace(R.id.content_main, new Homescreen()).commit();
+
+        account = (GoogleSignInAccount) getIntent().getExtras().get("account");
+
+        View headerView = navigationView.getHeaderView(0);
+        if (account.getPhotoUrl() != null) {
+            new ImageDownloadTask((ImageView) headerView.findViewById(R.id.profileImageView)).execute(account.getPhotoUrl().toString());
+        }
+        ((TextView) headerView.findViewById(R.id.nameTextView)).setText(account.getDisplayName());
     }
 
     @Override
@@ -94,6 +108,11 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.nav_sign_out) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("signOut", true);
+            startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -104,5 +123,30 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public static class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
+        private ImageView imageView;
+
+        public ImageDownloadTask(ImageView bmImage) {
+            this.imageView = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... url) {
+            Bitmap picture = null;
+
+            try {
+                InputStream in = new java.net.URL(url[0]).openStream();
+                picture = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("MainActivity", "Error while downloading image: " + e.getMessage());
+            }
+
+            return picture;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            imageView.setImageBitmap(result);
+        }
     }
 }

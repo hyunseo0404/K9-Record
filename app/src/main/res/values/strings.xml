@@ -66,4 +66,5 @@
     <string name="add_note_label">Add Note</string>
     <string name="miss_label">Miss</string>
     <string name="find_label">Find</string>
+    <string name="title_activity_login">LoginActivity</string>
 </resources>
