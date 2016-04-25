@@ -69,6 +69,16 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return selectedPosition;
     }
 
+    public void setMyDogs(List<Dog> myDogs) {
+        this.myDogs = myDogs;
+        notifyDataSetChanged();
+    }
+
+    public void setDogs(List<Dog> dogs) {
+        this.dogs = dogs;
+        notifyDataSetChanged();
+    }
+
     public class DogHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ImageView dogImageView;
         private final TextView dogNameTextView;

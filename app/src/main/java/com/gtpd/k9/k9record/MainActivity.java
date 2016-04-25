@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity
 
     public static final String TAG = "GTPD_MAIN";
 
-    private GoogleSignInAccount account;
+    public static GoogleSignInAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,9 @@ public class MainActivity extends AppCompatActivity
 
         getFragmentManager().beginTransaction().replace(R.id.content_main, new Homescreen()).commit();
 
-        account = (GoogleSignInAccount) getIntent().getExtras().get("account");
+        if (account == null) {
+            account = (GoogleSignInAccount) getIntent().getExtras().get("account");
+        }
 
         View headerView = navigationView.getHeaderView(0);
         if (account.getPhotoUrl() != null) {
