@@ -88,8 +88,8 @@ public class DogSelectionFragment extends Fragment {
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewSessionActivity.session = new TrainingSession(dogAdapter.getSelectedDog());
-
+//                NewSessionActivity.session = new TrainingSession(dogAdapter.getSelectedDog());
+                NewSessionActivity.session.setDog(dogAdapter.getSelectedDog());
                 getFragmentManager().beginTransaction()
                         .add(R.id.newSessionContent, new ExplosiveSelectionFragment(), "explosive")
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

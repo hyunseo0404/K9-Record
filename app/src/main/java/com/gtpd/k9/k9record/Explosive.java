@@ -1,10 +1,15 @@
 package com.gtpd.k9.k9record;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Explosive {
 
@@ -22,7 +27,10 @@ public class Explosive {
     public Timestamp startTime;
     public Timestamp endTime;
     ArrayList<Timestamp> falsePositives;
-    ArrayList<Timestamp> falseNegatives;
+    ArrayList<Timestamp> handlerErrors;
+    ArrayList<Timestamp> misses;
+
+    List<Tuple<String, Timestamp>> results;
 
     public Explosive(String name, double quantity, Unit unit, String location, int imageResource, int unitResource) {
         this.name = name;
@@ -31,8 +39,10 @@ public class Explosive {
         this.location = location;
         this.imageResource = imageResource;
         this.unitResource = unitResource;
-        this.falseNegatives = new ArrayList<>();
         this.falsePositives = new ArrayList<>();
+        this.handlerErrors = new ArrayList<>();
+        this.misses = new ArrayList<>();
+        this.results = new ArrayList<>();
     }
 
     public Explosive(String name, int imageResource, int unitResource) {
@@ -79,10 +89,32 @@ public class Explosive {
     }
 
     public void addFalsePositive(Timestamp time) {
-        this.falsePositives.add(time);
+        this.results.add(new Tuple<String, Timestamp>("falsePositive", time));
+//        this.falsePositives.add(time);
     }
 
-    public void addFalseNegative(Timestamp time) {
-        this.falseNegatives.add(time);
+    public void addHandlerError(Timestamp time) {
+//        this.handlerErrors.add(time);
+        this.results.add(new Tuple<String, Timestamp>("handlerError", time));
+    }
+
+    public void addMiss(Timestamp time) {
+//        this.misses.add(time);
+        this.results.add(new Tuple<String, Timestamp>("miss", time));
+    }
+
+    public JSONArray getResultsArray() throws JSONException {
+        JSONArray resultsArr = new JSONArray();
+        for(Tuple result: results){
+            JSONObject tempObj = new JSONObject();
+            tempObj.put("result", result.getKey());
+            tempObj.put("timeOccurred", result.getValue());
+            resultsArr.put(tempObj);
+        }
+        JSONObject find = new JSONObject();
+        find.put("result", "find");
+        find.put("timeOccurred", this.endTime);
+        resultsArr.put(find);
+        return resultsArr;
     }
 }
