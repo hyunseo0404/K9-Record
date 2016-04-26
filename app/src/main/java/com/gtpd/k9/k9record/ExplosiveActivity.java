@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.util.Date;
+
 public class ExplosiveActivity extends AppCompatActivity {
 
     private Explosive explosive;
@@ -124,6 +126,10 @@ public class ExplosiveActivity extends AppCompatActivity {
         }
 
         explosive.container = containerEditText.getText().toString();
+
+        if (requestCode == ExplosiveSelectionFragment.NEW) {
+            explosive.placementTime = new Date();
+        }
 
         Intent intent = new Intent();
         intent.putExtra("explosive", new Gson().toJson(explosive, Explosive.class));
