@@ -176,7 +176,7 @@ public class TrainingSession {
         JSONArray arr = new JSONArray();
         for(Explosive exp: explosives) {
             JSONObject obj = new JSONObject();
-            obj.put("type", exp.odor);
+            obj.put("type", exp.name);
             obj.put("amount", exp.quantity);
             obj.put("Units", exp.unit.toString());
             obj.put("hidingLocation", exp.location);
