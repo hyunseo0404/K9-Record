@@ -67,4 +67,6 @@
     <string name="miss_label">Miss</string>
     <string name="find_label">Find</string>
     <string name="title_activity_login">LoginActivity</string>
+
+    <string name="search_hint">Search for a dog</string>
 </resources>

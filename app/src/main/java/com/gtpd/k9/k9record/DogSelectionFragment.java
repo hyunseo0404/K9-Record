@@ -7,7 +7,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,14 +45,30 @@ public class DogSelectionFragment extends Fragment {
     private View continueView;
     private boolean continueViewShown = false;
 
+    final private SearchView.OnQueryTextListener queryListener = new SearchView.OnQueryTextListener() {
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            new DogTask(getActivity(), dogAdapter, RequestType.MATCHING).execute(query);
+            return true;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            return false;
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
 
         if (savedInstanceState != null) {
             Dog selectedDog = new Gson().fromJson(savedInstanceState.getString("selected"), Dog.class);
@@ -123,6 +142,13 @@ public class DogSelectionFragment extends Fragment {
             outState.putInt("selectedPosition", dogAdapter.getSelectedPosition());
             outState.putInt("height", continueView.getHeight());
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_search, menu);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search_item).getActionView();
+        searchView.setOnQueryTextListener(queryListener);
     }
 
     private static class DogTask extends AsyncTask<String, Void, JSONArray> {
@@ -206,20 +232,19 @@ public class DogSelectionFragment extends Fragment {
                     }
                 }
 
-                switch (requestType) {
-                    case ALL:
-                    case MATCHING:
-                        Collections.sort(dogs, new Comparator<Dog>() {
-                            @Override
-                            public int compare(Dog lhs, Dog rhs) {
-                                return lhs.getName().compareToIgnoreCase(rhs.getName());
-                            }
-                        });
-                        dogAdapter.setDogs(dogs);
-                        break;
-                    case ASSIGNED:
-                        dogAdapter.setMyDogs(dogs);
-                        break;
+                Collections.sort(dogs, new Comparator<Dog>() {
+                    @Override
+                    public int compare(Dog lhs, Dog rhs) {
+                        return lhs.getName().compareToIgnoreCase(rhs.getName());
+                    }
+                });
+
+                if (requestType == RequestType.ALL || requestType == RequestType.MATCHING) {
+                    dogAdapter.setDogs(dogs);
+                }
+
+                if (requestType == RequestType.ASSIGNED || requestType == RequestType.MATCHING) {
+                    dogAdapter.setMyDogs(dogs);
                 }
             }
         }

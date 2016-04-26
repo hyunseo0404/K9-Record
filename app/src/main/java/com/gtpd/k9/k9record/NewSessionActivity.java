@@ -10,7 +10,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +30,7 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setTitle("New Session");
+        setTitle("New Session");
         setContentView(R.layout.activity_new_session);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,6 +56,7 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
         FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
+            setTitle("Select Dog");
             return true;
         } else {
             return super.onSupportNavigateUp();
