@@ -259,7 +259,12 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
                     holder.mStartButton.setVisibility(View.GONE);
                     holder.mAidStatus.setText("ACTIVE");
                     ((NewSessionActivity) mParent).session.activeExplosiveIndex = position;
-                    mDataset[position].setStartTime(new Timestamp((new Date()).getTime()));
+                    Timestamp time = new Timestamp((new Date()).getTime());
+                    mDataset[position].setStartTime(time);
+                    if(((NewSessionActivity) mParent).session.startTime == null) {
+                        ((NewSessionActivity) mParent).session.startTime = time;
+                    }
+
 //                holder.mCardView.setCardBackgroundColor(R.color.colorAccent);
                     holder.mViewFlipper.setBackgroundColor(ContextCompat.getColor(mParent, R.color.colorAccent));
 
@@ -321,6 +326,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
                 mExplosivesLeftToFind--;
 
                 if (mExplosivesLeftToFind == 0) {
+                    ((NewSessionActivity) mParent).session.endTime = time;
                     switchToReviewSessionScreen();
                 }
             }
@@ -329,44 +335,48 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         holder.mMissButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // flip back the card
-                holder.mViewFlipper.showNext();
-                holder.mCardBackShowing = false;
-                holder.mAidStatus.setText("COMPLETED");
-                holder.mViewFlipper.setBackgroundColor(Color.WHITE);
+//                // flip back the card
+//                holder.mViewFlipper.showNext();
+//                holder.mCardBackShowing = false;
+//                holder.mAidStatus.setText("COMPLETED");
+//                holder.mViewFlipper.setBackgroundColor(Color.WHITE);
 
                 java.util.Date date = new java.util.Date();
                 Timestamp time = new Timestamp(date.getTime());
-                mDataset[position].setEndTime(time);
-                String clockedTime = mDataset[position].getElapsedTime();
+                mDataset[position].addMiss(time);
+
+                Snackbar.make(mContainer, "Miss recorded", Snackbar.LENGTH_LONG).show();
+
+                //setEndTime(time);
+//                String clockedTime = mDataset[position].getElapsedTime();
 
                 // Log to the session
-                Tuple<Explosive, String> loggedTime = new Tuple<>(mDataset[position], clockedTime);
-                ((NewSessionActivity) mParent).session.logTime(loggedTime);
-                ((NewSessionActivity) mParent).session.activeExplosiveIndex = -1;
+//                Tuple<Explosive, String> loggedTime = new Tuple<>(mDataset[position], clockedTime);
+//                ((NewSessionActivity) mParent).session.logTime(loggedTime);
+//                ((NewSessionActivity) mParent).session.activeExplosiveIndex = -1;
 
                 // Update the textview with the logged time
-                holder.mDuration.setVisibility(View.VISIBLE);
-                holder.mDuration.setText(" timer stopped at " + clockedTime);
+//                holder.mDuration.setVisibility(View.VISIBLE);
+//                holder.mDuration.setText(" timer stopped at " + clockedTime);
 
                 // Make the found button go away but still occupy space
-                holder.mFoundButtonFrame.setVisibility(View.INVISIBLE);
-                holder.mFindButton.setClickable(false);
-
-                holder.mFalsePosBtnFrame.setVisibility(View.INVISIBLE);
-                holder.mMissButtonFrame.setVisibility(View.INVISIBLE);
-                holder.mHandlerErrorBtnFrame.setVisibility(View.GONE);
-
-                // make the add notes button enabled
-                holder.mAddNotesBtnFrame.setVisibility(View.VISIBLE);
-                holder.mAddNotesButton.setClickable(true);
-
-                // If the explosive was found decrement the count
-                mExplosivesLeftToFind--;
-
-                if (mExplosivesLeftToFind == 0) {
-                    switchToReviewSessionScreen();
-                }
+//                holder.mFoundButtonFrame.setVisibility(View.INVISIBLE);
+//                holder.mFindButton.setClickable(false);
+//
+//                holder.mFalsePosBtnFrame.setVisibility(View.INVISIBLE);
+//                holder.mMissButtonFrame.setVisibility(View.INVISIBLE);
+//                holder.mHandlerErrorBtnFrame.setVisibility(View.GONE);
+//
+//                // make the add notes button enabled
+//                holder.mAddNotesBtnFrame.setVisibility(View.VISIBLE);
+//                holder.mAddNotesButton.setClickable(true);
+//
+//                // If the explosive was found decrement the count
+//                mExplosivesLeftToFind--;
+//
+//                if (mExplosivesLeftToFind == 0) {
+//                    switchToReviewSessionScreen();
+//                }
             }
         });
 
@@ -386,9 +396,9 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
             public void onClick(View v) {
                 java.util.Date date = new java.util.Date();
                 Timestamp time = new Timestamp(date.getTime());
-                mDataset[position].addFalseNegative(time);
+                mDataset[position].addHandlerError(time);
 
-                Snackbar.make(mContainer, "False recorded", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(mContainer, "Handler error recorded", Snackbar.LENGTH_LONG).show();
             }
         });
 

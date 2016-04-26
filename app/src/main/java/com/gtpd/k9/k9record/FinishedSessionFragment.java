@@ -3,6 +3,7 @@ package com.gtpd.k9.k9record;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,7 +59,10 @@ public class FinishedSessionFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save_session) {
+            ((NewSessionActivity)this.getActivity()).uploadSession();
             Toast.makeText(this.getActivity(), "Session Saved", Toast.LENGTH_SHORT).show();
+
+//            Snackbar.make(view, "Session saved", Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(this.getActivity(), MainActivity.class);
             startActivity(intent);
 
