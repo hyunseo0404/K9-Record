@@ -27,7 +27,6 @@ public class ExplosiveActivity extends AppCompatActivity {
     private EditText locationEditText;
     private EditText heightEditText;
     private EditText depthEditText;
-    private EditText odorEditText;
     private EditText containerEditText;
 
     @Override
@@ -46,7 +45,6 @@ public class ExplosiveActivity extends AppCompatActivity {
         locationEditText = (EditText) findViewById(R.id.locationEditText);
         heightEditText = (EditText) findViewById(R.id.heightEditText);
         depthEditText = (EditText) findViewById(R.id.depthEditText);
-        odorEditText = (EditText) findViewById(R.id.odorEditText);
         containerEditText = (EditText) findViewById(R.id.containerEditText);
 
         selectedExplosiveName.setText(explosive.name);
@@ -73,7 +71,6 @@ public class ExplosiveActivity extends AppCompatActivity {
             locationEditText.setText(explosive.location);
             heightEditText.setText(Double.toString(explosive.height));
             depthEditText.setText(Double.toString(explosive.depth));
-            odorEditText.setText(explosive.odor);
             containerEditText.setText(explosive.container);
         }
 
@@ -84,13 +81,33 @@ public class ExplosiveActivity extends AppCompatActivity {
     public void saveExplosive(View v) {
         String quantityString = quantityEditText.getText().toString();
 
-        if (quantityString.isEmpty() || quantityString.equals(".")) {
+        EditText errorEditText = null;
+        String errorText = "";
+
+        if (isEmpty(quantityEditText)) {
+            errorEditText = quantityEditText;
+            errorText = "Quantity value is required!";
+        } else if (isEmpty(locationEditText)) {
+            errorEditText = locationEditText;
+            errorText = "Location description is required!";
+        } else if (isEmpty(heightEditText)) {
+            errorEditText = heightEditText;
+            errorText = "Height value is required!";
+        } else if (isEmpty(depthEditText)) {
+            errorEditText = depthEditText;
+            errorText = "Depth value is required!";
+        } else if (isEmpty(containerEditText)) {
+            errorEditText = containerEditText;
+            errorText = "Container description is required!";
+        }
+
+        if (errorEditText != null) {
             Animation shakeAnimation = AnimationUtils.loadAnimation(ExplosiveActivity.this, R.anim.dialog_shake);
             shakeAnimation.setRepeatCount(2);
             shakeAnimation.setDuration(100);
-            quantityEditText.startAnimation(shakeAnimation);
-            quantityEditText.requestFocus();
-            quantityEditText.setError("Quantity value is required!");
+            errorEditText.startAnimation(shakeAnimation);
+            errorEditText.requestFocus();
+            errorEditText.setError(errorText);
             return;
         }
 
@@ -106,7 +123,6 @@ public class ExplosiveActivity extends AppCompatActivity {
             explosive.depth = Double.parseDouble(depthEditText.getText().toString());
         }
 
-        explosive.odor = odorEditText.getText().toString();
         explosive.container = containerEditText.getText().toString();
 
         Intent intent = new Intent();
@@ -114,6 +130,10 @@ public class ExplosiveActivity extends AppCompatActivity {
         intent.putExtra("explosivePosition", explosivePosition);
         setResult(requestCode, intent);
         finish();
+    }
+
+    private boolean isEmpty(EditText et) {
+        return et.getText().toString().trim().isEmpty() || et.getText().toString().trim().equals(".");
     }
 
     public void removeExplosive(View v) {
