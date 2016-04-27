@@ -87,6 +87,9 @@ public class Explosive {
         return "" + hour_str + ":" + minutes_str + ":" + seconds_str;
     }
 
+    public void addFind(Timestamp time) {
+        this.results.add(new Tuple<String, Timestamp>("find", time));
+    }
     public void addFalsePositive(Timestamp time) {
         this.results.add(new Tuple<String, Timestamp>("falsePositive", time));
 //        this.falsePositives.add(time);
@@ -110,10 +113,29 @@ public class Explosive {
             tempObj.put("timeOccurred", result.getValue());
             resultsArr.put(tempObj);
         }
+
+        // DO this above not when we export...
         JSONObject find = new JSONObject();
         find.put("result", "find");
         find.put("timeOccurred", this.endTime);
         resultsArr.put(find);
         return resultsArr;
+    }
+
+    public String[] getResultsStr() {
+        String [] finalResults = new String[results.size()];
+        for(int i = 0; i < results.size(); i++) {
+            String resultStr = results.get(i).getKey();
+            if(resultStr.equals("find")) {
+                finalResults[i] = "+";
+            } else if(resultStr.equals("miss")) {
+                finalResults[i] = "-";
+            } else if(resultStr.equals("handlerError")) {
+                finalResults[i] = "HE";
+            } else if(resultStr.equals("falsePositive")) {
+                finalResults[i] = "F";
+            }
+        }
+        return finalResults;
     }
 }

@@ -300,10 +300,12 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
                 Timestamp time = new Timestamp(date.getTime());
                 mDataset[position].setEndTime(time);
                 String clockedTime = mDataset[position].getElapsedTime();
+                mDataset[position].addFind(time);
 
                 // Log to the session
-                Tuple<Explosive, String> loggedTime = new Tuple<>(mDataset[position], clockedTime);
-                ((NewSessionActivity) mParent).session.logTime(loggedTime);
+//                Tuple<Explosive, String> loggedTime = new Tuple<>(mDataset[position], clockedTime);
+//                ((NewSessionActivity) mParent).session.logTime(loggedTime);
+
                 ((NewSessionActivity) mParent).session.activeExplosiveIndex = -1;
 
                 // Update the textview with the logged time

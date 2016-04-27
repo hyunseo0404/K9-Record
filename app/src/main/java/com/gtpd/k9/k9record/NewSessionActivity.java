@@ -248,7 +248,7 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
                                 VolleyLog.v("Response:%n %s", response.toString(4));
                                 Log.i(TAG, response.toString());
                                 // Update the sessions weather
-                                session.setWeather(response);
+                                session.setWeather((JSONObject) response.get("current_observation"));
 //                                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -274,29 +274,32 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
         try {
             payload = session.generateSessionPayload();
             Log.i(TAG, payload.toString());
+
+            JsonObjectRequest req = new JsonObjectRequest(URL, payload,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            VolleyLog.v("Response:%n %s", response.toString(4));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
+                Log.e(TAG, "ERROR POSTING SESSION", error);
+            }
+        });
+
+        // add the request object to the queue to be executed
+        addToRequestQueue(req);
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-//        JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        try {
-//                            VolleyLog.v("Response:%n %s", response.toString(4));
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                VolleyLog.e("Error: ", error.getMessage());
-//            }
-//        });
-//
-//        // add the request object to the queue to be executed
-//        addToRequestQueue(req);
     }
 
     /**

@@ -26,7 +26,7 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Explosive"
                     android:id="@+id/explosive_card_title"
@@ -37,9 +37,10 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:id="@+id/imageButton"
-                    android:src="@drawable/ic_action_add_comment"
+                    android:src="@drawable/ic_add_note"
                     android:layout_centerVertical="true"
-                    android:layout_alignEnd="@+id/explosive_card_title" />
+                    android:layout_alignEnd="@+id/explosive_card_title"
+                    android:visibility="visible" />
 
             </RelativeLayout>
 
@@ -52,7 +53,8 @@
                 android:layout_below="@+id/relativeLayout2"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginTop="15dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -62,7 +64,8 @@
                 android:id="@+id/textView33"
                 android:layout_below="@+id/textView32"
                 android:layout_alignStart="@+id/textView32"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="30dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -72,7 +75,8 @@
                 android:id="@+id/startTimeLabel"
                 android:layout_below="@+id/textView33"
                 android:layout_alignStart="@+id/textView33"
-                android:layout_marginTop="43dp" />
+                android:layout_marginTop="43dp"
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="1dp"
@@ -88,26 +92,29 @@
                 android:text="End Time:"
                 android:id="@+id/endTimeLabel"
                 android:layout_alignTop="@+id/startTimeLabel"
-                android:layout_toEndOf="@+id/textView35" />
+                android:layout_toEndOf="@+id/textView35"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Time to Find:"
+                android:text="Elapsed Time:"
                 android:id="@+id/timeToFindLabel"
                 android:layout_below="@+id/startTimeLabel"
                 android:layout_alignStart="@+id/startTimeLabel"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="30dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Success:"
-                android:id="@+id/textView38"
+                android:text="Height:"
+                android:id="@+id/heightLabel"
                 android:layout_alignTop="@+id/textView32"
-                android:layout_alignStart="@+id/textView35" />
+                android:layout_alignStart="@+id/textView35"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -119,16 +126,16 @@
                 android:layout_alignStart="@+id/textView32"
                 android:layout_marginTop="3dp"
                 android:layout_marginLeft="9dp"
-                android:layout_toStartOf="@+id/textView40" />
+                android:layout_toStartOf="@+id/heightContent" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
-                android:id="@+id/textView40"
-                android:layout_below="@+id/textView38"
-                android:layout_alignStart="@+id/textView38"
+                android:id="@+id/heightContent"
+                android:layout_below="@+id/heightLabel"
+                android:layout_alignStart="@+id/heightLabel"
                 android:layout_marginTop="3dp"
                 android:layout_alignParentEnd="true" />
 
@@ -141,7 +148,28 @@
                 android:layout_below="@+id/textView33"
                 android:layout_alignStart="@+id/textView33"
                 android:layout_marginTop="3dp"
-                android:layout_marginLeft="9dp"/>
+                android:layout_marginLeft="9dp"
+                android:layout_alignEnd="@+id/explosive_quantity_value" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Depth:"
+                android:id="@+id/depthLabel"
+                android:textStyle="bold"
+                android:layout_above="@+id/explosive_location_value"
+                android:layout_toEndOf="@+id/explosive_quantity_value" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/depthContent"
+                android:layout_alignTop="@+id/explosive_location_value"
+                android:layout_toEndOf="@+id/explosive_quantity_value"
+                android:layout_alignParentEnd="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -162,7 +190,7 @@
                 android:text="Small Text"
                 android:id="@+id/endTimeContent"
                 android:layout_alignTop="@+id/startTimeContent"
-                android:layout_alignEnd="@+id/textView40"
+                android:layout_alignEnd="@+id/heightContent"
                 android:layout_toEndOf="@+id/textView35" />
 
             <TextView
@@ -174,7 +202,58 @@
                 android:layout_below="@+id/timeToFindLabel"
                 android:layout_alignStart="@+id/timeToFindLabel"
                 android:layout_marginTop="3dp"
-                android:layout_marginLeft="9dp" />
+                android:layout_marginLeft="9dp"
+                android:layout_alignEnd="@+id/startTimeContent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Result(s):"
+                android:id="@+id/resultsLabel"
+                android:textStyle="bold"
+                android:layout_alignTop="@+id/timeToFindLabel"
+                android:layout_toEndOf="@+id/startTimeContent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/resultsContent"
+                android:layout_alignTop="@+id/timeToFindContent"
+                android:layout_alignStart="@+id/endTimeContent"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Explosive Specific Notes"
+                android:id="@+id/explosiveNotesLabel"
+                android:textStyle="bold"
+                android:layout_alignParentBottom="false"
+                android:layout_alignStart="@+id/timeToFindLabel"
+                android:layout_below="@+id/timeToFindContent"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="()"
+                android:id="@+id/noteCountLabel"
+                android:textStyle="bold"
+                android:layout_alignParentBottom="false"
+                android:layout_marginTop="20dp"
+                android:layout_alignBaseline="@+id/explosiveNotesLabel"
+                android:layout_toRightOf="@+id/explosiveNotesLabel" />
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/notesListView"
+                android:layout_below="@+id/explosiveNotesLabel" />
 
         </RelativeLayout>
 

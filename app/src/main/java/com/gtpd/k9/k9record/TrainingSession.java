@@ -1,5 +1,7 @@
 package com.gtpd.k9.k9record;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class TrainingSession {
 
@@ -42,7 +45,7 @@ public class TrainingSession {
 
     public TrainingSession() {
         notes = new HashMap<>();
-        individualExplosivesTimeToFind = new ArrayList<>();
+//        individualExplosivesTimeToFind = new ArrayList<>();
         startTime = null;
         endTime = null;
         temperature = new JSONObject();
@@ -65,26 +68,19 @@ public class TrainingSession {
         individualExplosivesTimeToFind.add(timeLoggedForExplosive);
     }
 
-//    public TrainingSession(Date date, int totalRuntime, int temperature, Tuple<String, Integer> drugTimes, Tuple<String, String> individualNotes){
-//        this.trainingStartDate = date;
-//        this.trainingRunTime = totalRuntime;
-//        this.temperature = temperature;
-//        this.individualDrugsTimeToFind = drugTimes;
-//        this.notes = individualNotes;
-//    }
     public Dog getDog(){
         return this.dog;
     }
 
     /**
-     *
-     * @return
+     * Method to generate payload from a completed session
+     * @return JSONObject payload where the payload contains weather, explosives and googleID of the trainer
      */
     public JSONObject generateSessionPayload() throws JSONException {
         JSONObject payload = new JSONObject();
-        payload.put("trainerP_ID", null);
-        payload.put("handlerP_ID", null);
-        payload.put("dogP_ID", dog.getName());
+        payload.put("googleID", MainActivity.account.getId());
+//        payload.put("handlerP_ID", null); // Not necessary, should be tied to the dog
+        payload.put("dogP_ID", dog.getId());
         payload.put("problemType", null);
         payload.put("setNumber", null);
 
@@ -116,6 +112,14 @@ public class TrainingSession {
         temperature.put("high", high);
     }
 
+    public String getTemperatureStr() {
+        try {
+            return temperature.getString("avg") + " " + temperature.getString("unit");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "ERROR OCCURRED FETCHING TEMPERATURE STR";
+    }
 
     /**
      * wind : {
@@ -136,12 +140,25 @@ public class TrainingSession {
         wind.put("direction", wind_dir);
     }
 
+    public String getWindStr() {
+        try {
+            return wind.getString("speed") + " " + wind.getString("speedUnit") + " " + wind.getString("direction");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "ERROR OCCURRED FETCHING WIND STR";
+    }
+
     public void setWeather(JSONObject response) {
         try {
             setTempPayload("F", response.getInt("temp_f"), response.getInt("temp_f"), response.getInt("temp_f"));
             setWindPayload("mph", response.getString("wind_mph"), "F", response.getString("windchill_f"), response.getString("wind_dir"));
             setHumidity(response.getString("relative_humidity"));
             setWeatherDesc(response.getString("weather"));
+            Log.i("SESSION", "Temp is: " + temperature.toString());
+            Log.i("SESSION", "Wind is: " + wind.toString());
+            Log.i("SESSION", "Humidity is: " + humidity);
+            Log.i("SESSION", "Weather desc is: " + weatherDesc);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -151,10 +168,17 @@ public class TrainingSession {
         this.humidity = humidity;
     }
 
+    public String getHumidity() {
+        return this.humidity;
+    }
+
     public void setWeatherDesc(String desc) {
         this.weatherDesc = desc;
     }
 
+    public String getWeatherDesc() {
+        return this.weatherDesc;
+    }
     /**
      *
      explosives : list of all explosives [{
@@ -188,7 +212,7 @@ public class TrainingSession {
 //            obj.put("result", exp.) // TODO: result is unclear...fix this shit
             obj.put("results", exp.getResultsArray());
             obj.put("Notes", notes.get(exp));
-
+            arr.put(obj);
         }
 
         return arr;
@@ -198,8 +222,32 @@ public class TrainingSession {
         this.gpsLoc = "" + lat + ", " + longitude;
     }
 
+    public String getGPS() {
+        return this.gpsLoc;
+    }
+
     public void setDog(Dog dog) {
         this.dog = dog;
+    }
+
+    /**
+     * Used to fetch the notes for a particular explosive....useful for the summary screen
+     * @param exp
+     * @return
+     */
+    public List<String> getNotes(Explosive exp) {
+        return notes.get(exp);
+    }
+
+    public String getElapsedTime() {
+        long diff = endTime.getTime() - startTime.getTime();
+        long seconds = diff / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        String hour_str = (hours < 10) ? "0" + hours: "" + hours;
+        String minutes_str = (minutes < 10) ? "0" + minutes: "" + minutes;
+        String seconds_str = (seconds < 10) ? "0" + seconds: "" + seconds;
+        return "" + hour_str + ":" + minutes_str + ":" + seconds_str;
     }
 }
 
