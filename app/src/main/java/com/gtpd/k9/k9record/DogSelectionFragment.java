@@ -231,7 +231,7 @@ public class DogSelectionFragment extends Fragment {
                 for (int i = 0; i < result.length(); i++) {
                     try {
                         JSONObject jsonDog = result.getJSONObject(i);
-                        Dog dog = new Dog(jsonDog.getInt("P_ID"), jsonDog.getString("Name"), jsonDog.getString("Breed"), R.drawable.black_lab);
+                        Dog dog = new Dog(jsonDog.getInt("P_ID"), jsonDog.getString("Name"), jsonDog.getString("Breed"), jsonDog.isNull("DogImageLink") ? null : jsonDog.optString("DogImageLink", null));
                         dogs.add(dog);
                     } catch (JSONException e) {
                         Toast.makeText(context, "Error while adding dogs", Toast.LENGTH_LONG).show();

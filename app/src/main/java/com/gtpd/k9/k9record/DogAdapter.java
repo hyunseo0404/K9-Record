@@ -1,6 +1,7 @@
 package com.gtpd.k9.k9record;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final String IMAGE_URL = "http://ec2-52-207-245-173.compute-1.amazonaws.com";
     private static final int SECTION_TYPE = 0;
     private static final int ITEM_TYPE = 1;
 
@@ -130,7 +132,11 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void bindDog(Dog dog) {
             this.dog = dog;
-            dogImageView.setImageResource(dog.getImageResource());
+
+            if (dog.getImageResource() != null) {
+                new MainActivity.ImageDownloadTask(dogImageView).execute(IMAGE_URL + dog.getImageResource());
+            }
+
             dogNameTextView.setText(dog.getName());
             dogDescriptionTextView.setText(dog.getDescription());
 

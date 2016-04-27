@@ -5,13 +5,13 @@ public class Dog {
     private int id;
     private String name;
     private String description;
-    private int imageResource;
+    private String imageResource;
 
-    public Dog(int id, String name, String description, Integer image) {
+    public Dog(int id, String name, String description, String imageResource) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.imageResource = image;
+        this.imageResource = imageResource;
     }
 
     public int getId() {
@@ -26,7 +26,7 @@ public class Dog {
         return description;
     }
 
-    public int getImageResource() {
+    public String getImageResource() {
         return imageResource;
     }
 
