@@ -108,7 +108,6 @@ public class DogSelectionFragment extends Fragment {
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                NewSessionActivity.session = new TrainingSession(dogAdapter.getSelectedDog());
                 NewSessionActivity.session.setDog(dogAdapter.getSelectedDog());
                 getFragmentManager().beginTransaction()
                         .add(R.id.newSessionContent, new ExplosiveSelectionFragment(), "explosive")
@@ -149,6 +148,13 @@ public class DogSelectionFragment extends Fragment {
         inflater.inflate(R.menu.menu_search, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.search_item).getActionView();
         searchView.setOnQueryTextListener(queryListener);
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                dogAdapter.restoreDogs();
+                return false;
+            }
+        });
     }
 
     private static class DogTask extends AsyncTask<String, Void, JSONArray> {
@@ -182,7 +188,7 @@ public class DogSelectionFragment extends Fragment {
                         writer.write("{}");
                         break;
                     case ASSIGNED:
-                        writer.write("{\"trainerGoogle_ID\":\"" + queries[0] + "\"}");
+                        writer.write("{\"googleIDs\":\"" + queries[0] + "\"}");
                         break;
                     case MATCHING:
                         writer.write("{\"names\":\"" + URLEncoder.encode(queries[0], "UTF-8") + "\"}");
@@ -225,7 +231,7 @@ public class DogSelectionFragment extends Fragment {
                 for (int i = 0; i < result.length(); i++) {
                     try {
                         JSONObject jsonDog = result.getJSONObject(i);
-                        Dog dog = new Dog(jsonDog.getInt("P_ID"), jsonDog.getString("Name"), jsonDog.getString("Breed"), R.drawable.black_lab);
+                        Dog dog = new Dog(jsonDog.getInt("P_ID"), jsonDog.getString("Name"), jsonDog.getString("Breed"), jsonDog.isNull("DogImageLink") ? null : jsonDog.optString("DogImageLink", null));
                         dogs.add(dog);
                     } catch (JSONException e) {
                         Toast.makeText(context, "Error while adding dogs", Toast.LENGTH_LONG).show();
@@ -239,12 +245,16 @@ public class DogSelectionFragment extends Fragment {
                     }
                 });
 
-                if (requestType == RequestType.ALL || requestType == RequestType.MATCHING) {
-                    dogAdapter.setDogs(dogs);
-                }
-
-                if (requestType == RequestType.ASSIGNED || requestType == RequestType.MATCHING) {
-                    dogAdapter.setMyDogs(dogs);
+                switch (requestType) {
+                    case ALL:
+                        dogAdapter.setDogs(dogs);
+                        break;
+                    case ASSIGNED:
+                        dogAdapter.setMyDogs(dogs);
+                        break;
+                    case MATCHING:
+                        dogAdapter.setFilteredDogs(dogs);
+                        break;
                 }
             }
         }

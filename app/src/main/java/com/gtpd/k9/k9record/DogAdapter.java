@@ -1,6 +1,7 @@
 package com.gtpd.k9.k9record;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,18 @@ import java.util.List;
 
 public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final String IMAGE_URL = "http://ec2-52-207-245-173.compute-1.amazonaws.com";
     private static final int SECTION_TYPE = 0;
+    private static final int ITEM_TYPE = 1;
 
     private List<Dog> myDogs;
     private List<Dog> dogs;
+    private List<Dog> filteredDogs = null;
     private DogHolder selectedDogHolder;
     private Dog selectedDog;
     private DogSelectionFragment fragment;
     private int selectedPosition;
+    private boolean filtered = false;
 
     public DogAdapter(List<Dog> myDogs, List<Dog> dogs, DogSelectionFragment fragment, Dog selectedDog, int selectedPosition) {
         this.myDogs = myDogs;
@@ -44,6 +49,8 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == SECTION_TYPE) {
             ((SectionHeaderHolder) holder).setSection(position);
+        } else if (filtered) {
+            ((DogHolder) holder).bindDog(filteredDogs.get(position - 1));
         } else if (position <= myDogs.size()) {
             ((DogHolder) holder).bindDog(myDogs.get(position - 1));
         } else {
@@ -53,12 +60,16 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return myDogs.size() + dogs.size() + 2;
+        return filtered ? (filteredDogs.size() + 1) : (myDogs.size() + dogs.size() + 2);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return (position == 0 || position == myDogs.size() + 1) ? SECTION_TYPE : 1;
+        if (position == 0 || (position == myDogs.size() + 1 && !filtered)) {
+            return SECTION_TYPE;
+        } else {
+            return ITEM_TYPE;
+        }
     }
 
     public Dog getSelectedDog() {
@@ -71,12 +82,35 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setMyDogs(List<Dog> myDogs) {
         this.myDogs = myDogs;
+
+        if (filtered) removeFilteredDogs();
+
         notifyDataSetChanged();
     }
 
     public void setDogs(List<Dog> dogs) {
+        dogs.removeAll(myDogs);
         this.dogs = dogs;
+
+        if (filtered) removeFilteredDogs();
+
         notifyDataSetChanged();
+    }
+
+    public void setFilteredDogs(List<Dog> filteredDogs) {
+        this.filteredDogs = filteredDogs;
+        filtered = true;
+        notifyDataSetChanged();
+    }
+
+    public void restoreDogs() {
+        removeFilteredDogs();
+        notifyDataSetChanged();
+    }
+
+    private void removeFilteredDogs() {
+        this.filteredDogs = null;
+        filtered = false;
     }
 
     public class DogHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -98,7 +132,11 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void bindDog(Dog dog) {
             this.dog = dog;
-            dogImageView.setImageResource(dog.getImageResource());
+
+            if (dog.getImageResource() != null) {
+                new MainActivity.ImageDownloadTask(dogImageView).execute(IMAGE_URL + dog.getImageResource());
+            }
+
             dogNameTextView.setText(dog.getName());
             dogDescriptionTextView.setText(dog.getDescription());
 
@@ -147,11 +185,14 @@ public class DogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void setSection(int section) {
             this.section = section;
 
-            if (section == 0) {
-                sectionTitleTextView.setText("My Dogs");
+            if (section == 0 && filtered) {
+                sectionTitleTextView.setText("Matching Dog" + (filteredDogs.size() > 1 ? "s" : ""));
+                topSpacing.setVisibility(View.GONE);
+            } else if (section == 0) {
+                sectionTitleTextView.setText("My Dog" + (myDogs.size() > 1 ? "s" : ""));
                 topSpacing.setVisibility(View.GONE);
             } else {
-                sectionTitleTextView.setText("Other Dogs");
+                sectionTitleTextView.setText("Other Dog" + (dogs.size() > 1 ? "s" : ""));
                 topSpacing.setVisibility(View.VISIBLE);
             }
         }
