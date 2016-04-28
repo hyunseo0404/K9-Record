@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.gtpd.k9.k9record.NewSessionActivity">
+    <item
+        android:id="@+id/action_test_explosive"
+        android:orderInCategory="100"
+        android:title="Add Test Explosives"
+        app:showAsAction="never" />
+</menu>

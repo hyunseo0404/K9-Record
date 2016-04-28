@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -73,6 +75,30 @@ public class ExplosiveSelectionFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.menu_explosive, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_test_explosive) {
+            // Add 3 sample explosives to the list
+            Explosive explosive_0 = new Explosive("C4 Military", 350, Explosive.Unit.G, "Under the bench on the 3rd floor", 50, 2.4, new Date(), "Black Box", R.array.unit_array_weight);
+            Explosive explosive_1 = new Explosive("TNT", 12.8, Explosive.Unit.LB, "Inside the 2nd floor bathroom", 3, 12, new Date(), "White cylinder", R.array.unit_array_weight);
+            Explosive explosive_2 = new Explosive("Dynamite", 2, Explosive.Unit.STICK, "Next to the main gate", 2.8, 5, new Date(), "No container", R.array.unit_array_stick);
+            explosiveAdapter.addExplosive(explosive_0);
+            explosiveAdapter.addExplosive(explosive_1);
+            explosiveAdapter.addExplosive(explosive_2);
+            emptyListLayout.setVisibility(View.GONE);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explosive_selection, container, false);
@@ -108,28 +134,28 @@ public class ExplosiveSelectionFragment extends Fragment {
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
                     final ArrayList<Explosive> explosives = new ArrayList<>(Arrays.asList(
-                            new Explosive("C4 Military", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("C4 Civilian", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("TNT", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("Semtex", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("Black Powder", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("Single Base Smokeless Powder", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("Double Base Smokeless Powder", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("Deta Sheet", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("Cast Booster", R.mipmap.ic_launcher, R.array.unit_array_stick),
-                            new Explosive("Safety Fuse", R.mipmap.ic_launcher, R.array.unit_array_length),
-                            new Explosive("Det Cord", R.mipmap.ic_launcher, R.array.unit_array_length),
-                            new Explosive("Water Gel", R.mipmap.ic_launcher, R.array.unit_array_stick),
-                            new Explosive("Dynamite", R.mipmap.ic_launcher, R.array.unit_array_stick),
-                            new Explosive("Dyno AP", R.mipmap.ic_launcher, R.array.unit_array_stick),
-                            new Explosive("Ammonium Nitrate", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("Potassium Perchlorate", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("Ammonium Perchlorate", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("Comp B", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("HMX", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("TATP", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("HMTD", R.mipmap.ic_launcher, R.array.unit_array_weight),
-                            new Explosive("Urea Nitrate", R.mipmap.ic_launcher, R.array.unit_array_weight)
+                            new Explosive("C4 Military", R.array.unit_array_weight),
+                            new Explosive("C4 Civilian", R.array.unit_array_weight),
+                            new Explosive("TNT", R.array.unit_array_weight),
+                            new Explosive("Semtex", R.array.unit_array_weight),
+                            new Explosive("Black Powder", R.array.unit_array_weight),
+                            new Explosive("Single Base Smokeless Powder", R.array.unit_array_weight),
+                            new Explosive("Double Base Smokeless Powder", R.array.unit_array_weight),
+                            new Explosive("Deta Sheet", R.array.unit_array_weight),
+                            new Explosive("Cast Booster", R.array.unit_array_stick),
+                            new Explosive("Safety Fuse", R.array.unit_array_length),
+                            new Explosive("Det Cord", R.array.unit_array_length),
+                            new Explosive("Water Gel", R.array.unit_array_stick),
+                            new Explosive("Dynamite", R.array.unit_array_stick),
+                            new Explosive("Dyno AP", R.array.unit_array_stick),
+                            new Explosive("Ammonium Nitrate", R.array.unit_array_weight),
+                            new Explosive("Potassium Perchlorate", R.array.unit_array_weight),
+                            new Explosive("Ammonium Perchlorate", R.array.unit_array_weight),
+                            new Explosive("Comp B", R.array.unit_array_weight),
+                            new Explosive("HMX", R.array.unit_array_weight),
+                            new Explosive("TATP", R.array.unit_array_weight),
+                            new Explosive("HMTD", R.array.unit_array_weight),
+                            new Explosive("Urea Nitrate", R.array.unit_array_weight)
                     ));
 
                     recyclerView.setAdapter(new NewExplosiveAdapter(explosives, getActivity(), ExplosiveSelectionFragment.this));

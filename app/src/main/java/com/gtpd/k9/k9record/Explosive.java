@@ -21,7 +21,6 @@ public class Explosive {
     public double depth;
     public Date placementTime;
     public String container;
-    public int imageResource;
     public int unitResource;
     public Timestamp startTime;
     public Timestamp endTime;
@@ -31,12 +30,15 @@ public class Explosive {
 
     List<Tuple<String, Timestamp>> results;
 
-    public Explosive(String name, double quantity, Unit unit, String location, int imageResource, int unitResource) {
+    public Explosive(String name, double quantity, Unit unit, String location, double height, double depth, Date placementTime, String container, int unitResource) {
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
         this.location = location;
-        this.imageResource = imageResource;
+        this.height = height;
+        this.depth = depth;
+        this.placementTime = placementTime;
+        this.container = container;
         this.unitResource = unitResource;
         this.falsePositives = new ArrayList<>();
         this.handlerErrors = new ArrayList<>();
@@ -44,8 +46,8 @@ public class Explosive {
         this.results = new ArrayList<>();
     }
 
-    public Explosive(String name, int imageResource, int unitResource) {
-        this(name, 0, null, null, imageResource, unitResource);
+    public Explosive(String name, int unitResource) {
+        this(name, 0, null, null, 0, 0, null, null, unitResource);
     }
 
     public String getQuantityAsString() {

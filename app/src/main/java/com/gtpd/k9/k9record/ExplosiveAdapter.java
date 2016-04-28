@@ -69,7 +69,6 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
     }
 
     public class ExplosiveHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final ImageView explosiveImageView;
         private final TextView explosiveNameTextView;
         private final TextView explosiveQuantityTextView;
         private final TextView explosiveLocationTextView;
@@ -78,7 +77,6 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
         public ExplosiveHolder(View itemView) {
             super(itemView);
 
-            explosiveImageView = (ImageView) itemView.findViewById(R.id.explosiveImage);
             explosiveNameTextView = (TextView) itemView.findViewById(R.id.explosiveName);
             explosiveQuantityTextView = (TextView) itemView.findViewById(R.id.explosiveQuantity);
             explosiveLocationTextView = (TextView) itemView.findViewById(R.id.explosiveLocation);
@@ -87,7 +85,6 @@ public class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.Expl
 
         public void bindExplosive(Explosive explosive) {
             this.explosive = explosive;
-            explosiveImageView.setImageResource(explosive.imageResource);
             explosiveNameTextView.setText(explosive.name);
             explosiveQuantityTextView.setText(explosive.getQuantityAsString());
 
