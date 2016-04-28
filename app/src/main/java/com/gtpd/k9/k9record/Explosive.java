@@ -113,12 +113,7 @@ public class Explosive {
             tempObj.put("timeOccurred", result.getValue());
             resultsArr.put(tempObj);
         }
-
-        // DO this above not when we export...
-        JSONObject find = new JSONObject();
-        find.put("result", "find");
-        find.put("timeOccurred", this.endTime);
-        resultsArr.put(find);
+        
         return resultsArr;
     }
 
