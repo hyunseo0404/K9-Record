@@ -19,7 +19,7 @@ public class Explosive {
     public String location;
     public double height;
     public double depth;
-    public Date placementTime;
+    public Timestamp placementTime;
     public String container;
     public int imageResource;
     public int unitResource;
@@ -113,7 +113,7 @@ public class Explosive {
             tempObj.put("timeOccurred", result.getValue());
             resultsArr.put(tempObj);
         }
-        
+
         return resultsArr;
     }
 

@@ -23,6 +23,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -54,6 +56,9 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
      * Global request queue for Volley
      */
     private RequestQueue mRequestQueue;
+
+    private ArrayAdapter tempAdapter;
+    private ListView tempNoteView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +121,12 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
         Tuple<Explosive, String> note = new Tuple<>(session.explosives.get(selectedPos), noteContent);
         session.addNotes(note);
         addNotesFragment.dismiss();
+        if(tempAdapter != null) {
+            tempAdapter.clear();
+            tempAdapter.addAll(session.getNotes(session.explosives.get(selectedPos)));
+            tempAdapter.notifyDataSetChanged();
+            FinishedSessionFragment.setListViewHeightBasedOnItems(tempNoteView);
+        }
     }
 
     @Override
@@ -123,6 +134,10 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
         addNotesFragment.dismiss();
     }
 
+    public void updateAdapter(ArrayAdapter tempAdapter, ListView notesView) {
+        this.tempAdapter = tempAdapter;
+        this.tempNoteView = notesView;
+    }
 
     /**
      * Showing google speech input dialog
@@ -266,6 +281,9 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
         }
     }
 
+    /**
+     * Return none or PID
+     */
     public void uploadSession() {
 
         final String URL = "http://ec2-52-207-245-173.compute-1.amazonaws.com/api/addSession";
@@ -281,17 +299,26 @@ public class NewSessionActivity extends AppCompatActivity implements NewTraining
                     public void onResponse(JSONObject response) {
                         try {
                             VolleyLog.v("Response:%n %s", response.toString(4));
+                            Log.i(TAG, "Post successful "+  response);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
-                Log.e(TAG, "ERROR POSTING SESSION", error);
-            }
-        });
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // HACK to fetch the id of the session
+//                        if(error.getMessage().contains("of type java.lang.Integer cannot be converted to JSONObject")) {
+//                            int index = error.getMessage().indexOf("Value ");
+//                            String substr = error.getMessage().substring(index+6,index+7); // NASTY HACK
+//                            Log.i(TAG, "The returned session_id is: " + substr);
+//                        } else {
+                        VolleyLog.e("Error: ", error.getMessage());
+                        Log.e(TAG, "ERROR POSTING SESSION", error);
+//                        }
+                    }
+                });
 
         // add the request object to the queue to be executed
         addToRequestQueue(req);

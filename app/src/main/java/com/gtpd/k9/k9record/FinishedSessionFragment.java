@@ -1,6 +1,7 @@
 package com.gtpd.k9.k9record;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -79,7 +82,7 @@ public class FinishedSessionFragment extends Fragment {
     }
 
     private void populateItems(LayoutInflater inflater){
-        TrainingSession session = NewSessionActivity.session;
+        final TrainingSession session = NewSessionActivity.session;
         Dog dog = session.getDog();
 
         //Grab all the views that need to be set
@@ -113,7 +116,8 @@ public class FinishedSessionFragment extends Fragment {
         LinearLayout parent = (LinearLayout)view.findViewById(R.id.finished_session_root);
         View template;
         RelativeLayout templateRoot;
-        for(Explosive explosive : session.explosives){
+        int exp_itr = 0;
+        for(final Explosive explosive : session.explosives){
             template = inflater.inflate(R.layout.single_explosive_card_template, null);
             templateRoot = (RelativeLayout) template.getRootView();
 
@@ -131,7 +135,9 @@ public class FinishedSessionFragment extends Fragment {
             TextView depthView = (TextView) templateRoot.findViewById(R.id.depthContent);
 
             TextView noteCountLabel = (TextView) templateRoot.findViewById(R.id.noteCountLabel);
-            ListView notesView = (ListView) templateRoot.findViewById(R.id.notesListView);
+            final ListView notesView = (ListView) templateRoot.findViewById(R.id.notesListView);
+
+            ImageButton addNoteButton = (ImageButton) templateRoot.findViewById(R.id.addExplosiveNoteButton);
 
             explosiveTitle.setText(explosive.name);
             explosiveQuantity.setText(explosive.getQuantityAsString());
@@ -151,15 +157,59 @@ public class FinishedSessionFragment extends Fragment {
             }
             noteCountLabel.setText(" (" + noteContent.size() + "):");
 
-            ArrayAdapter adapter = new ArrayAdapter<String>(this.getActivity(),
+            final ArrayAdapter adapter = new ArrayAdapter<String>(this.getActivity(),
                     android.R.layout.simple_list_item_1,
                     noteContent);
             notesView.setAdapter(adapter);
+            setListViewHeightBasedOnItems(notesView);
 
+            final int finalExp_itr = exp_itr;
+            addNoteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((NewSessionActivity) getActivity()).showNotesDialog(finalExp_itr, explosive.name);
+                    ((NewSessionActivity) getActivity()).updateAdapter(adapter, notesView);
+                }
+            });
             parent.addView(templateRoot);
+            exp_itr++;
         }
 
         // TODO: Generate the notes
+
+    }
+
+
+    public static boolean setListViewHeightBasedOnItems(ListView listView) {
+
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter != null) {
+
+            int numberOfItems = listAdapter.getCount();
+
+            // Get total height of all items.
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                View item = listAdapter.getView(itemPos, null, listView);
+                item.measure(0, 0);
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers.
+            int totalDividersHeight = listView.getDividerHeight() *
+                    (numberOfItems - 1);
+
+            // Set list height.
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalItemsHeight + totalDividersHeight;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+
+            return true;
+
+        } else {
+            return false;
+        }
 
     }
 }

@@ -99,6 +99,10 @@ public class NotesDialogFragment extends DialogFragment {
     }
 
     public void setNotesContent(String content) {
-        mNotesContentET.setText(mNotesContentET.getText() + " " + content);
+        if(mNotesContentET.getText().equals("")) {
+            mNotesContentET.setText(content);
+        } else {
+            mNotesContentET.setText(mNotesContentET.getText() + " " + content);
+        }
     }
 }
