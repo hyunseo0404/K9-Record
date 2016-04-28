@@ -19,7 +19,7 @@ public class Explosive {
     public String location;
     public double height;
     public double depth;
-    public Date placementTime;
+    public Timestamp placementTime;
     public String container;
     public int unitResource;
     public Timestamp startTime;
@@ -30,7 +30,7 @@ public class Explosive {
 
     List<Tuple<String, Timestamp>> results;
 
-    public Explosive(String name, double quantity, Unit unit, String location, double height, double depth, Date placementTime, String container, int unitResource) {
+    public Explosive(String name, double quantity, Unit unit, String location, double height, double depth, Timestamp placementTime, String container, int unitResource) {
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
@@ -115,7 +115,7 @@ public class Explosive {
             tempObj.put("timeOccurred", result.getValue());
             resultsArr.put(tempObj);
         }
-        
+
         return resultsArr;
     }
 

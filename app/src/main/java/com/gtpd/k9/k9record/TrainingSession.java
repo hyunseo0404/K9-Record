@@ -33,12 +33,6 @@ public class TrainingSession {
     public Timestamp startTime;
     public Timestamp endTime;
 
-    /** TODO: confirm these items
-     * > I'm making the assumption that this will be a string,
-     * since it'll save having to convert it back later.
-     * > Also assuming we want to log the explosive instance because
-     * there may be multiple of the same explosive in different locations
-     */
     private List<Tuple<Explosive, String>> individualExplosivesTimeToFind;
     private Map<Explosive, List<String>> notes;
 
@@ -83,7 +77,7 @@ public class TrainingSession {
         payload.put("dogP_ID", dog.getId());
         payload.put("problemType", null);
         payload.put("setNumber", null);
-
+        payload.put("date", new java.sql.Date(startTime.getTime()));
         payload.put("gpsLocation", gpsLoc);
         payload.put("temp", temperature);
         payload.put("humidity", humidity);
@@ -202,16 +196,22 @@ public class TrainingSession {
             JSONObject obj = new JSONObject();
             obj.put("type", exp.name);
             obj.put("amount", exp.quantity);
-            obj.put("Units", exp.unit.toString());
+            obj.put("units", exp.unit.toString());
             obj.put("hidingLocation", exp.location);
             obj.put("depth", exp.depth);
-            obj.put("Height", exp.height);
+            obj.put("height", exp.height);
             obj.put("placementTime", exp.placementTime);
             obj.put("startTime", exp.startTime);
             obj.put("endTime", exp.endTime);
-//            obj.put("result", exp.) // TODO: result is unclear...fix this shit
             obj.put("results", exp.getResultsArray());
-            obj.put("Notes", notes.get(exp));
+
+            JSONArray notesJSON = new JSONArray();
+            if(notes.get(exp) != null) {
+                for(String str: notes.get(exp)){
+                    notesJSON.put(str);
+                }
+            }
+            obj.put("notes", notesJSON);
             arr.put(obj);
         }
 

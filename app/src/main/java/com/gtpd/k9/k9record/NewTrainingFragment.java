@@ -259,7 +259,9 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
                     holder.mStartButton.setVisibility(View.GONE);
                     holder.mAidStatus.setText("ACTIVE");
                     ((NewSessionActivity) mParent).session.activeExplosiveIndex = position;
-                    Timestamp time = new Timestamp((new Date()).getTime());
+
+                    java.util.Date date = new java.util.Date();
+                    Timestamp time = new Timestamp((date.getTime()));
                     mDataset[position].setStartTime(time);
                     if(((NewSessionActivity) mParent).session.startTime == null) {
                         ((NewSessionActivity) mParent).session.startTime = time;
@@ -280,6 +282,19 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
             if (!holder.mCardBackShowing) {
                 holder.mViewFlipper.showNext();
                 holder.mCardBackShowing = true;
+
+                if(((NewSessionActivity) mParent).session.activeExplosiveIndex != position) {
+                    holder.mFindButton.setEnabled(false);
+                    holder.mMissButton.setEnabled(false);
+                    holder.mFalsePosButton.setEnabled(false);
+                    holder.mHandlerErrorButton.setEnabled(false);
+                } else {
+                    // TODO: Add in non-normative
+                    holder.mFindButton.setEnabled(true);
+                    holder.mMissButton.setEnabled(true);
+                    holder.mFalsePosButton.setEnabled(true);
+                    holder.mHandlerErrorButton.setEnabled(true);
+                }
             }
             }
         });

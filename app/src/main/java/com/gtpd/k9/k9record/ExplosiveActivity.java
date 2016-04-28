@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class ExplosiveActivity extends AppCompatActivity {
 
@@ -128,7 +128,8 @@ public class ExplosiveActivity extends AppCompatActivity {
         explosive.container = containerEditText.getText().toString();
 
         if (requestCode == ExplosiveSelectionFragment.NEW) {
-            explosive.placementTime = new Date();
+            java.util.Date date = new java.util.Date();
+            explosive.placementTime = new Timestamp(date.getTime());
         }
 
         Intent intent = new Intent();
