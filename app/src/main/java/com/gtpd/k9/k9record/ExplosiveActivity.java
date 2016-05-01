@@ -28,7 +28,9 @@ public class ExplosiveActivity extends AppCompatActivity {
     private Spinner unitSpinner;
     private EditText locationEditText;
     private EditText heightEditText;
+    private Spinner heightUnitSpinner;
     private EditText depthEditText;
+    private Spinner depthUnitSpinner;
     private EditText containerEditText;
 
     @Override
@@ -43,10 +45,12 @@ public class ExplosiveActivity extends AppCompatActivity {
 
         TextView selectedExplosiveName = (TextView) findViewById(R.id.selectedExplosiveName);
         quantityEditText = (EditText) findViewById(R.id.quantityEditText);
-        unitSpinner = (Spinner) findViewById(R.id.unitSpinner);
+        unitSpinner = (Spinner) findViewById(R.id.quantityUnitSpinner);
         locationEditText = (EditText) findViewById(R.id.locationEditText);
         heightEditText = (EditText) findViewById(R.id.heightEditText);
+        heightUnitSpinner = (Spinner) findViewById(R.id.heightUnitSpinner);
         depthEditText = (EditText) findViewById(R.id.depthEditText);
+        depthUnitSpinner = (Spinner) findViewById(R.id.depthUnitSpinner);
         containerEditText = (EditText) findViewById(R.id.containerEditText);
 
         selectedExplosiveName.setText(explosive.name);
@@ -69,10 +73,12 @@ public class ExplosiveActivity extends AppCompatActivity {
             removeButton.setVisibility(View.VISIBLE);
 
             quantityEditText.setText(Double.toString(explosive.quantity));
-            unitSpinner.setSelection(unitArrayAdapter.getPosition(explosive.unit.toString().toUpperCase()));
+            unitSpinner.setSelection(unitArrayAdapter.getPosition(explosive.quantityUnit.toString().toUpperCase()));
             locationEditText.setText(explosive.location);
             heightEditText.setText(Double.toString(explosive.height));
+            heightUnitSpinner.setSelection(explosive.heightUnit == Explosive.Unit.IN ? 0 : 1);
             depthEditText.setText(Double.toString(explosive.depth));
+            depthUnitSpinner.setSelection(explosive.depthUnit == Explosive.Unit.IN ? 0 : 1);
             containerEditText.setText(explosive.container);
         }
 
@@ -114,8 +120,10 @@ public class ExplosiveActivity extends AppCompatActivity {
         }
 
         explosive.quantity = Double.parseDouble(quantityString);
-        explosive.unit = Explosive.Unit.valueOf(unitSpinner.getSelectedItem().toString());
+        explosive.quantityUnit = Explosive.Unit.valueOf(unitSpinner.getSelectedItem().toString());
         explosive.location = locationEditText.getText().toString();
+        explosive.heightUnit = Explosive.Unit.valueOf(heightUnitSpinner.getSelectedItem().toString());
+        explosive.depthUnit = Explosive.Unit.valueOf(depthUnitSpinner.getSelectedItem().toString());
 
         if (!heightEditText.getText().toString().isEmpty()) {
             explosive.height = Double.parseDouble(heightEditText.getText().toString());

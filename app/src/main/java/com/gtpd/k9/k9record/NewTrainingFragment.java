@@ -25,7 +25,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import java.sql.Timestamp;
-import java.util.Date;
+
 import android.support.design.widget.Snackbar;
 
 
@@ -249,7 +249,7 @@ class TrainingCardAdapter extends RecyclerView.Adapter<TrainingCardAdapter.ViewH
         holder.mExplosiveName.setText(mDataset[position].name);
         holder.mDuration.setVisibility(View.GONE);
         holder.mExplosiveAmount.setText("" + mDataset[position].quantity +
-                " " + (mDataset[position].unit).toString().toLowerCase());
+                " " + (mDataset[position].quantityUnit).toString().toLowerCase());
         holder.mHidingPlace.setText("" + mDataset[position].location);
 
         holder.mStartButton.setOnClickListener(new View.OnClickListener() {

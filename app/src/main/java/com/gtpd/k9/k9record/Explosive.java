@@ -5,9 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -15,10 +13,12 @@ public class Explosive {
 
     public String name;
     public double quantity;
-    public Unit unit;
+    public Unit quantityUnit;
     public String location;
     public double height;
     public double depth;
+    public Unit heightUnit;
+    public Unit depthUnit;
     public Timestamp placementTime;
     public String container;
     public int unitResource;
@@ -30,13 +30,15 @@ public class Explosive {
 
     List<Tuple<String, Timestamp>> results;
 
-    public Explosive(String name, double quantity, Unit unit, String location, double height, double depth, Timestamp placementTime, String container, int unitResource) {
+    public Explosive(String name, double quantity, Unit quantityUnit, String location, double height, Unit heightUnit, double depth, Unit depthUnit, Timestamp placementTime, String container, int unitResource) {
         this.name = name;
         this.quantity = quantity;
-        this.unit = unit;
+        this.quantityUnit = quantityUnit;
         this.location = location;
         this.height = height;
+        this.heightUnit = heightUnit;
         this.depth = depth;
+        this.depthUnit = depthUnit;
         this.placementTime = placementTime;
         this.container = container;
         this.unitResource = unitResource;
@@ -47,14 +49,14 @@ public class Explosive {
     }
 
     public Explosive(String name, int unitResource) {
-        this(name, 0, null, null, 0, 0, null, null, unitResource);
+        this(name, 0, null, null, 0, null, 0, null, null, null, unitResource);
     }
 
     public String getQuantityAsString() {
-        if (unit == Unit.STICK) {
+        if (quantityUnit == Unit.STICK) {
             return String.format("%d stick%c", (int) quantity, quantity > 1 ? 's' : '\0');
         } else {
-            return String.format("%s %s", Double.toString(quantity), unit.name().toLowerCase());
+            return String.format("%s %s", Double.toString(quantity), quantityUnit.name().toLowerCase());
         }
     }
 

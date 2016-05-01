@@ -86,9 +86,26 @@ public class ExplosiveSelectionFragment extends Fragment {
 
         if (id == R.id.action_test_explosive) {
             // Add 3 sample explosives to the list
-            Explosive explosive_0 = new Explosive("C4 Military", 350, Explosive.Unit.G, "Under the bench on the 3rd floor", 50, 2.4, new Timestamp(new Date().getTime()), "Black Box", R.array.unit_array_weight);
-            Explosive explosive_1 = new Explosive("TNT", 12.8, Explosive.Unit.LB, "Inside the 2nd floor bathroom", 3, 12, new Timestamp(new Date().getTime()), "White cylinder", R.array.unit_array_weight);
-            Explosive explosive_2 = new Explosive("Dynamite", 2, Explosive.Unit.STICK, "Next to the main gate", 2.8, 5, new Timestamp(new Date().getTime()), "No container", R.array.unit_array_stick);
+            Explosive explosive_0 = new Explosive(
+                    "C4 Military",
+                    350, Explosive.Unit.G,
+                    "Under the bench on the 3rd floor",
+                    50, Explosive.Unit.IN, 2.4, Explosive.Unit.FT,
+                    new Timestamp(new Date().getTime()), "Black Box",
+                    R.array.unit_array_weight);
+            Explosive explosive_1 = new Explosive(
+                    "TNT",
+                    12.8, Explosive.Unit.LB,
+                    "Inside the 2nd floor bathroom",
+                    3, Explosive.Unit.FT, 12, Explosive.Unit.IN,
+                    new Timestamp(new Date().getTime()), "White cylinder",
+                    R.array.unit_array_weight);
+            Explosive explosive_2 = new Explosive("Dynamite",
+                    2, Explosive.Unit.STICK,
+                    "Next to the main gate",
+                    2.8, Explosive.Unit.IN, 5, Explosive.Unit.IN,
+                    new Timestamp(new Date().getTime()), "No container",
+                    R.array.unit_array_stick);
             explosiveAdapter.addExplosive(explosive_0);
             explosiveAdapter.addExplosive(explosive_1);
             explosiveAdapter.addExplosive(explosive_2);

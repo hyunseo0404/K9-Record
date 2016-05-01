@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class TrainingSession {
 
@@ -196,7 +195,7 @@ public class TrainingSession {
             JSONObject obj = new JSONObject();
             obj.put("type", exp.name);
             obj.put("amount", exp.quantity);
-            obj.put("units", exp.unit.toString());
+            obj.put("units", exp.quantityUnit.toString());
             obj.put("hidingLocation", exp.location);
             obj.put("depth", exp.depth);
             obj.put("height", exp.height);

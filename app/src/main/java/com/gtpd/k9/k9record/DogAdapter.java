@@ -1,7 +1,6 @@
 package com.gtpd.k9.k9record;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
